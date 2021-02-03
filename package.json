@@ -1,14 +1,13 @@
 {
-  "name": "angular-electron",
-  "version": "9.0.3",
-  "description": "Angular 11 with Electron (Typescript + SASS + Hot Reload)",
+  "name": "image_compress",
+  "version": "0.0.1",
+  "description": "png/jpge optimization app",
   "homepage": "https://github.com/maximegris/angular-electron",
   "author": {
-    "name": "Maxime GRIS",
-    "email": "maxime.gris@gmail.com"
+    "name": "Alan",
+    "email": "miaomimiya@gmail.com"
   },
   "keywords": [
-    "angular",
     "angular 11",
     "electron",
     "nodejs",
