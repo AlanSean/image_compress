@@ -20,7 +20,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.less"
             ],
             "scripts": [],
             "customWebpackConfig": {
@@ -111,7 +111,7 @@
             "karmaConfig": "src/karma.conf.js",
             "scripts": [],
             "styles": [
-              "src/styles.scss"
+              "src/styles.less"
             ],
             "assets": [
               "src/assets"
@@ -153,7 +153,7 @@
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
-      "style": "scss"
+      "style": "less"
     },
     "@schematics/angular:directive": {
       "prefix": "app"
