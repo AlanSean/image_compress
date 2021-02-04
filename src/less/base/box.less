@@ -1,0 +1,77 @@
+//box
+
+//margin-right 5*@px 40*@px;
+.mgr(@n, @i: 5) when (@i =< @n) {
+  .mgr@{i} {
+    margin-right: @i*@px;
+  }
+  .mgr(@n, (@i + 5));
+}
+.mgr(40);
+
+//margin-left 5*@px 40*@px;
+.mgl(@n, @i: 5) when (@i =< @n) {
+  .mgl@{i} {
+    margin-left: @i*@px;
+  }
+  .mgl(@n, (@i + 5));
+}
+.mgl(40);
+
+//margin-top 5*@px 40*@px;
+.mgt(@n, @i: 5) when (@i =< @n) {
+  .mgt@{i} {
+    margin-top: @i*@px;
+  }
+  .mgt(@n, (@i + 5));
+}
+.mgt(40);
+
+
+//margin-bottom 5*@px 40*@px;
+.mgb(@n, @i: 5) when (@i =< @n) {
+  .mgb@{i} {
+    margin-bottom: @i*@px;
+  }
+  .mgb(@n, (@i + 5));
+}
+.mgb(40);
+
+
+.border-top{
+  border-top:1px solid @border-color;
+}
+.border-bottom{
+  border-bottom:1px solid @border-color;
+}
+.border-left{
+  border-left:1px solid @border-color;
+}
+.border-right{
+  border-right:1px solid @border-color;
+}
+.border-top-h{
+
+  &:before{
+    .setTopLine(@border-color);
+  }
+}
+.border-bottom-h{
+  &:before{
+    .setBottomLine(@border-color);
+  }
+
+}
+.border-left-h{
+  &:before{
+    .setLeftLine(@border-color);
+  }
+
+}
+.border-right-h{
+  &:before{
+    .setRightLine(@border-color);
+  }
+
+}
+

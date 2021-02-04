@@ -19,6 +19,5 @@ module.exports = (config, options) => {
             break;
         }
     }
-    
     return config;
 }
