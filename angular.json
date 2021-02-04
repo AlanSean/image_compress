@@ -20,12 +20,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.less",
-              "src/less/base/variable.less",
-              "src/less/base/box.less",
-              "src/less/util.less",
-              "src/less/base/mixin/setArrow.less",
-              "src/less/base/mixin/setOnepx.less"
+              "src/styles.less"
             ],
             "scripts": [],
             "customWebpackConfig": {
@@ -42,10 +37,12 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": false,
-              "fileReplacements": [{
-                "replace": "src/environments/environment.ts",
-                "with": "src/environments/environment.dev.ts"
-              }]
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev.ts"
+                }
+              ]
             },
             "web": {
               "optimization": false,
@@ -57,10 +54,12 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": false,
-              "fileReplacements": [{
-                "replace": "src/environments/environment.ts",
-                "with": "src/environments/environment.web.ts"
-              }]
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.web.ts"
+                }
+              ]
             },
             "production": {
               "optimization": true,
@@ -71,10 +70,12 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "fileReplacements": [{
-                "replace": "src/environments/environment.ts",
-                "with": "src/environments/environment.prod.ts"
-              }]
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
             }
           }
         },
@@ -110,12 +111,7 @@
             "karmaConfig": "src/karma.conf.js",
             "scripts": [],
             "styles": [
-              "src/styles.less",
-              "src/less/base/variable.less",
-              "src/less/base/box.less",
-              "src/less/util.less",
-              "src/less/base/mixin/setArrow.less",
-              "src/less/base/mixin/setOnepx.less"
+              "src/styles.less"
             ],
             "assets": [
               "src/assets"
