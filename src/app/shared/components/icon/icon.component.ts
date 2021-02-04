@@ -8,5 +8,6 @@ import { Component, Input, OnInit } from "@angular/core";
 export class IconComponent implements OnInit {
   constructor() {}
   @Input() name: string;
+  @Input() isrotate?:boolean;
   ngOnInit(): void {}
 }
