@@ -1,8 +1,33 @@
-:host {
-  
-}
 .container{
+    .bg(#eee);
     .navbar{
-        .w(100px)
+        .w(100%);
+        .h(60px);
+        .bg(#fff);
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+        display: flex;
+        >button{
+            .w(70px);
+            .h(100%);
+            background: none;
+            border: 0;
+            outline: none;
+            transition: 0.2s;
+            font-size: 20px;
+            .c(#666);
+            span{
+                font-size: 14px;
+                display: block;
+                .w(100%);
+                .t-c;
+                transition: 0.2s;
+            }
+            &:hover{
+                .c(#000);
+            }
+        }
+        >button:not(:disabled){
+            cursor: pointer;
+        }
     }
 }
