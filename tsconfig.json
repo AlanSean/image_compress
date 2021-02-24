@@ -19,6 +19,10 @@
       "dom"
     ]
   },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "strictmetadataemit": true
+  },
   "files": [
     "src/main.ts",
     "src/polyfills.ts"
