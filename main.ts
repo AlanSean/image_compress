@@ -1,8 +1,8 @@
 import * as os from "os";
 import * as path from "path";
 import * as url from "url";
-import { app, BrowserWindow, ipcMain } from "electron";
-import { loadExtension, setProtocol } from './electron';
+import { app, BrowserWindow } from "electron";
+import { loadExtension, setProtocol,listenIpc } from './electronConfig';
 
 let win: BrowserWindow = null;
 const args = process.argv.slice(1),
@@ -64,9 +64,10 @@ try {
   // Added 400 ms to fix the black background issue while using transparent window. More detais at https://github.com/electron/electron/issues/15947
   app.on("ready", function () {
     const win = createWindow();
-    ipcMain.on("onDrop", (event, files) => {
-      win.webContents.send("file_selected", files);
-    });
+    // ipcMain.on(IpcChannel.FILE_ADD, (event, files) => {
+    //   win.webContents.send(IpcChannel.FILE_SELECTED, files);
+    // });
+    listenIpc.call(this,win);
   });
 
   // Quit when all windows are closed.
