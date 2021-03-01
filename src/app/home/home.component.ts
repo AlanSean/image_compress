@@ -1,25 +1,24 @@
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  Input,
   OnInit,
 } from "@angular/core";
 import { Router } from "@angular/router";
+import { Store, select } from "@ngrx/store";
 import { ElectronService } from "../core/services";
+import { selectFile } from "../core/state/files";
+
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.less"],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit {
-  @Input() files: string[] = [];
-
+  files$ = this.store.pipe(select(selectFile));
   constructor(
     private router: Router,
     private electronService: ElectronService,
-    private ref: ChangeDetectorRef
+    private store: Store
   ) {}
 
   ngOnInit(): void {
@@ -29,24 +28,14 @@ export class HomeComponent implements OnInit {
     document.ondrop = function (e) {
       e.preventDefault();
     };
-
-    this.electronService.ipcRenderer.on("file_selected", (event, filepath) => {
-      filepath.forEach((path: string) => {
-        path = `file://${path}`;
-        !this.files.includes(path) && this.files.push(path);
-      });
-      console.log(this.files);
-      this.ref.markForCheck(); // 进行标注
-      this.ref.detectChanges(); // 要多加一行这个 执行一次变化检测
-    });
   }
 
-  onDrop(e: DragEvent): void {
+  fileAdd(e: DragEvent): void {
     e.preventDefault();
     e.stopPropagation();
     const files = Array.from(e.dataTransfer.files)
       .filter((file) => !file.type || /png|jpeg/.test(file.type))
       .map((file) => file.path);
-    this.electronService.ipcRenderer.send("onDrop", files);
+    this.electronService.fileAdd(files);
   }
 }

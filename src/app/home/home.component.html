@@ -15,12 +15,13 @@
   </div>
   <div 
     class="view" 
-    (drop)="onDrop($event)"
+    (drop)="fileAdd($event)"
     (dragOver)="$event.preventDefault()"
   > 
     拖拽文件到此区域
-    <div *ngFor="let item of files">
-      <img [src]="item" alt="">
+    <div *ngFor="let item of (files$ | async)">
+      <!-- 禁止图片拖拽 -->
+      <img [src]="item" alt="" ondragstart="return false">
     </div>
   </div>
 </div>
