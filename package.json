@@ -42,6 +42,9 @@
     "lint": "ng lint"
   },
   "dependencies": {
+    "@ngrx/effects": "11.0.1",
+    "@ngrx/store": "11.0.1",
+    "@ngrx/store-devtools": "11.0.1",
     "imagemin": "7.0.1"
   },
   "devDependencies": {
@@ -64,6 +67,7 @@
     "@angular/router": "11.0.3",
     "@ngx-translate/core": "13.0.0",
     "@ngx-translate/http-loader": "6.0.0",
+    "@types/imagemin": "7.0.0",
     "@types/jasmine": "3.6.2",
     "@types/jasminewd2": "2.0.8",
     "@types/mocha": "8.0.4",
