@@ -25,6 +25,10 @@ const Angular_State_Inspector = getExtension(
   "nelkodgfpddgpdbcjinaaalphkfffbem",
   "1.4.5"
 );
+const Redux_DevTools = getExtension(
+  "lmhkpmbekcpmknklioeibfkpmmfibljd",
+  "2.17.0"
+);
 // electron11不支持某个api 故此不用了
 // const Augury = getExtension(
 //   "elgalmkoelokbchhkhacckoklkejnhcd",
@@ -35,4 +39,5 @@ const Angular_State_Inspector = getExtension(
 export function loadExtension():void{
   //添加angular 扩展
   session.defaultSession.loadExtension(Angular_State_Inspector);
+  session.defaultSession.loadExtension(Redux_DevTools);
 }
