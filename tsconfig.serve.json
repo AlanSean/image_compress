@@ -9,6 +9,11 @@
     "types": [
       "node"
     ],
+    "baseUrl": "./src",
+    "paths": {
+      "@common/*": ["common/*"],
+      "@utils/*": ["utils/*"],
+     },
     "lib": [
       "es2017",
       "es2016",

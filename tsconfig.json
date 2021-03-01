@@ -2,6 +2,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "module": "es2020",
+    "baseUrl": "./src",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
@@ -12,6 +13,10 @@
     "typeRoots": [
       "node_modules/@types"
     ],
+    "paths": {
+      "@common/*": ["common/*"],
+      "@utils/*": ["utils/*"],
+     },
     "lib": [
       "es2017",
       "es2016",
