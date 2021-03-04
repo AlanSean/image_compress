@@ -23,3 +23,15 @@ protocol.interceptFileProtocol("file", (req, callback) => {
     callback(decodeURI(url));
 });
 ```
+
+
+
+## 2021-3-3 imagemin在electron里面有兼容问题 
+
+```
+
+"imagemin-jpegtran"
+"imagemin-pngquant"
+
+在electron里面有兼容问题 无法解决 再寻找其他插件
+```

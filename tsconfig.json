@@ -9,6 +9,7 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
     "target": "es5",
     "typeRoots": [
       "node_modules/@types"
@@ -16,6 +17,7 @@
     "paths": {
       "@common/*": ["common/*"],
       "@utils/*": ["utils/*"],
+      "@app/*": ["app/*"],
      },
     "lib": [
       "es2017",

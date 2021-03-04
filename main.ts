@@ -3,11 +3,11 @@ import * as path from "path";
 import * as url from "url";
 import { app, BrowserWindow } from "electron";
 import { loadExtension, setProtocol,listenIpc } from './electronConfig';
-
 let win: BrowserWindow = null;
 const args = process.argv.slice(1),
   serve = args.some((val) => val === "--serve");
-
+  // "imagemin-jpegtran": "7.0.0",
+  // "imagemin-pngquant": "5.0.1",
 function createWindow(): BrowserWindow {
   // Create the browser window.
   win = new BrowserWindow({
