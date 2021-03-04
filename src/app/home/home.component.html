@@ -21,7 +21,7 @@
     拖拽文件到此区域
     <div *ngFor="let item of (files$ | async)">
       <!-- 禁止图片拖拽 -->
-      <img [src]="item" alt="" ondragstart="return false">
+      <img [src]="item.path" alt="" ondragstart="return false">
     </div>
   </div>
 </div>

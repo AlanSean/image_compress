@@ -2,7 +2,6 @@ import {
   Component,
   OnInit,
 } from "@angular/core";
-import { Router } from "@angular/router";
 import { Store, select } from "@ngrx/store";
 import { ElectronService } from "../core/services";
 import { selectFile } from "../core/state/files";
@@ -11,12 +10,10 @@ import { selectFile } from "../core/state/files";
   selector: "app-home",
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.less"],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit {
   files$ = this.store.pipe(select(selectFile));
   constructor(
-    private router: Router,
     private electronService: ElectronService,
     private store: Store
   ) {}
@@ -28,8 +25,12 @@ export class HomeComponent implements OnInit {
     document.ondrop = function (e) {
       e.preventDefault();
     };
+    console.log(this.store.pipe(select(selectFile)));
   }
-
+  /**
+   * 添加图片
+   * @param e event
+   */
   fileAdd(e: DragEvent): void {
     e.preventDefault();
     e.stopPropagation();

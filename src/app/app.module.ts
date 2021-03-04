@@ -20,7 +20,7 @@ import { DetailModule } from "./detail/detail.module";
 import { AppComponent } from "./app.component";
 import { AppConfig } from "../environments/environment";
 
-import { booksReducer } from "./core/state/files";
+import { fileReducer } from "./core/state/files";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -45,10 +45,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         deps: [HttpClient],
       },
     }),
-    // EffectsModule.forRoot([]),
     StoreModule.forRoot({
-      files: booksReducer,
-      // collection: collectionReducer,
+      fileArr: fileReducer,
     }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
