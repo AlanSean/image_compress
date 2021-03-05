@@ -25,7 +25,6 @@ export class HomeComponent implements OnInit {
     document.ondrop = function (e) {
       e.preventDefault();
     };
-    console.log(this.store.pipe(select(selectFile)));
   }
   /**
    * 添加图片

@@ -11,6 +11,8 @@ export const enum TaskStatus {
 }
 
 export const enum IpcChannel {
+  FILE_SUM ='FILE_SUM',
+  PROGRESS = 'PROGRESS',
   FILE_SELECT = 'FILE_SELECT',
   FILE_SELECTED = 'FILE_SELECTED',
   FILE_ADD = 'FILE_ADD',
@@ -86,4 +88,13 @@ export interface IUpdateInfo {
   sha512: string
   stagingPercentage: number
   version: string
+}
+export interface FILE{
+  src:string;
+  path:string;
+  outpath:string;
+  outsrc: string;
+}
+export interface compresss_callback{
+  (FILE: FILE): void
 }

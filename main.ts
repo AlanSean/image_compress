@@ -1,19 +1,53 @@
 import * as os from "os";
 import * as path from "path";
 import * as url from "url";
-import { app, BrowserWindow } from "electron";
-import { loadExtension, setProtocol,listenIpc } from './electronConfig';
-let win: BrowserWindow = null;
+import { app, BrowserWindow, ipcMain, Menu } from "electron";
+import { loadExtension, setProtocol, listenIpc } from "./electronConfig";
+let win: BrowserWindow = null,
+  loadingWindow:BrowserWindow=null;
 const args = process.argv.slice(1),
   serve = args.some((val) => val === "--serve");
-  // "imagemin-jpegtran": "7.0.0",
-  // "imagemin-pngquant": "5.0.1",
+
+function createLoadingWindow() {
+  //加载页面窗口
+  loadingWindow = new BrowserWindow({
+    height: 200,
+    useContentSize: false,
+    resizable: false,//禁止改变窗口大小
+    width: 200,
+    show: true,
+    transparent: true, 
+    maximizable: false, //禁止双击放大
+    frame: false, // 去掉顶部操作栏
+    webPreferences: {
+      webSecurity: false, 
+      nodeIntegration: true,
+    },
+  });
+
+  loadingWindow.loadURL(
+    url.format({
+      pathname: path.join(__dirname, serve ?  "src/" : "dist/","assets/loading/loading.html"),
+      protocol: "file:",
+      slashes: true,
+    })
+  );
+  
+  loadingWindow.on("closed", () => {
+    loadingWindow = null;
+  });
+  return loadingWindow;
+}
+
 function createWindow(): BrowserWindow {
   // Create the browser window.
   win = new BrowserWindow({
     width: 800 + (os.platform() === "darwin" ? 15 : 34),
     height: 600,
     minWidth: 540,
+    minHeight: 540,
+    show:false,
+    frame: true, // 去掉顶部操作栏
     webPreferences: {
       webSecurity: false, //允许加载本地资源
       nodeIntegration: true,
@@ -51,26 +85,28 @@ function createWindow(): BrowserWindow {
     // when you should delete the corresponding element.
     win = null;
   });
-  //设置自定义协议
-  setProtocol();
-
+  
   return win;
 }
 
 try {
-  // This method will be called when Electron has finished
-  // initialization and is ready to create browser windows.
-  // Some APIs can only be used after this event occurs.
-  // Added 400 ms to fix the black background issue while using transparent window. More detais at https://github.com/electron/electron/issues/15947
   app.on("ready", function () {
+    const loadingwindow = createLoadingWindow();
     const win = createWindow();
-    // ipcMain.on(IpcChannel.FILE_ADD, (event, files) => {
-    //   win.webContents.send(IpcChannel.FILE_SELECTED, files);
-    // });
-    listenIpc.call(this,win);
+    //设置自定义协议
+    setProtocol();
+    loadingwindow.on("closed", () => {
+      loadingWindow = null;
+    });
+    ipcMain.on('close-loading-window', (e,res) => {
+      if (res.isClose && loadingWindow) {
+        loadingwindow.close();
+        win.show();
+      }
+    });
+    listenIpc.call(this, win);
   });
 
-  // Quit when all windows are closed.
   app.on("window-all-closed", () => {
     // On OS X it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
@@ -80,8 +116,6 @@ try {
   });
 
   app.on("activate", () => {
-    // On OS X it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
     if (win === null) {
       createWindow();
     }

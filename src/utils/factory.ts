@@ -48,7 +48,9 @@ export class HashMap<T> {
   getArrayVal(): Array<T> {
     const _val = [];
     for (const val in this.val) {
-      _val[_val.length] = this.val[val];
+      _val[_val.length] = {
+        ...this.val[val]
+      };
     }
     return _val;
   }

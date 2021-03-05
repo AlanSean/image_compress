@@ -7,21 +7,17 @@ import {
 } from "@ngrx/store";
 import { HashMap }  from '@utils/index';
 
-const fileMap = new HashMap<file>();
-// state
-export interface file{
-  path: string;
-  outpath: string;
-  state: string;
-}
+import { FILE } from "@common/constants";
+const fileMap = new HashMap<FILE>();
+
 export interface FilesState {
-  fileArr: ReadonlyArray<file>;
+  fileArr: ReadonlyArray<FILE>;
 }
 
 //action
 export const FILE_ADD = createAction(
   "添加图片",
-  props<{ files: file | Array<file> }>()
+  props<{ files: FILE | Array<FILE> }>()
 );
 export const removeFILE = createAction(
   "删除图片 & 批量删除",
@@ -30,44 +26,48 @@ export const removeFILE = createAction(
 
 export const UPDATE_STATE = createAction(
   "更新图片压缩状态",
-  props<{ file: file }>()
+  props<{ file: FILE }>()
+);
+export const CLEAR_FILE = createAction(
+  "清空图片",
+  props<{ file: FILE }>()
 );
 
 //reducer
-const initialState: ReadonlyArray<file> = fileMap.getArrayVal();
+const initialState: ReadonlyArray<FILE> = [];
 export const fileReducer = createReducer(
   initialState,
-  on(removeFILE, (state, { filePath }) => {
+  on(removeFILE, (_, { filePath }) => {
 
     fileMap.delete(filePath);
     return fileMap.getArrayVal();
   }),
   on(FILE_ADD, (state, { files }) => {
+    console.log(files);
     //如果是数组
     if (Array.isArray(files)) {
       for (const file of files) {
         //非png jpeg格式直接跳过
         if (!/png|jpeg|jpg/.test(file.path)) continue;
 
-        fileMap.put(file.path,{
-          ...file,
-          path: `file://${file.path}`
-        });
+        fileMap.put(file.path,file);
       }
       
-    } else if (/png|jpeg|jpg/.test(files.path)) {
-      fileMap.put(files.path,{
-        ...files,
-        path: `file://${files.path}`
-      });
+    } else {
+      fileMap.put(files.path,files);
     }
-    return fileMap.getArrayVal();
+    if(Array.isArray(files)) return [...state, ...files];
+    return [...state, files];
   }),
-  on(UPDATE_STATE, (state, { file }) => {
+  on(UPDATE_STATE, (_, { file }) => {
     fileMap.put(file.path,{
       ...file,
       path: `file://${file.path}`
     });
+    return fileMap.getArrayVal();
+  }),
+  on(CLEAR_FILE,() => {
+    fileMap.clear();
     return fileMap.getArrayVal();
   })
 );
@@ -75,10 +75,9 @@ export const fileReducer = createReducer(
 //selectter
 export const selectFile = createSelector(
   (state: FilesState) => {
-    console.log(state);
     return state.fileArr;
   },
-  (fileArr: ReadonlyArray<file>) => {
+  (fileArr: ReadonlyArray<FILE>) => {
     return fileArr;
   }
 );
