@@ -1,7 +1,7 @@
 import * as os from "os";
 import * as path from "path";
 import * as url from "url";
-import { app, BrowserWindow, ipcMain, Menu } from "electron";
+import { app, BrowserWindow, ipcMain } from "electron";
 import { loadExtension, setProtocol, listenIpc } from "./electronConfig";
 let win: BrowserWindow = null,
   loadingWindow:BrowserWindow=null;
