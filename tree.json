@@ -1,0 +1,25 @@
+{
+  "root": "C:/Users/111/Desktop/image_compress",
+  "dir":[
+    "img"
+  ],
+  "imgfiles":[
+    {
+      "path":"C:/Users/111/Desktop/img/logo - 副本 (.png",
+      "outpath": "C:/Users/111/Desktop/image_compress/logo - 副本 (.png",
+      "md5key": "6fcddbe6dad5b51ee06ae1fec6559f2a",
+      "date": "2021-3-5 10:16",
+      "ext": "png"
+    }
+  ],
+  "img":{
+    "path": "C:/Users/111/Desktop/image_compress/img",
+    "dir":[
+      "C:/Users/111/Desktop/image_compress/img/新建文件夹 (2)"
+    ],
+    "imgfiles":[
+      "logo - 副本 (.png",
+      "QQ图片20210207161755.png"
+    ]
+  }
+}
