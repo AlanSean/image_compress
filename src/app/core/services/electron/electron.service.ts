@@ -9,10 +9,6 @@ import * as fs from "fs-extra";
 import { IpcChannel } from "@common/constants";
 import { FILE_ADD } from "../../state/files";
 import { FILE } from "@common/constants";
-// import { resolve } from "path";
-// import { compress } from "@utils/index";
-// const outdir = "C:/Users/111/Desktop/image_compress/";
-// const regDir = /.+\\(.+)/;
 @Injectable({
   providedIn: "root",
 })
