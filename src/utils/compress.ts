@@ -7,7 +7,7 @@ const imageminJpegoptim  = window.require('imagemin-jpegoptim');
 
 
 export function compress(file:string,out:string): Promise<void>{
-  return imagemin([file.replace(/\\/g, "/")], {
+  return imagemin([file], {
     destination: out,
     glob: false,
     plugins: [

@@ -56,7 +56,7 @@ export class ElectronService {
         if (imgFile.isFile() && /png|jpeg|jpg/.test(file)) {
 
           const FILE = {
-            path: file,
+            path: file.replace(/\\/g, "/"),
             outpath: `${out}${regDir.exec(file)[1]}`,
             state: 'run'
           };
@@ -66,7 +66,7 @@ export class ElectronService {
               files: FILE,
             })
           );
-          compress(file,out).then(() => {
+          compress(FILE.path,out).then(() => {
             console.log(`图片${file}压缩完成!`);
             console.log('outpath',out);
             this.store.dispatch(

@@ -14,11 +14,8 @@ export interface file{
   outpath: string;
   state: string;
 }
-export interface fileArr {
-  [key:string]: file
-}
 export interface FilesState {
-  fileArr: fileArr;
+  fileArr: ReadonlyArray<file>;
 }
 
 //action
@@ -37,15 +34,13 @@ export const UPDATE_STATE = createAction(
 );
 
 //reducer
-const initialState: fileArr = fileMap.val;
+const initialState: ReadonlyArray<file> = fileMap.getArrayVal();
 export const fileReducer = createReducer(
   initialState,
   on(removeFILE, (state, { filePath }) => {
 
     fileMap.delete(filePath);
-    return {
-      ...fileMap.val
-    };
+    return fileMap.getArrayVal();
   }),
   on(FILE_ADD, (state, { files }) => {
     //如果是数组
@@ -66,18 +61,14 @@ export const fileReducer = createReducer(
         path: `file://${files.path}`
       });
     }
-    return {
-      ...fileMap.val
-    };
+    return fileMap.getArrayVal();
   }),
   on(UPDATE_STATE, (state, { file }) => {
     fileMap.put(file.path,{
       ...file,
       path: `file://${file.path}`
     });
-    return {
-      ...fileMap.val
-    };
+    return fileMap.getArrayVal();
   })
 );
 
@@ -87,7 +78,7 @@ export const selectFile = createSelector(
     console.log(state);
     return state.fileArr;
   },
-  (fileArr: fileArr) => {
+  (fileArr: ReadonlyArray<file>) => {
     return fileArr;
   }
 );

@@ -5,19 +5,10 @@ export class HashMap<T> {
   put(k: string, v: T): any {
     const md5key = MD5(k).toString();
     if (!this.has(md5key)) this.length++;
-    const val = this.val;
-    this.val = {
-      ...val,
-      [md5key]:{
-        ...v,
-        MD5KEY: md5key,
-      }
+    this.val[md5key] = {
+      ...v,
+      MD5KEY: md5key,
     };
-    // this.val[md5key] = {
-    //   ...v,
-    //   MD5KEY: md5key,
-    // };
-    return this.val;
   }
 
   get(k: string): T | undefined {
@@ -57,7 +48,7 @@ export class HashMap<T> {
   getArrayVal(): Array<T> {
     const _val = [];
     for (const val in this.val) {
-      _val[_val.length] = val;
+      _val[_val.length] = this.val[val];
     }
     return _val;
   }
