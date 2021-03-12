@@ -29,7 +29,7 @@
     "build": "npm run electron:serve-tsc && ng build --base-href ./",
     "build:dev": "npm run build -- -c dev",
     "build:prod": "npm run build -- -c production",
-    "ng:dev": "ng serve -c dev",
+    "ng:dev": "ng serve -c  dev",
     "ng:serve": "ng serve -c web",
     "electron:serve-tsc": "tsc -p tsconfig.serve.json",
     "electron:serve": "chcp 65001 && wait-on tcp:4200 && npm run electron:serve-tsc && npx electron . --serve",
@@ -42,6 +42,7 @@
     "lint": "ng lint"
   },
   "dependencies": {
+    "@angular/animations": "11.0.3",
     "@ngrx/effects": "11.0.1",
     "@ngrx/store": "11.0.1",
     "@ngrx/store-devtools": "11.0.1",
@@ -49,7 +50,8 @@
     "fs-extra": "9.1.0",
     "imagemin": "7.0.0",
     "imagemin-jpegoptim": "7.0.0",
-    "imagemin-pngquant": "9.0.1"
+    "imagemin-pngquant": "9.0.1",
+    "ng-zorro-antd": "11.2.0"
   },
   "devDependencies": {
     "@angular-builders/custom-webpack": "10.0.1",

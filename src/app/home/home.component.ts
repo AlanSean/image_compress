@@ -1,10 +1,8 @@
-import {
-  Component,
-  OnInit,
-} from "@angular/core";
+import { Component, OnInit, } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import { ElectronService } from "../core/services";
 import { selectFile } from "../core/state/files";
+import { FILE } from "@common/constants";
 
 @Component({
   selector: "app-home",
@@ -13,10 +11,8 @@ import { selectFile } from "../core/state/files";
 })
 export class HomeComponent implements OnInit {
   files$ = this.store.pipe(select(selectFile));
-  constructor(
-    private electronService: ElectronService,
-    private store: Store
-  ) {}
+
+  constructor(private electronService: ElectronService, private store: Store) {}
 
   ngOnInit(): void {
     document.ondragover = function (e) {
@@ -25,7 +21,9 @@ export class HomeComponent implements OnInit {
     document.ondrop = function (e) {
       e.preventDefault();
     };
+    
   }
+
   /**
    * 添加图片
    * @param e event
@@ -38,4 +36,8 @@ export class HomeComponent implements OnInit {
       .map((file) => file.path);
     this.electronService.fileAdd(files);
   }
+
+  trackByItems(index:number,item:FILE):string{
+    return item.src;
+  }                                                                                                                           
 }

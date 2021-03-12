@@ -16,8 +16,17 @@
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
+            "allowedCommonJsDependencies":[
+              "fs-extra",
+              "crypto-js/md5"
+            ],
             "assets": [
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
+                "output": "/assets/"
+              }
             ],
             "styles": [
               "src/styles.less"
@@ -80,6 +89,7 @@
           }
         },
         "serve": {
+          "hmrWarning": false,
           "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
             "browserTarget": "angular-electron:build"

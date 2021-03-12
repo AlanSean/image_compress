@@ -2,6 +2,7 @@
   <div class="navbar">
     <button>
       <app-icon name="add"></app-icon>
+      <i nz-icon nzType="plus" nzTheme="outline"></i>
       <span>{{ 'ICON.ADD' | translate }}</span>
     </button>
     <button>
@@ -18,10 +19,11 @@
     (drop)="fileAdd($event)"
     (dragOver)="$event.preventDefault()"
   > 
+  <button nz-button nzType="primary">Primary Button</button>
     拖拽文件到此区域
-    <div *ngFor="let item of (files$ | async)">
+    <div *ngFor="let item of (files$ | async);trackBy: trackByItems">
       <!-- 禁止图片拖拽 -->
-      <img [src]="item.src" alt="" ondragstart="return false">
+      <img [src]="item.src" ondragstart="return false">
     </div>
   </div>
 </div>

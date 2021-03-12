@@ -9,10 +9,8 @@ export const outdir = "C:/Users/111/Desktop/image_compress/";
 //匹配文件名或者文件夹名称
 const regDir = /.+\\(.+)/;
 //限速 每完成压缩多少个再进行下一批压缩
-const batchNumber = 100;
-async function PIPE(start: number, end: number,arr: FILE[], cb: compresss_callback) {
-  if (start >= arr.length) return;
-  for (const FILE of arr.slice(start, end)) {
+async function PIPE(arr: FILE[], cb: compresss_callback) {
+  for (const FILE of arr) {
     await imagemin([FILE.path], {
       destination: FILE.outpath,
       glob: false,
@@ -28,11 +26,9 @@ async function PIPE(start: number, end: number,arr: FILE[], cb: compresss_callba
       cb && cb(FILE);
     });
   }
-  const newend = end + batchNumber;
-  PIPE(end, newend > arr.length ? arr.length : newend, arr, cb);
 }
 export function compress(arr: FILE[], cb: compresss_callback): void {
-  PIPE(0, batchNumber, arr, cb);
+  PIPE(arr, cb);
 }
 
 /**
