@@ -5,29 +5,45 @@
         .h(60px);
         .bg(#fff);
         box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
-        display: flex;
-        >button{
-            .w(70px);
-            .h(100%);
-            background: none;
-            border: 0;
-            outline: none;
-            transition: 0.2s;
-            font-size: 20px;
-            .c(#666);
-            span{
-                font-size: 14px;
-                display: block;
-                .w(100%);
-                .t-c;
+        position: fixed;
+        z-index: 100;
+        .button{
+            display: flex;
+            button{
+                .w(70px);
+                .h(100%);
+                background: none;
+                border: 0;
+                outline: none;
                 transition: 0.2s;
+                font-size: 20px;
+                .c(#666);
+                span{
+                    font-size: 14px;
+                    display: block;
+                    .w(100%);
+                    .t-c;
+                    transition: 0.2s;
+                }
+                &:hover{
+                    .c(#000);
+                }
             }
-            &:hover{
-                .c(#000);
+            button:not(:disabled){
+                cursor: pointer;
             }
         }
-        >button:not(:disabled){
-            cursor: pointer;
+        .progress{
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            opacity: 1;
+            &.hidden{
+                opacity: 0;
+                bottom: -10px;
+                transition: all 0.2s;
+            }
         }
     }
     .view{
@@ -41,5 +57,10 @@
         color: red;
         .p(30*@px);
         overflow: scroll;
+    }
+}
+.ant-progress-line{
+    .ant-progress-text{
+        display: none;
     }
 }

@@ -1,29 +1,52 @@
-import { Component, OnInit, } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+} from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import { ElectronService } from "../core/services";
 import { selectFile } from "../core/state/files";
+import { selectProgress } from "../core/state/progress";
 import { FILE } from "@common/constants";
 
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.less"],
+  changeDetection: ChangeDetectionStrategy.OnPush
+
 })
 export class HomeComponent implements OnInit {
+  @Input() barShow = true;
   files$ = this.store.pipe(select(selectFile));
-
-  constructor(private electronService: ElectronService, private store: Store) {}
+  progress$ = this.store.pipe(select(selectProgress));
+  constructor(
+    private electronService: ElectronService,
+    private store: Store,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
+    this.progress$.subscribe((item) => {
+      if (item > 0 && this.barShow) {
+        this.barShow = false;
+      }
+      if (item == 100) {
+        setTimeout(() => {
+          this.barShow = true;
+          this.cdr.detectChanges();
+        }, 2000);
+      }
+    });
     document.ondragover = function (e) {
       e.preventDefault();
     };
     document.ondrop = function (e) {
       e.preventDefault();
     };
-    
   }
-
   /**
    * 添加图片
    * @param e event
@@ -37,7 +60,7 @@ export class HomeComponent implements OnInit {
     this.electronService.fileAdd(files);
   }
 
-  trackByItems(index:number,item:FILE):string{
+  trackByItems(index: number, item: FILE): string {
     return item.src;
-  }                                                                                                                           
+  }
 }

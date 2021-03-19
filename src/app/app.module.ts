@@ -21,7 +21,7 @@ import { AppComponent } from "./app.component";
 import { AppConfig } from "../environments/environment";
 
 import { fileReducer } from "./core/state/files";
-
+import { progressReducer } from "./core/state/progress";
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -47,6 +47,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     }),
     StoreModule.forRoot({
       fileArr: fileReducer,
+      progress: progressReducer
     }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,

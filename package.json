@@ -46,12 +46,18 @@
     "@ngrx/effects": "11.0.1",
     "@ngrx/store": "11.0.1",
     "@ngrx/store-devtools": "11.0.1",
+    "@types/ansi-escapes": "4.0.0",
+    "@types/chalk": "2.2.0",
+    "@types/wrap-ansi": "3.0.0",
+    "ansi-escapes": "4.3.1",
+    "chalk": "4.1.0",
     "crypto-js": "4.0.0",
     "fs-extra": "9.1.0",
     "imagemin": "7.0.0",
     "imagemin-jpegoptim": "7.0.0",
     "imagemin-pngquant": "9.0.1",
-    "ng-zorro-antd": "11.2.0"
+    "ng-zorro-antd": "11.2.0",
+    "wrap-ansi": "7.0.0"
   },
   "devDependencies": {
     "@angular-builders/custom-webpack": "10.0.1",

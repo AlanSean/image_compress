@@ -9,6 +9,7 @@ import * as fs from "fs-extra";
 import { IpcChannel } from "@common/constants";
 import { FILE_ADD } from "../../state/files";
 import { FILE } from "@common/constants";
+import { UPDATE_PROGRESS } from "@app/core/state/progress";
 @Injectable({
   providedIn: "root",
 })
@@ -39,6 +40,7 @@ export class ElectronService {
   //开启监听主进程向子进程发送的命令
   ipcRendererOn(): void {
     this.ipcRenderer.on(IpcChannel.FILE_SELECTED, (_, FILE:FILE | Array<FILE>) => {
+      console.log(FILE);
       this.store.dispatch(
         FILE_ADD({
           files: FILE,
@@ -46,7 +48,11 @@ export class ElectronService {
       );
     });
     this.ipcRenderer.on(IpcChannel.PROGRESS, (_, current:number,sum:number) => {
-      console.log('PROGRESS:',current,sum,current/sum);
+      this.store.dispatch(
+        UPDATE_PROGRESS({
+          newProgress: current/sum*100,
+        })
+      );
     });
   }
 }

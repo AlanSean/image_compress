@@ -4,31 +4,45 @@ const imagemin = require("imagemin");
 const imageminPngquant = require("imagemin-pngquant");
 const imageminJpegoptim = require("imagemin-jpegoptim");
 import { FILE, compresss_callback } from "../src/common/constants";
-//输出目录 
+//输出目录
 export const outdir = "C:/Users/111/Desktop/image_compress/";
 //匹配文件名或者文件夹名称
 const regDir = /.+\\(.+)/;
+const number = 10;
 //限速 每完成压缩多少个再进行下一批压缩
-async function PIPE(arr: FILE[], cb: compresss_callback) {
-  for (const FILE of arr) {
-    await imagemin([FILE.path], {
-      destination: FILE.outpath,
-      glob: false,
-      plugins: [
-        imageminJpegoptim({
-          max: 80,
-        }),
-        imageminPngquant({
-          quality: [0.6, 0.8],
-        }),
-      ],
-    }).then(() => {
-      cb && cb(FILE);
-    });
-  }
+function PIPE(arr: FILE[], cb: compresss_callback) {
+  return new Promise((resolve) => {
+    let count = 0;
+    for (const FILE of arr) {
+      imagemin([FILE.path], {
+        destination: FILE.outpath,
+        glob: false,
+        plugins: [
+          imageminJpegoptim({
+            max: 80,
+          }),
+          imageminPngquant({
+            quality: [0.6, 0.8],
+          }),
+        ],
+      }).then(() => {
+        cb && cb(FILE);
+        count++;
+        if (count == arr.length) {   
+          resolve(true);
+        }
+      });
+    }
+  });
 }
 export function compress(arr: FILE[], cb: compresss_callback): void {
-  PIPE(arr, cb);
+  (async () => {
+    let start = 0;
+    const end = Math.ceil(arr.length / number);
+    for (start; start <end; start++) {
+      await PIPE(arr.slice(start*number,(start+1)*number), cb);
+    }
+  })();
 }
 
 /**
@@ -67,7 +81,7 @@ export async function dirSearchImg(
       //判断是不是文件夹
       if (imgFile.isDirectory()) {
         //获取文件夹下的文件列表名
-        const fileNames = await fs.readdir(file),
+        const fileNames = await fs.readdir(file), 
           //地址拼接
           dirFiles = fileNames.map((filename) => resolve(file, filename));
         //回调继续查找 直到没有文件夹
