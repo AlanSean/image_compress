@@ -16,6 +16,7 @@ export const enum IpcChannel {
   FILE_SELECT = 'FILE_SELECT',
   FILE_SELECTED = 'FILE_SELECTED',
   FILE_ADD = 'FILE_ADD',
+  OPEN_DIR = "OPEN_DIR",
   OPTIMIZE = 'OPTIMIZE',
   SAVE = 'SAVE',
   SAVED = 'SAVED',
