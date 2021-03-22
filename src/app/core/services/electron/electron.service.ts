@@ -36,6 +36,14 @@ export class ElectronService {
   //向主进程发送 file_add命令
   fileAdd(files: string[]): void {
     this.ipcRenderer.send(IpcChannel.FILE_ADD, files);
+    this.store.dispatch(
+      UPDATE_PROGRESS({
+        newProgress: 0,
+      })
+    );
+  }
+  openDirectory(): void{
+    this.ipcRenderer.send(IpcChannel.OPEN_DIR);
   }
   //开启监听主进程向子进程发送的命令
   ipcRendererOn(): void {
