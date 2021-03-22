@@ -5,10 +5,10 @@ import { HomeRoutingModule } from './home-routing.module';
 
 import { HomeComponent } from './home.component';
 import { SharedModule } from '../shared/shared.module';
-import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { PlusOutline } from '@ant-design/icons-angular/icons';
+import { FolderOpenOutline } from '@ant-design/icons-angular/icons';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
 @NgModule({
   declarations: [HomeComponent],
   imports: [
@@ -16,7 +16,8 @@ import { PlusOutline } from '@ant-design/icons-angular/icons';
     SharedModule,
     HomeRoutingModule,
     NzProgressModule,
-    NzIconModule.forChild([PlusOutline]),
-    NzButtonModule]
+    NzMenuModule,
+    NzIconModule.forChild([FolderOpenOutline]),
+  ]
 })
 export class HomeModule {}

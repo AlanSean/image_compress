@@ -1,66 +1,54 @@
-.container{
-    .bg(#eee);
-    .navbar{
-        .w(100%);
-        .h(60px);
-        .bg(#fff);
-        box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
-        position: fixed;
-        z-index: 100;
-        .button{
-            display: flex;
-            button{
-                .w(70px);
-                .h(100%);
-                background: none;
-                border: 0;
-                outline: none;
-                transition: 0.2s;
-                font-size: 20px;
-                .c(#666);
-                span{
-                    font-size: 14px;
-                    display: block;
-                    .w(100%);
-                    .t-c;
-                    transition: 0.2s;
-                }
-                &:hover{
-                    .c(#000);
-                }
-            }
-            button:not(:disabled){
-                cursor: pointer;
-            }
+.container {
+  .bg(#eee);
+
+  .menu{
+    position: absolute;
+    .t(0);
+    .l(0);
+    .w(240px);
+    z-index: 3;
+  }
+
+  .view {
+    position: absolute;
+    .t(0);
+    .b(0);
+    .l(0);
+    .r(0);
+    z-index: 2;
+    min-width: 400px;
+    color: red;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    .progress {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      opacity: 1;
+  
+      &.hidden {
+        opacity: 0;
+        top: -10px;
+        transition: all 0.2s;
+      }
+    }
+    .text{
+        color: gray;
+        margin: auto;
+        .text-big{
+          font-size: 50px;
         }
-        .progress{
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            opacity: 1;
-            &.hidden{
-                opacity: 0;
-                bottom: -10px;
-                transition: all 0.2s;
-            }
+        .outDir{
+          font-size: 25px;
         }
     }
-    .view{
-        position: absolute;
-        min-width: 540px;
-        min-height: 800px;
-        .t(60px);
-        .b(0);
-        .l(0);
-        .r(0);
-        color: red;
-        .p(30*@px);
-        overflow: scroll;
-    }
+  }
 }
-.ant-progress-line{
-    .ant-progress-text{
-        display: none;
-    }
+
+.ant-progress-line {
+  .ant-progress-text {
+    display: none;
+  }
 }

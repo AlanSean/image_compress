@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Input,
   OnInit,
 } from "@angular/core";
 import { Store, select } from "@ngrx/store";
@@ -15,11 +14,11 @@ import { FILE } from "@common/constants";
   selector: "app-home",
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.less"],
-  changeDetection: ChangeDetectionStrategy.OnPush
-
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit {
-  @Input() barShow = true;
+  barShow = true;
+  dragUp = false;
   files$ = this.store.pipe(select(selectFile));
   progress$ = this.store.pipe(select(selectProgress));
   constructor(
@@ -47,6 +46,7 @@ export class HomeComponent implements OnInit {
       e.preventDefault();
     };
   }
+
   /**
    * 添加图片
    * @param e event
@@ -54,10 +54,31 @@ export class HomeComponent implements OnInit {
   fileAdd(e: DragEvent): void {
     e.preventDefault();
     e.stopPropagation();
+    this.dragUp = false;
     const files = Array.from(e.dataTransfer.files)
       .filter((file) => !file.type || /png|jpeg/.test(file.type))
       .map((file) => file.path);
     this.electronService.fileAdd(files);
+  }
+  /**
+   * 打开文件夹
+   */
+  openDirectory(): void {
+    console.log("openDirectory");
+    this.electronService.openDirectory();
+  }
+
+  dragenter(): void {
+    this.dragUp = true;
+  }
+
+  dragleave(): void {
+    this.dragUp = false;
+  }
+
+  dragOver(e: DragEvent): void {
+    e.preventDefault();
+    this.dragUp = false;
   }
 
   trackByItems(index: number, item: FILE): string {
