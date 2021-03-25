@@ -9,6 +9,8 @@ import { ElectronService } from "../core/services";
 import { selectFile } from "../core/state/files";
 import { selectProgress } from "../core/state/progress";
 import { FILE } from "@common/constants";
+import { getSetting, setSetting } from "@utils/index";
+
 
 @Component({
   selector: "app-home",
@@ -19,6 +21,7 @@ import { FILE } from "@common/constants";
 export class HomeComponent implements OnInit {
   barShow = true;
   dragUp = false;
+  outdir = getSetting().outdir;
   files$ = this.store.pipe(select(selectFile));
   progress$ = this.store.pipe(select(selectProgress));
   constructor(
@@ -39,6 +42,7 @@ export class HomeComponent implements OnInit {
         }, 2000);
       }
     });
+    
     document.ondragover = function (e) {
       e.preventDefault();
     };
@@ -58,18 +62,19 @@ export class HomeComponent implements OnInit {
     const files = Array.from(e.dataTransfer.files)
       .filter((file) => !file.type || /png|jpeg/.test(file.type))
       .map((file) => file.path);
-    this.electronService.fileAdd(files);
+    this.electronService.fileAdd(files,this.outdir);
   }
   /**
    * 打开文件夹
    */
   openDirectory(): void {
-    console.log("openDirectory");
-    this.electronService.openDirectory();
+    console.log('openDirectory');
+    this.electronService.showItemInFolder(this.outdir);
   }
 
   dragenter(): void {
     this.dragUp = true;
+    console.log(2342);
   }
 
   dragleave(): void {
@@ -78,9 +83,7 @@ export class HomeComponent implements OnInit {
 
   dragOver(e: DragEvent): void {
     e.preventDefault();
-    this.dragUp = false;
   }
-
   trackByItems(index: number, item: FILE): string {
     return item.src;
   }

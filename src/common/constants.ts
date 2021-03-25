@@ -24,6 +24,8 @@ export const enum IpcChannel {
   APP_UPDATE = 'APP_UPDATE',
   READY = 'READY',
   DETECT_IMAGEMAGICK = 'DETECT_IMAGEMAGICK',
+  OUT_DIR = 'OUT_DIR',
+  SET_OUT_DIR = 'SET_OUT_DIR'
 }
 
 export const enum SaveType {
@@ -93,9 +95,19 @@ export interface IUpdateInfo {
 export interface FILE{
   src:string;
   path:string;
+  ext:string;//'png' 'jpg'
   outpath:string;
   outsrc: string;
 }
+export interface nowFILE extends FILE{
+  rawDataSize: number
+  nowDataSize: number
+}
+
 export interface compresss_callback{
-  (FILE: FILE): void
+  (FILE: nowFILE): void
+}
+
+export const enum Storage{
+  OUT_DIR = "OUT_DIR"
 }

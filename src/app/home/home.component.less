@@ -1,7 +1,7 @@
 .container {
   .bg(#eee);
 
-  .menu{
+  .menu {
     position: absolute;
     .t(0);
     .l(0);
@@ -19,36 +19,51 @@
     min-width: 400px;
     color: red;
     display: flex;
-    justify-content:center;
+    justify-content: center;
     align-items: center;
+
     .progress {
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
       opacity: 1;
-  
+
       &.hidden {
         opacity: 0;
         top: -10px;
         transition: all 0.2s;
       }
     }
-    .text{
-        color: gray;
-        margin: auto;
-        .text-big{
-          font-size: 50px;
+
+    .text {
+      color: gray;
+      margin: auto;
+
+      .text-big {
+        font-size: 50px;
+      }
+      .outdir {
+        display: flex;
+        align-items: center;
+        .folder-open{
+          display: flex;
         }
-        .outDir{
-          font-size: 25px;
-        }
+      }
     }
   }
+  .view 
 }
 
 .ant-progress-line {
   .ant-progress-text {
     display: none;
+  }
+}
+
+.dragUp {
+  background-color: red;
+  * {
+    pointer-events: none;
   }
 }
