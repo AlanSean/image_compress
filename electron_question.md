@@ -35,3 +35,18 @@ protocol.interceptFileProtocol("file", (req, callback) => {
 
 在electron里面有兼容问题 无法解决 再寻找其他插件
 ```
+
+## electron-store
+
+electron-store@7 出现 该问题
+`ERROR in node_modules/conf/dist/source/index.d.ts:5:5 Private identifiers are only available when targeting ECMAScript 2015 and higher.`
+
+降级到5.1.0即可
+
+
+## electron 打开文件夹
+使用shell模块  调用 showItemInFolder
+
+
+## url模块提示废弃 改用 URL类
+[官网地址](http://nodejs.cn/api/url.html#url_the_whatwg_url_api)
