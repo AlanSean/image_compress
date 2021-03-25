@@ -4,9 +4,9 @@ import { dirSearchImg, compress } from "./optimize";
 
 export function listenIpc(win: BrowserWindow): void {
   //添加文件并压缩
-  const FILE_ADD = async (files: string[]) => {
+  const FILE_ADD = async (files: string[], outdir: string) => {
     const arr = [];
-    const imgArr = await dirSearchImg(files);
+    const imgArr = await dirSearchImg(files, outdir);
     compress(imgArr, (FILE) => {
       arr[arr.length] = FILE;
       win.webContents.send(IpcChannel.PROGRESS, arr.length, imgArr.length);
@@ -26,12 +26,15 @@ export function listenIpc(win: BrowserWindow): void {
       options.properties.push("multiSelections");
     }
     const filePaths = dialog.showOpenDialogSync(win, options);
-    console.log(filePaths);
+
+    if (filePaths) {
+      //本地没有配置存储 或者输出目录没有存储
+      console.log("filePaths:", filePaths);
+    }
   };
-
-
-  ipcMain.on(IpcChannel.FILE_ADD, (_, files: string[]) => {
-    FILE_ADD(files);
+  
+  ipcMain.on(IpcChannel.FILE_ADD, (_, files: string[], outdir: string) => {
+    FILE_ADD(files,outdir);
   });
 
   ipcMain.on(IpcChannel.OPEN_DIR, SELECT_DIR);

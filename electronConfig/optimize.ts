@@ -1,46 +1,56 @@
-const { resolve } = require("path");
-const fs = require("fs-extra");
-const imagemin = require("imagemin");
-const imageminPngquant = require("imagemin-pngquant");
-const imageminJpegoptim = require("imagemin-jpegoptim");
+import * as path from "path";
+import * as fs from "fs-extra";
 import { FILE, compresss_callback } from "../src/common/constants";
-//输出目录
-export const outdir = "C:/Users/111/Desktop/image_compress/";
+import * as bin from "./bin";
+import log from "electron-log";
+import * as makeDir from "make-dir";
+
+//匹配文件后戳名
+export const regExt = /(?:\.(\w+))?$/i; //(?:)非捕获分组  () 捕获分组 匹配结果会返回 [ '.qweqe', 'qweqe']
 //匹配文件名或者文件夹名称
 const regDir = /.+\\(.+)/;
 const number = 10;
+let pngquant;
 //限速 每完成压缩多少个再进行下一批压缩
-function PIPE(arr: FILE[], cb: compresss_callback) {
-  return new Promise((resolve) => {
+async function PIPE(arr: FILE[], cb: compresss_callback) {
+  return new Promise( resolve => {
     let count = 0;
     for (const FILE of arr) {
-      imagemin([FILE.path], {
-        destination: FILE.outpath,
-        glob: false,
-        plugins: [
-          imageminJpegoptim({
-            max: 80,
-          }),
-          imageminPngquant({
-            quality: [0.6, 0.8],
-          }),
-        ],
-      }).then(() => {
-        cb && cb(FILE);
-        count++;
-        if (count == arr.length) {   
-          resolve(true);
-        }
-      });
+      
+      if (FILE.ext == "png") {
+        pngquant(FILE.path).then( async(result) => {
+          const dirname = path.dirname(FILE.outsrc);
+          await makeDir(dirname);
+          // //生成文件
+          await fs.writeFile(FILE.outsrc,result.data);
+          const newFile = {
+            ...FILE,
+            rawDataSize: result.rawDataSize,
+            nowDataSize: result.nowDataSize
+          };
+          log.info('file_info',newFile);
+          cb && cb(newFile);
+          count++;
+          if (count == arr.length) {
+            resolve(true);
+          }
+        });
+        continue;
+      }
     }
   });
 }
 export function compress(arr: FILE[], cb: compresss_callback): void {
+  if (!pngquant) {
+    pngquant = bin.pngquant({
+      quality: "1-10",
+    });
+  }
   (async () => {
     let start = 0;
     const end = Math.ceil(arr.length / number);
-    for (start; start <end; start++) {
-      await PIPE(arr.slice(start*number,(start+1)*number), cb);
+    for (start; start < end; start++) {
+      await PIPE(arr.slice(start * number, (start + 1) * number), cb);
     }
   })();
 }
@@ -51,11 +61,14 @@ export function compress(arr: FILE[], cb: compresss_callback): void {
  */
 export async function dirSearchImg(
   filepath: string[],
-  out: string = outdir,
+  out: string,
   FILES: FILE[] = []
   // cb: (FILE:FILE) => void
 ): Promise<any> {
   for (const file of filepath) {
+    const fileName = regDir.exec(file)[1];
+    const outsrc = `${out}\\${fileName}`;
+
     try {
       //验证是否存在
       const imgFile = await fs.stat(file);
@@ -65,34 +78,26 @@ export async function dirSearchImg(
         const FILE = {
           src: `file://${path}`,
           path: path,
-          outsrc: `${out}${regDir.exec(file)[1]}`,
+          ext: regExt.exec(file)[1],
+          outsrc: outsrc,
           outpath: out,
         };
+
         FILES[FILES.length] = FILE;
-        // compress(FILE.path, out).then(() => {
-        //   // console.log(`图片${file}压缩完成!`);
-        //   // console.log("outpath", out);
-        //   FILE.path = `file://${FILE.path}`;
-        //   cb && cb(FILE);
-        // });
         //如果是文件 后面的逻辑不需要执行了
         continue;
       }
       //判断是不是文件夹
       if (imgFile.isDirectory()) {
         //获取文件夹下的文件列表名
-        const fileNames = await fs.readdir(file), 
+        const fileNames = await fs.readdir(file),
           //地址拼接
-          dirFiles = fileNames.map((filename) => resolve(file, filename));
+          dirFiles = fileNames.map((filename) => path.resolve(file, filename));
         //回调继续查找 直到没有文件夹
-        FILES = await this.dirSearchImg(
-          dirFiles,
-          `${out}${regDir.exec(file)[1]}/`,
-          FILES
-        );
+        FILES = await this.dirSearchImg(dirFiles, outsrc, FILES);
       }
     } catch (e) {
-      console.error(`Failed to access file ${file}`, e);
+      log.info(`Failed to access file ${file}`, e);
     }
   }
   return FILES;
