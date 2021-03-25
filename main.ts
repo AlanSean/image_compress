@@ -4,7 +4,7 @@ import * as url from "url";
 import { app, BrowserWindow, ipcMain } from "electron";
 import { loadExtension, setProtocol, listenIpc } from "./electronConfig";
 let win: BrowserWindow = null,
-  loadingWindow:BrowserWindow=null;
+  loadingWindow: BrowserWindow = null;
 const args = process.argv.slice(1),
   serve = args.some((val) => val === "--serve");
 
@@ -13,32 +13,35 @@ function createLoadingWindow() {
   loadingWindow = new BrowserWindow({
     height: 200,
     useContentSize: false,
-    resizable: false,//禁止改变窗口大小
+    resizable: false, //禁止改变窗口大小
     width: 200,
     show: true,
-    transparent: true, 
+    transparent: true,
     maximizable: false, //禁止双击放大
     frame: false, // 去掉顶部操作栏
     webPreferences: {
-      webSecurity: false, 
+      webSecurity: false,
       nodeIntegration: true,
     },
   });
 
   loadingWindow.loadURL(
     url.format({
-      pathname: path.join(__dirname, serve ?  "src/" : "dist/","assets/loading/loading.html"),
+      pathname: path.join(
+        __dirname,
+        serve ? "src/" : "dist/",
+        "assets/loading/loading.html"
+      ),
       protocol: "file:",
       slashes: true,
     })
   );
-  
+
   loadingWindow.on("closed", () => {
     loadingWindow = null;
   });
   return loadingWindow;
 }
-
 function createWindow(): BrowserWindow {
   // Create the browser window.
   win = new BrowserWindow({
@@ -46,7 +49,7 @@ function createWindow(): BrowserWindow {
     height: 600,
     minWidth: 540,
     minHeight: 540,
-    show:false,
+    show: false,
     frame: true, // 去掉顶部操作栏
     webPreferences: {
       webSecurity: false, //允许加载本地资源
@@ -56,7 +59,6 @@ function createWindow(): BrowserWindow {
       enableRemoteModule: true, // true if you want to run 2e2 test  with Spectron or use remote module in renderer context (ie. Angular)
     },
   });
-
   if (serve) {
     win.webContents.openDevTools();
 
@@ -66,18 +68,16 @@ function createWindow(): BrowserWindow {
 
     //安装扩展
     loadExtension();
-
     win.loadURL("http://localhost:4200");
   } else {
     win.loadURL(
-      url.format({
-        pathname: path.join(__dirname, "dist/index.html"),
-        protocol: "file:",
-        slashes: true,
-      })
+      url.pathToFileURL(path.join(__dirname, "dist/index.html")).href
     );
   }
 
+  //设置自定义协议
+  setProtocol();
+  listenIpc.call(this, win);
   // Emitted when the window is closed.
   win.on("closed", () => {
     // Dereference the window object, usually you would store window
@@ -93,18 +93,17 @@ try {
   app.on("ready", function () {
     const loadingwindow = createLoadingWindow();
     const win = createWindow();
-    //设置自定义协议
-    setProtocol();
+
     loadingwindow.on("closed", () => {
       loadingWindow = null;
     });
-    ipcMain.on('close-loading-window', (e,res) => {
+    ipcMain.on("close-loading-window", (e, res) => {
       if (res.isClose && loadingWindow) {
         loadingwindow.close();
         win.show();
       }
     });
-    listenIpc.call(this, win);
+    
   });
 
   app.on("window-all-closed", () => {
