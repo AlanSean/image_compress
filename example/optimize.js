@@ -12,6 +12,7 @@ const pngquant = options => async input => {
   const args = [
     '-',
     '--force',
+    '--verbose',
     '--quality',
     options.quality,
   ];
@@ -21,11 +22,23 @@ const pngquant = options => async input => {
       maxBuffer: Infinity,
       input
     })
-    .then(result => result.stdout)
+    .then(result =>{
+      return {
+        status: 0,
+        rawDataSize: input.length,
+        data: result.stdout,
+        nowDataSize: result.stdout.length,
+      };
+    })
     .catch(error => {
       //https://github.com/kornelski/pngquant#--quality-min-max
       if (error.exitCode === 99) {
-        return input;
+        return  {
+          status: 99,
+          rawDataSize: input.length,
+          data: input,
+          nowDataSize: input.length,
+        };
       }
       throw error;
     });
@@ -33,12 +46,13 @@ const pngquant = options => async input => {
 }
 
 
-;(async () => {
-  const dest =  path.join('C:\\Users\\111\\AppData\\Local\\Temp\\image_compress\\', path.basename('C:/Users/111/Desktop/新建文件夹 (2)/QQ图片20210207161755.png'));
+;(async () => { 
+  const input = 'C:/Users/111/Desktop/loginbg-fs8-fs8.png';
+  const dest =  path.join('C:\\Users\\111\\AppData\\Local\\Temp\\image_compress\\', path.basename(input));
   const dirname = path.dirname(dest);
  
 
-  let data = await fs.readFile('C:/Users/111/Desktop/新建文件夹 (2)/QQ图片20210207161755.png');
+  let data = await fs.readFile(input);
   let rawDataSize = data.length;
   data = await (pngquant({
     quality: "10-10"
@@ -53,6 +67,3 @@ const pngquant = options => async input => {
   console.log('nowDataSize',nowDataSize)
   console.log('dest',dest)
 })();
-
-
-

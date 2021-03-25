@@ -1,3 +1,5 @@
+//#https://juejin.cn/post/6943423031985307679/
+
 const path = require('path');
 const fs = require('fs-extra');
 const execa = require('execa');
@@ -18,7 +20,7 @@ class Local_Bin_Wrapper {
     const path = this.path();
     try {
       //验证是否存在
-			//如果不存在就会报错 try cathc捕获
+			//如果不存在就会报错 try catch捕获
       fs.statSync(path);
 			
       const result_1 = await execa(path, cmd);
@@ -41,4 +43,5 @@ const url = path.resolve(__dirname,'../bin');
 const bin = new Local_Bin_Wrapper()
 	.src(`${url}/mac/pngquant/pngquant`, 'darwin')
 	.src(`${url}/win/pngquant/pngquant.exe`, 'win32');
-	module.exports = bin.path();
+
+module.exports = bin.path();
