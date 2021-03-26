@@ -43,7 +43,7 @@ const cjpeg = options => async input => {
   return childProcess;
 }
 
-async function run(){
+module.exports =  async function run(){
   const input = 'C:/Users/111/Desktop/test/start.jpg';
   const dest =  path.join('C:\\Users\\111\\AppData\\Local\\Temp\\image_compress\\', path.basename(input));
   const dirname = path.dirname(dest);
@@ -61,6 +61,5 @@ async function run(){
   console.log('nowDataSize',result.nowDataSize)
   console.log('dest',dest)
 }
-run();
 
 
