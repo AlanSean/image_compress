@@ -2,7 +2,7 @@
   "name": "image_compress",
   "version": "0.0.1",
   "description": "png/jpge optimization app",
-  "homepage": "https://github.com/maximegris/angular-electron",
+  "homepage": "https://github.com/AlanSean/image_compress",
   "author": {
     "name": "Alan",
     "email": "miaomimiya@gmail.com"
@@ -55,9 +55,6 @@
     "electron-log": "4.3.2",
     "execa": "5.0.0",
     "fs-extra": "9.1.0",
-    "imagemin": "7.0.0",
-    "imagemin-jpegoptim": "7.0.0",
-    "imagemin-pngquant": "9.0.1",
     "ng-zorro-antd": "11.2.0",
     "wrap-ansi": "7.0.0"
   },
