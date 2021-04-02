@@ -1,7 +1,7 @@
 import * as execa from "execa";
 import * as fs from "fs-extra";
 import { resolve } from "path";
-import log from "electron-log";
+import * as log from "electron-log";
 import Local_Bin_Wrapper from "./Local_Bin_Wrapper";
 
 const url = resolve(__dirname, "../bin"),

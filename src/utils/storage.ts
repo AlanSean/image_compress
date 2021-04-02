@@ -1,4 +1,4 @@
-import log from "electron-log";
+import * as log from "electron-log";
 import * as os from "os";
 import * as fs from "fs-extra";
 import { resolve } from "path";

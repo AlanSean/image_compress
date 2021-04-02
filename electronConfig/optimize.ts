@@ -2,7 +2,7 @@ import * as path from "path";
 import * as fs from "fs-extra";
 import { FILE, compresss_callback } from "../src/common/constants";
 import * as bin from "./bin";
-import log from "electron-log";
+import * as log from "electron-log";
 import * as makeDir from "make-dir";
 
 //匹配文件后戳名

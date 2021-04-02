@@ -7,8 +7,8 @@
   </ul> -->
   <div class="view" 
     [class.dragUp]="dragUp"
-    (dragenter)="dragenter($event)"
-    (dragleave)="dragleave($event)"
+    (dragenter)="dragenter()"
+    (dragleave)="dragleave()"
     (dragover)="dragOver($event)"
     (drop)="fileAdd($event)">
     <div class="progress" [class.hidden]="barShow">
