@@ -1,5 +1,5 @@
 {
-  "productName": "angular-electron",
+  "productName": "image_compress",
   "directories": {
     "output": "release/"
   },
@@ -12,6 +12,7 @@
         "!package-lock.json",
         "!src/",
         "!e2e/",
+        "!example/",
         "!hooks/",
         "!angular.json",
         "!_config.yml",

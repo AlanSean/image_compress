@@ -26,15 +26,13 @@ function createLoadingWindow() {
   });
 
   loadingWindow.loadURL(
-    url.format({
-      pathname: path.join(
+    url.pathToFileURL(
+      path.join(
         __dirname,
         serve ? "src/" : "dist/",
         "assets/loading/loading.html"
-      ),
-      protocol: "file:",
-      slashes: true,
-    })
+      )
+    ).href
   );
 
   loadingWindow.on("closed", () => {
@@ -85,7 +83,7 @@ function createWindow(): BrowserWindow {
     // when you should delete the corresponding element.
     win = null;
   });
-  
+
   return win;
 }
 
@@ -103,7 +101,6 @@ try {
         win.show();
       }
     });
-    
   });
 
   app.on("window-all-closed", () => {
