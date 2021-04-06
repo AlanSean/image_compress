@@ -9,7 +9,6 @@ import * as fs from "fs-extra";
 import { IpcChannel } from "@common/constants";
 import { FILE_ADD } from "../../state/files";
 import { FILE } from "@common/constants";
-import { UPDATE_PROGRESS } from "@app/core/state/progress";
 
 @Injectable({
   providedIn: "root",
