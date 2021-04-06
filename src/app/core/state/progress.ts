@@ -17,7 +17,7 @@ export const UPDATE_PROGRESS = createAction(
 );
 
 //reducer
-const initialState: Readonly<number> = 0;
+const initialState: Readonly<number> = 100;
 export const progressReducer = createReducer(
   initialState,
   on(UPDATE_PROGRESS, (_, { newProgress }) => {

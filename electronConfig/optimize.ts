@@ -1,6 +1,6 @@
 import * as path from "path";
 import * as fs from "fs-extra";
-import { FILE, compresss_callback } from "../src/common/constants";
+import { FILE, compress_callback } from "../src/common/constants";
 import * as bin from "./bin";
 import * as log from "electron-log";
 
@@ -9,40 +9,54 @@ export const regExt = /(?:\.(\w+))?$/i; //(?:)非捕获分组  () 捕获分组 �
 //匹配文件名或者文件夹名称
 const regDir = /.+\\(.+)/;
 const number = 10;
-let pngquant;
+let pngquant, mozjpeg;
+const compressPIPE = {
+  png: pngquant,
+  jpg: mozjpeg,
+  jpeg: mozjpeg,
+};
+
 //限速 每完成压缩多少个再进行下一批压缩
-async function PIPE(arr: FILE[], cb: compresss_callback) {
-  return new Promise( resolve => {
+async function PIPE(arr: FILE[], cb: compress_callback) {
+  return new Promise((resolve) => {
     let count = 0;
     for (const FILE of arr) {
-      
-      if (FILE.ext == "png") {
-        pngquant(FILE.path).then( async(result) => {
-          const dirname = path.dirname(FILE.outsrc);
-          await fs.mkdirs(dirname);
-          // //生成文件
-          await fs.writeFile(FILE.outsrc,result.data);
-          const newFile = {
-            ...FILE,
-            rawDataSize: result.rawDataSize,
-            nowDataSize: result.nowDataSize
-          };
-          log.info('file_info',newFile);
-          cb && cb(newFile);
-          count++;
-          if (count == arr.length) {
-            resolve(true);
+      if (FILE.ext in compressPIPE) {
+        compressPIPE[FILE.ext](FILE.path).then(
+          async (result: bin.ImageInfo) => {
+            const dirname = path.dirname(FILE.outsrc);
+            await fs.mkdirs(dirname);
+            // //生成文件
+            await fs.writeFile(FILE.outsrc, result.data);
+            const newFile = {
+              ...FILE,
+              rawDataSize: result.rawDataSize,
+              nowDataSize: result.nowDataSize,
+            };
+            log.info("file_info", newFile);
+            cb && cb(newFile);
+            count++;
+            if (count == arr.length) {
+              resolve(true);
+            }
           }
-        });
-        continue;
+        );
       }
     }
   });
 }
-export function compress(arr: FILE[], cb: compresss_callback): void {
+export function compress(arr: FILE[], cb: compress_callback): void {
   if (!pngquant) {
-    pngquant = bin.pngquant({
-      quality: "1-10",
+    compressPIPE.png = bin.pngquant({
+      quality: "80",
+    });
+  }
+  if (!mozjpeg) {
+    compressPIPE.jpg = bin.mozjpeg({
+      quality: "80",
+    });
+    compressPIPE.jpeg = bin.mozjpeg({
+      quality: "80",
     });
   }
   (async () => {

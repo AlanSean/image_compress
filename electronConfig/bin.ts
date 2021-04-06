@@ -14,9 +14,9 @@ const url = resolve(__dirname, "../bin"),
     .src(`${url}/mac/cjpeg`, "darwin")
     .src(`${url}/win/cjpeg.exe`, "win32")
     .path(),
-  mozJpegargs = ["--quality"];
+  mozJpegargs = ["-quality"];
 
-interface imageInfo {
+export interface ImageInfo {
   status: number;
   rawDataSize: number;
   data: Buffer | string;
@@ -25,7 +25,7 @@ interface imageInfo {
 //version 2.12.0
 export const pngquant = (options: { quality: string }) => async (
   path: string
-): Promise<imageInfo> => {
+): Promise<ImageInfo> => {
   pngquantArgs[3] = options.quality;
 
   const input = await fs.readFile(path);
@@ -61,7 +61,7 @@ export const pngquant = (options: { quality: string }) => async (
 //version 2.12.0
 export const mozjpeg = (options: { quality: string }) => async (
   path: string
-): Promise<imageInfo> => {
+): Promise<ImageInfo> => {
   mozJpegargs[1] = options.quality;
 
   const input = await fs.readFile(path);

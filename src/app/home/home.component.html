@@ -11,8 +11,8 @@
     (dragleave)="dragleave()"
     (dragover)="dragOver($event)"
     (drop)="fileAdd($event)">
-    <div class="progress" [class.hidden]="barShow">
-      <nz-progress [nzPercent]="(progress$ | async)" [nzShowInfo]="false"
+    <div class="progress">
+      <nz-progress [nzPercent]="(progress$ | async)"
         [nzStrokeColor]="{ '0%': '#108ee9', '100%': '#87d068' }" nzStatus="active"></nz-progress>
     </div>
     <div class="text">
