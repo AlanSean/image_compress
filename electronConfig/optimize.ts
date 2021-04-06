@@ -3,7 +3,6 @@ import * as fs from "fs-extra";
 import { FILE, compresss_callback } from "../src/common/constants";
 import * as bin from "./bin";
 import * as log from "electron-log";
-import * as makeDir from "make-dir";
 
 //匹配文件后戳名
 export const regExt = /(?:\.(\w+))?$/i; //(?:)非捕获分组  () 捕获分组 匹配结果会返回 [ '.qweqe', 'qweqe']
@@ -20,7 +19,7 @@ async function PIPE(arr: FILE[], cb: compresss_callback) {
       if (FILE.ext == "png") {
         pngquant(FILE.path).then( async(result) => {
           const dirname = path.dirname(FILE.outsrc);
-          await makeDir(dirname);
+          await fs.mkdirs(dirname);
           // //生成文件
           await fs.writeFile(FILE.outsrc,result.data);
           const newFile = {
