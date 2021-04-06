@@ -46,26 +46,31 @@ async function PIPE(arr: FILE[], cb: compress_callback) {
   });
 }
 export function compress(arr: FILE[], cb: compress_callback): void {
-  if (!pngquant) {
-    compressPIPE.png = bin.pngquant({
-      quality: "80",
-    });
-  }
-  if (!mozjpeg) {
-    compressPIPE.jpg = bin.mozjpeg({
-      quality: "80",
-    });
-    compressPIPE.jpeg = bin.mozjpeg({
-      quality: "80",
-    });
-  }
-  (async () => {
-    let start = 0;
-    const end = Math.ceil(arr.length / number);
-    for (start; start < end; start++) {
-      await PIPE(arr.slice(start * number, (start + 1) * number), cb);
+  try {
+    if (!pngquant) {
+      compressPIPE.png = bin.pngquant({
+        quality: "80",
+      });
     }
-  })();
+    if (!mozjpeg) {
+      compressPIPE.jpg = bin.mozjpeg({
+        quality: "80",
+      });
+      compressPIPE.jpeg = bin.mozjpeg({
+        quality: "80",
+      });
+    }
+    (async () => {
+      let start = 0;
+      const end = Math.ceil(arr.length / number);
+      for (start; start < end; start++) {
+        await PIPE(arr.slice(start * number, (start + 1) * number), cb);
+      }
+    })();
+  } catch (error) {
+    log.error(error);
+  }
+  
 }
 
 /**

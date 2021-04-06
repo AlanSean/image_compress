@@ -3,13 +3,17 @@ import { IpcChannel } from "../src/common/constants";
 import { dirSearchImg, compress } from "./optimize";
 
 export function listenIpc(win: BrowserWindow): void {
+  const setProgress = function name(start,end) {
+    win.webContents.send(IpcChannel.PROGRESS, start, end);
+  };
   //添加文件并压缩
   const FILE_ADD = async (files: string[], outdir: string) => {
     const arr = [];
     const imgArr = await dirSearchImg(files, outdir);
+    setProgress(0, 1);
     compress(imgArr, (FILE) => {
       arr[arr.length] = FILE;
-      win.webContents.send(IpcChannel.PROGRESS, arr.length, imgArr.length);
+      setProgress(arr.length, imgArr.length);
       win.webContents.send(IpcChannel.FILE_SELECTED, FILE);
     });
   };

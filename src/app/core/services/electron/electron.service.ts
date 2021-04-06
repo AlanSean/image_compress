@@ -40,11 +40,6 @@ export class ElectronService {
   //向主进程发送 file_add命令
   fileAdd(files: string[],outdir:string): void {
     this.ipcRenderer.send(IpcChannel.FILE_ADD, files,outdir);
-    this.store.dispatch(
-      UPDATE_PROGRESS({
-        newProgress: 0,
-      })
-    );
   }
   openDirectory(): void {
     this.ipcRenderer.send(IpcChannel.OPEN_DIR);
@@ -64,21 +59,9 @@ export class ElectronService {
     this.ipcRenderer.on(
       IpcChannel.FILE_SELECTED,
       (_, FILE: FILE | Array<FILE>) => {
-        console.log(FILE);
         this.store.dispatch(
           FILE_ADD({
             files: FILE,
-          })
-        );
-      }
-    );
-    //进度
-    this.ipcRenderer.on(
-      IpcChannel.PROGRESS,
-      (_, current: number, sum: number) => {
-        this.store.dispatch(
-          UPDATE_PROGRESS({
-            newProgress: (current / sum) * 100,
           })
         );
       }

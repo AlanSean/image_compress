@@ -1,14 +1,13 @@
 import {
-  // ChangeDetectionStrategy,
-  // ChangeDetectorRef,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   OnInit,
 } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import { ElectronService } from "../core/services";
-// import { selectFile } from "../core/state/files";
-import { selectProgress } from "../core/state/progress";
-// import { FILE } from "@common/constants";
+import { selectFile } from "../core/state/files";
+import { FILE } from "@common/constants";
 import { getSetting } from "@utils/index";
 
 
@@ -16,33 +15,28 @@ import { getSetting } from "@utils/index";
   selector: "app-home",
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.less"],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit {
-  // barShow = true;
+  barShow = true;
   dragUp = false;
   outdir = getSetting().outdir;
-  // files$ = this.store.pipe(select(selectFile));
-  progress$ = this.store.pipe(select(selectProgress));
+  files$ = this.store.pipe(select(selectFile));
+  progress = 100;
   constructor(
     private electronService: ElectronService,
     private store: Store,
-    // private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    // this.progress$.subscribe((item) => {
-    //   if (item > 0 && this.barShow) {
-    //     this.barShow = false;
-    //   }
-    //   if (item == 100) {
-    //     setTimeout(() => {
-    //       this.barShow = true;
-    //       this.cdr.detectChanges();
-    //     }, 2000);
-    //   }
-    // });
-    
+    //进度
+    this.electronService.ipcRenderer.on(
+      'PROGRESS',
+      (_, current: number, sum: number) => {
+        this.updateProgress((current / sum) * 100);
+      }
+    );
     document.ondragover = function (e) {
       e.preventDefault();
     };
@@ -60,7 +54,7 @@ export class HomeComponent implements OnInit {
     e.stopPropagation();
     this.dragUp = false;
     const files = Array.from(e.dataTransfer.files)
-      .filter((file) => !file.type || /png|jpg|jpeg/.test(file.type))
+      .filter((file) => !file.type || /png|jpeg/.test(file.type))
       .map((file) => file.path);
     this.electronService.fileAdd(files,this.outdir);
   }
@@ -74,7 +68,6 @@ export class HomeComponent implements OnInit {
 
   dragenter(): void {
     this.dragUp = true;
-    console.log(2342);
   }
 
   dragleave(): void {
@@ -83,5 +76,12 @@ export class HomeComponent implements OnInit {
 
   dragOver(e: DragEvent): void {
     e.preventDefault();
+  }
+  trackByItems(index: number, item: FILE): string {
+    return item.src;
+  }
+  updateProgress(progress:number): void {
+    this.progress = progress;
+    this.cdr.detectChanges();
   }
 }

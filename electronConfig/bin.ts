@@ -3,7 +3,6 @@ import * as fs from "fs-extra";
 import { resolve } from "path";
 import * as log from "electron-log";
 import Local_Bin_Wrapper from "./Local_Bin_Wrapper";
-
 const url = resolve(__dirname, "../bin"),
   pngquantBin = new Local_Bin_Wrapper()
     .src(`${url}/mac/pngquant`, "darwin")
