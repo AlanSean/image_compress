@@ -1,4 +1,3 @@
-import * as log from "electron-log";
 import * as os from "os";
 import * as fs from "fs-extra";
 import { resolve } from "path";
@@ -15,7 +14,7 @@ export const getSetting = (): DefultSetting => {
   try {
     return JSON.parse(localStorage.getItem(key) || null) as DefultSetting;
   } catch (e) {
-    log.error(`Failed to get options from localStorage, ${e as string}`);
+    console.error(`Failed to get options from localStorage, ${e as string}`);
   }
 };
 
@@ -32,7 +31,7 @@ export const setSetting = (options: DefultSetting): void => {
       })
     );
   } catch (e) {
-    log.error(`Failed to set options to localStorage, ${e as string}`);
+    console.error(`Failed to set options to localStorage, ${e as string}`);
   }
 };
 //如果输出目录没有值 则 指定默认输出目录
