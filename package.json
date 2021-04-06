@@ -34,6 +34,7 @@
     "electron:serve-tsc": "tsc -p tsconfig.serve.json",
     "electron:serve": "chcp 65001 && wait-on tcp:4200 && npm run electron:serve-tsc && npx electron . --serve",
     "electron:local": "npm run build:prod && npx electron .",
+    "pack": "npm run build:prod && electron-builder --dir",
     "electron:build": "npm run build:prod && electron-builder build",
     "test": "ng test --watch=false",
     "test:watch": "ng test",
