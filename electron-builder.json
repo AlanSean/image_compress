@@ -5,6 +5,8 @@
   },
   "files": [
     "**/*",
+    "bin/${os}/mac/*",
+    "bin/${os}/win/*",
     "!**/*.ts",
     "!*.code-workspace",
     "!LICENSE.md",
@@ -20,6 +22,11 @@
     "!tsconfig.json",
     "!tslint.json"
   ],
+  "appId": "com.image_compress.app",
+  "nsis": {
+    "perMachine": true
+  },
+  "asar": true,
   "asarUnpack": [
     "bin/mac",
     "bin/win"
@@ -31,6 +38,7 @@
     ]
   },
   "mac": {
+    "category": "your.app.category.type",
     "icon": "dist/assets/icons",
     "target": [
       "dmg"
