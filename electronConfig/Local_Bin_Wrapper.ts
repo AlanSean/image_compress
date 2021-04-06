@@ -12,7 +12,7 @@ export default class Local_Bin_Wrapper {
    * @returns this
    */
   src(url: string, platfrom: "darwin" | "win32"): this {
-    this.map.set(platfrom, path.resolve(url));
+    this.map.set(platfrom, path.resolve(url).replace('app.asar', 'app.asar.unpacked'));
     return this;
   }
   //返回符合当前平台的二进制地址
