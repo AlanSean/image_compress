@@ -2,7 +2,7 @@ import * as os from "os";
 import * as path from "path";
 import * as url from "url";
 import { app, BrowserWindow, ipcMain } from "electron";
-import { loadExtension, setProtocol, listenIpc } from "./electronConfig";
+import { loadExtension, setProtocol, listenIpc, setMenu } from "./electronConfig";
 let win: BrowserWindow = null,
   loadingWindow: BrowserWindow = null;
 const args = process.argv.slice(1),
@@ -57,6 +57,7 @@ function createWindow(): BrowserWindow {
       enableRemoteModule: true, // true if you want to run 2e2 test  with Spectron or use remote module in renderer context (ie. Angular)
     },
   });
+  setMenu(serve);
   if (serve) {
     win.webContents.openDevTools();
 

@@ -12,16 +12,27 @@
     (dragover)="dragOver($event)"
     (drop)="fileAdd($event)">
     <div class="progress">
-      <nz-progress [nzPercent]="progress"
+      <nz-progress [nzPercent]="progress" [nzShowInfo]="false" [nzStrokeLinecap]='square'
         [nzStrokeColor]="{ '0%': '#108ee9', '100%': '#87d068' }" nzStatus="active"></nz-progress>
     </div>
     <div class="text">
       <div class="text-big">拖拽文件到此区域</div>
       <div class="outdir">
-        <span class="text-outdir">输出目录:{{outdir}}&nbsp;&nbsp;</span>
-        <span (click)="openDirectory()"><i class="folder-open" nz-icon nzType="folder-open" nzTheme="outline"></i></span>
+        <span 
+          class="text-outdir"
+          title="点击修改输出目录"
+        >输出目录:{{outdir}}&nbsp;&nbsp;</span>
+        <span (click)="openDirectory()" title="打开目录"><i class="folder-open" nz-icon nzType="folder-open" nzTheme="outline"></i></span>
       </div>
-      
+      <div class="quality" >
+        <span>压缩质量: </span>
+        <nz-slider 
+          [nzDisabled]="sliderDisabled"
+          [(ngModel)]="singleValue" 
+          [nzTooltipVisible]="never"
+          (nzOnAfterChange)="qualityChange()"></nz-slider>
+        <div class="val" nz-col nzSpan="2">{{singleValue}}%</div>
+      </div>
     </div>
   </div>
 </div>

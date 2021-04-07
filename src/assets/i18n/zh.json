@@ -1,17 +1,6 @@
 {
-  "PAGES": {
-    "HOME": {
-      "TITLE": "应用！",
-      "GO_TO_DETAIL": "去详情"
-    },
-    "DETAIL": {
-      "TITLE": "详情页面",
-      "BACK_TO_HOME": "回首页"
-    }
-  },
-  "ICON":{
-    "ADD": "添加",
-    "DOWN": "下载",
-    "CLEAN": "清空"
-  }
+  "ADD": "添加",
+  "DOWN": "下载",
+  "CLEAN": "清空",
+  "about": "关于 ${x}"
 }

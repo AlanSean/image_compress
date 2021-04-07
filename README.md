@@ -26,7 +26,7 @@ image_compress
 |  |  |  |    ├─electron 子进程配置
 |  |  |  |    |    ├─electron.service.spec.ts
 |  |  |  |    |    ├─lectron.service.ts
-├─electron 主进程配置
+├─electronConfig 主进程配置
 |    ├─devtools.ts 扩展集合
 |    ├─index.ts 集合导出
 |    ├─protocol.ts 自定义协议集合
@@ -42,7 +42,7 @@ image_compress
 - [ ] 现代化ui，每张图可单独优化
 - [ ] 可另存为
 - [ ] 可删除
-- [ ] 同时压缩张数可配置(万一别人是神机呢)  默认 同时压缩10个(进程),
+- [ ] 同时压缩张数可配置(万一别人是神机呢)  默认 同时压缩10个(进程)
 - [ ] 合适的logo
 
 

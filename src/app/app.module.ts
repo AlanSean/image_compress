@@ -1,4 +1,5 @@
 import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 // NG Translate
@@ -7,7 +8,6 @@ import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 
 import { HttpClientModule, HttpClient } from "@angular/common/http";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
-import { StoreModule } from "@ngrx/store";
 
 import { CoreModule } from "./core/core.module";
 import { SharedModule } from "./shared/shared.module";
@@ -37,6 +37,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     HomeModule,
     DetailModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

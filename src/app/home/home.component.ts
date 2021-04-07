@@ -4,11 +4,8 @@ import {
   Component,
   OnInit,
 } from "@angular/core";
-import { Store, select } from "@ngrx/store";
 import { ElectronService } from "../core/services";
-import { selectFile } from "../core/state/files";
-import { FILE } from "@common/constants";
-import { getSetting } from "@utils/index";
+import { getSetting, delay } from "@utils/index";
 
 
 @Component({
@@ -18,21 +15,21 @@ import { getSetting } from "@utils/index";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit {
-  barShow = true;
-  dragUp = false;
-  outdir = getSetting().outdir;
-  files$ = this.store.pipe(select(selectFile));
-  progress = 100;
+  barShow = true; //进度条是否显示
+  dragUp = false; //是否拖入状态
+  outdir = getSetting().outdir; //输出目录
+  progress = 100; //压缩进度
+  singleValue = 80; //滑块唯一值
+  sliderDisabled = false; //滑块是否不可用
   constructor(
     private electronService: ElectronService,
-    private store: Store,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     //进度
     this.electronService.ipcRenderer.on(
-      'PROGRESS',
+      "PROGRESS",
       (_, current: number, sum: number) => {
         this.updateProgress((current / sum) * 100);
       }
@@ -56,13 +53,13 @@ export class HomeComponent implements OnInit {
     const files = Array.from(e.dataTransfer.files)
       .filter((file) => !file.type || /png|jpeg/.test(file.type))
       .map((file) => file.path);
-    this.electronService.fileAdd(files,this.outdir);
+    this.electronService.fileAdd(files, this.outdir);
   }
   /**
    * 打开文件夹
    */
   openDirectory(): void {
-    console.log('openDirectory');
+    console.log("openDirectory");
     this.electronService.showItemInFolder(this.outdir);
   }
 
@@ -77,11 +74,23 @@ export class HomeComponent implements OnInit {
   dragOver(e: DragEvent): void {
     e.preventDefault();
   }
-  trackByItems(index: number, item: FILE): string {
-    return item.src;
-  }
-  updateProgress(progress:number): void {
+
+  //更新进度条
+  updateProgress(progress: number): void {
     this.progress = progress;
+    this.cdr.detectChanges();
+  }
+  // 质量设置
+  async qualityChange(): Promise<void> {
+    //执行压缩
+    console.log("执行压缩");
+    //冻结滑块
+    this.sliderDisabled = true;
+    await delay(2000);
+    //压缩完成
+    console.log("压缩完成");
+    //解冻滑块
+    this.sliderDisabled = false;
     this.cdr.detectChanges();
   }
 }
