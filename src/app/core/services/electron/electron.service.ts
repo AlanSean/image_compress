@@ -1,14 +1,14 @@
 import { Injectable, Input } from "@angular/core";
 
-import { Store } from "@ngrx/store";
+// import { Store } from "@ngrx/store";
 // If you import a module but never use any of the imported values other than as TypeScript types,
 // the resulting javascript file will look as if you never imported the module at all.
 import { ipcRenderer, webFrame, remote,  shell } from "electron";
 import * as childProcess from "child_process";
 import * as fs from "fs-extra";
 import { IpcChannel } from "@common/constants";
-import { FILE_ADD } from "../../state/files";
-import { FILE } from "@common/constants";
+// import { FILE_ADD } from "../../state/files";
+// import { FILE } from "@common/constants";
 
 @Injectable({
   providedIn: "root",
@@ -25,7 +25,9 @@ export class ElectronService {
     return !!(window && window.process && window.process.type);
   }
 
-  constructor(private store: Store) {
+  constructor(
+    // private store: Store
+  ) {
     const electron = window.require("electron");
     this.ipcRenderer = electron.ipcRenderer;
     this.webFrame = electron.webFrame;
@@ -55,15 +57,15 @@ export class ElectronService {
   //开启监听主进程向子进程发送的命令
   ipcRendererOn(): void {
     //压缩完成的文件
-    this.ipcRenderer.on(
-      IpcChannel.FILE_SELECTED,
-      (_, FILE: FILE | Array<FILE>) => {
-        this.store.dispatch(
-          FILE_ADD({
-            files: FILE,
-          })
-        );
-      }
-    );
+    // this.ipcRenderer.on(
+    //   IpcChannel.FILE_SELECTED,
+    //   (_, FILE: FILE | Array<FILE>) => {
+    //     this.store.dispatch(
+    //       FILE_ADD({
+    //         files: FILE,
+    //       })
+    //     );
+    //   }
+    // );
   }
 }
