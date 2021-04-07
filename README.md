@@ -47,12 +47,21 @@ image_compress
 
 
 ## 依赖
+
 -[模板](https://github.com/maximegris/angular-electron): 用Angular 11和Electron 12 引导并打包你的项目来创建桌面应用。
+
 -[Angular](https://angular.cn/): Angular 是一个应用设计框架与开发平台，用于创建高效、复杂、精致的单页面应用。
+
 -[Electron](https://www.electronjs.org/): 使用 JavaScript，HTML 和 CSS 构建跨平台的桌面应用程序
+
 -[mozjpeg](https://github.com/mozilla/mozjpeg): mozjpeg是一种JPG压缩程序
+
 -[pngquant](https://github.com/kornelski/pngquant): pngquant是一种PNG压缩程序
+
 -[ng-zorro-antd](https://ng.ant.design/docs/introduce/zh): NG-ZORRO - 企业级 UI 设计语言和 Angular 组件库
+
 -[execa](https://github.com/sindresorhus/execa): execa改进了child_process的方法
+
 -[fs-extra](https://github.com/jprichardson/node-fs-extra): 给原生`fs`新增了文件系统方法，以及Promise
--[crypto-js](https://github.com/brix/crypto-js): 提供了各种加密算法
+
+-[crypto-js](https://github.com/brix/crypto-js): 提供了各种加密算法x
