@@ -20,7 +20,6 @@
       <div class="outdir">
         <span 
           class="text-outdir"
-          title="点击修改输出目录"
         >输出目录:{{outdir}}&nbsp;&nbsp;</span>
         <span (click)="openDirectory()" title="打开目录"><i class="folder-open" nz-icon nzType="folder-open" nzTheme="outline"></i></span>
       </div>
@@ -30,7 +29,7 @@
           [nzDisabled]="sliderDisabled"
           [(ngModel)]="singleValue" 
           [nzTooltipVisible]="never"
-          (nzOnAfterChange)="qualityChange()"></nz-slider>
+          (nzOnAfterChange)="qualityChange($event)"></nz-slider>
         <div class="val" nz-col nzSpan="2">{{singleValue}}%</div>
       </div>
     </div>

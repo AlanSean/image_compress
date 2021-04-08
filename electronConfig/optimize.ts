@@ -45,19 +45,23 @@ async function PIPE(arr: FILE[], cb: compress_callback) {
     }
   });
 }
-export function compress(arr: FILE[], cb: compress_callback): void {
+export function compress(
+  arr: FILE[],
+  quality: string,
+  cb: compress_callback
+): void {
   try {
     if (!pngquant) {
       compressPIPE.png = bin.pngquant({
-        quality: "80",
+        quality: quality,
       });
     }
     if (!mozjpeg) {
       compressPIPE.jpg = bin.mozjpeg({
-        quality: "80",
+        quality: quality,
       });
       compressPIPE.jpeg = bin.mozjpeg({
-        quality: "80",
+        quality: quality,
       });
     }
     (async () => {
@@ -70,7 +74,6 @@ export function compress(arr: FILE[], cb: compress_callback): void {
   } catch (error) {
     log.error(error);
   }
-  
 }
 
 /**

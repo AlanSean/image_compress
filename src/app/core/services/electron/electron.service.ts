@@ -7,6 +7,7 @@ import { ipcRenderer, webFrame, remote,  shell } from "electron";
 import * as childProcess from "child_process";
 import * as fs from "fs-extra";
 import { IpcChannel } from "@common/constants";
+import { getSetting } from "@utils/storage";
 // import { FILE_ADD } from "../../state/files";
 // import { FILE } from "@common/constants";
 
@@ -39,8 +40,8 @@ export class ElectronService {
     });
   }
   //向主进程发送 file_add命令
-  fileAdd(files: string[],outdir:string): void {
-    this.ipcRenderer.send(IpcChannel.FILE_ADD, files,outdir);
+  fileAdd(files: string[]): void {
+    this.ipcRenderer.send(IpcChannel.FILE_ADD, files, getSetting());
   }
   openDirectory(): void {
     this.ipcRenderer.send(IpcChannel.OPEN_DIR);
