@@ -9,13 +9,15 @@ export function listenIpc(win: BrowserWindow): void {
   };
   //添加文件并压缩
   const FILE_ADD = async (files: string[], setting: DefultSetting) => {
-    const arr = [];
+    //const arr = [];
+    let count = 0;
     const imgArr = await dirSearchImg(files, setting.outdir);
+    const len = imgArr.length;
     setProgress(0, 1);
     compress(imgArr, setting.quality, (FILE) => {
-      arr[arr.length] = FILE;
-      setProgress(arr.length, imgArr.length);
-      win.webContents.send(IpcChannel.FILE_SELECTED, FILE);
+      count++;
+      setProgress(count, len);
+      // win.webContents.send(IpcChannel.FILE_SELECTED, FILE);
     });
   };
 
