@@ -1,24 +1,36 @@
 {
-  "productName": "angular-electron",
+  "productName": "image_compress",
   "directories": {
     "output": "release/"
   },
-    "files": [
-        "**/*",
-        "!**/*.ts",
-        "!*.code-workspace",
-        "!LICENSE.md",
-        "!package.json",
-        "!package-lock.json",
-        "!src/",
-        "!e2e/",
-        "!hooks/",
-        "!angular.json",
-        "!_config.yml",
-        "!karma.conf.js",
-        "!tsconfig.json",
-        "!tslint.json"
-    ],
+  "files": [
+    "**/*",
+    "bin/${os}/mac/*",
+    "bin/${os}/win/*",
+    "!**/*.ts",
+    "!*.code-workspace",
+    "!LICENSE.md",
+    "!package.json",
+    "!package-lock.json",
+    "!src/",
+    "!e2e/",
+    "!example/",
+    "!hooks/",
+    "!angular.json",
+    "!_config.yml",
+    "!karma.conf.js",
+    "!tsconfig.json",
+    "!tslint.json"
+  ],
+  "appId": "com.image_compress.app",
+  "nsis": {
+    "perMachine": true
+  },
+  "asar": true,
+  "asarUnpack": [
+    "bin/mac",
+    "bin/win"
+  ],
   "win": {
     "icon": "dist/assets/icons",
     "target": [
@@ -26,6 +38,7 @@
     ]
   },
   "mac": {
+    "category": "your.app.category.type",
     "icon": "dist/assets/icons",
     "target": [
       "dmg"

@@ -1,9 +1,8 @@
 import * as execa from "execa";
 import * as fs from "fs-extra";
 import { resolve } from "path";
-import log from "electron-log";
+import * as log from "electron-log";
 import Local_Bin_Wrapper from "./Local_Bin_Wrapper";
-
 const url = resolve(__dirname, "../bin"),
   pngquantBin = new Local_Bin_Wrapper()
     .src(`${url}/mac/pngquant`, "darwin")
@@ -14,9 +13,9 @@ const url = resolve(__dirname, "../bin"),
     .src(`${url}/mac/cjpeg`, "darwin")
     .src(`${url}/win/cjpeg.exe`, "win32")
     .path(),
-  mozJpegargs = ["--quality"];
+  mozJpegargs = ["-quality"];
 
-interface imageInfo {
+export interface ImageInfo {
   status: number;
   rawDataSize: number;
   data: Buffer | string;
@@ -25,7 +24,7 @@ interface imageInfo {
 //version 2.12.0
 export const pngquant = (options: { quality: string }) => async (
   path: string
-): Promise<imageInfo> => {
+): Promise<ImageInfo> => {
   pngquantArgs[3] = options.quality;
 
   const input = await fs.readFile(path);
@@ -61,7 +60,7 @@ export const pngquant = (options: { quality: string }) => async (
 //version 2.12.0
 export const mozjpeg = (options: { quality: string }) => async (
   path: string
-): Promise<imageInfo> => {
+): Promise<ImageInfo> => {
   mozJpegargs[1] = options.quality;
 
   const input = await fs.readFile(path);

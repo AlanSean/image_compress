@@ -1,16 +1,23 @@
 import { ipcMain, BrowserWindow, dialog } from "electron";
 import { IpcChannel } from "../src/common/constants";
 import { dirSearchImg, compress } from "./optimize";
+import { DefultSetting } from "../src/utils/storage";
 
 export function listenIpc(win: BrowserWindow): void {
+  const setProgress = function name(start:number, end:number) {
+    win.webContents.send(IpcChannel.PROGRESS, start, end);
+  };
   //添加文件并压缩
-  const FILE_ADD = async (files: string[], outdir: string) => {
-    const arr = [];
-    const imgArr = await dirSearchImg(files, outdir);
-    compress(imgArr, (FILE) => {
-      arr[arr.length] = FILE;
-      win.webContents.send(IpcChannel.PROGRESS, arr.length, imgArr.length);
-      win.webContents.send(IpcChannel.FILE_SELECTED, FILE);
+  const FILE_ADD = async (files: string[], setting: DefultSetting) => {
+    //const arr = [];
+    let count = 0;
+    const imgArr = await dirSearchImg(files, setting.outdir);
+    const len = imgArr.length;
+    setProgress(0, 1);
+    compress(imgArr, setting.quality, (FILE) => {
+      count++;
+      setProgress(count, len);
+      // win.webContents.send(IpcChannel.FILE_SELECTED, FILE);
     });
   };
 
@@ -32,10 +39,13 @@ export function listenIpc(win: BrowserWindow): void {
       console.log("filePaths:", filePaths);
     }
   };
-  
-  ipcMain.on(IpcChannel.FILE_ADD, (_, files: string[], outdir: string) => {
-    FILE_ADD(files,outdir);
-  });
+
+  ipcMain.on(
+    IpcChannel.FILE_ADD,
+    (_, files: string[], setting: DefultSetting) => {
+      FILE_ADD(files, setting);
+    }
+  );
 
   ipcMain.on(IpcChannel.OPEN_DIR, SELECT_DIR);
 }

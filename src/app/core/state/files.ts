@@ -43,7 +43,6 @@ export const fileReducer = createReducer(
     return fileMap.getArrayVal();
   }),
   on(FILE_ADD, (state, { files }) => {
-    console.log(files);
     //如果是数组
     if (Array.isArray(files)) {
       for (const file of files) {

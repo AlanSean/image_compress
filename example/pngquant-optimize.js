@@ -1,8 +1,6 @@
 const execa = require("execa");
 const path= require("path");
 const fs = require('fs-extra');
-//Make a directory and its parents 
-const makeDir = require('make-dir');
 
 const pngquantBin = require('./pngquant-bin');
 
@@ -54,7 +52,7 @@ module.exports = async function run(){
     quality: "10-10"
   })(data));
   //先创建目录
-  await makeDir(dirname);
+  await fs.mkdirs(dirname);
   console.log('dirname:',dirname)
   //生成文件
   await fs.writeFile(dest,result.data);

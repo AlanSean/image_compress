@@ -1,9 +1,9 @@
-import log from "electron-log";
 import * as os from "os";
 import * as fs from "fs-extra";
 import { resolve } from "path";
-interface DefultSetting {
+export interface DefultSetting {
   outdir?: string;
+  quality?: string;
 }
 
 const key = "SETTING";
@@ -15,7 +15,7 @@ export const getSetting = (): DefultSetting => {
   try {
     return JSON.parse(localStorage.getItem(key) || null) as DefultSetting;
   } catch (e) {
-    log.error(`Failed to get options from localStorage, ${e as string}`);
+    console.error(`Failed to get options from localStorage, ${e as string}`);
   }
 };
 
@@ -32,23 +32,39 @@ export const setSetting = (options: DefultSetting): void => {
       })
     );
   } catch (e) {
-    log.error(`Failed to set options to localStorage, ${e as string}`);
+    console.error(`Failed to set options to localStorage, ${e as string}`);
   }
 };
+
+//创建输出目录
+async function mkOutdir(dirpath: string): Promise<void> {
+  try {
+    await fs.stat(dirpath);
+  } catch (e) {
+    await fs.mkdirs(dirpath);
+  }
+}
+
 //如果输出目录没有值 则 指定默认输出目录
 const setting = getSetting();
-//本地没有配置存储 或者输出目录没有存储
-if (!setting || !setting.outdir) {
-  const outdir = resolve(os.tmpdir(), "image_compress");
+const outdir = resolve(os.tmpdir(), "image_compress");
+//本地没有配置存储
+if (!setting) {
   setSetting({
     outdir: outdir,
+    quality: '80',
   });
-  (async () => {
-    try {
-      await fs.stat(outdir);
-    } catch (e) {
-      // 不存在文件夹，直接创建 {recursive: true} 这个配置项是配置自动创建多个文件夹
-      await fs.promises.mkdir(outdir, { recursive: true });
-    }
-  })();
+  mkOutdir(outdir);
+} else {
+  if (setting.outdir === void 0) {
+    setSetting({
+      outdir: outdir,
+    });
+    mkOutdir(outdir);
+  }
+  if (setting.quality === void 0) {
+    setSetting({
+      quality: '80',
+    });
+  }
 }

@@ -104,7 +104,7 @@ export interface nowFILE extends FILE{
   nowDataSize: number
 }
 
-export interface compresss_callback{
+export interface compress_callback{
   (FILE: nowFILE): void
 }
 

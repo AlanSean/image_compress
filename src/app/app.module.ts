@@ -1,4 +1,5 @@
 import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 // NG Translate
@@ -7,7 +8,6 @@ import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 
 import { HttpClientModule, HttpClient } from "@angular/common/http";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
-import { StoreModule } from "@ngrx/store";
 
 import { CoreModule } from "./core/core.module";
 import { SharedModule } from "./shared/shared.module";
@@ -20,8 +20,7 @@ import { DetailModule } from "./detail/detail.module";
 import { AppComponent } from "./app.component";
 import { AppConfig } from "../environments/environment";
 
-import { fileReducer } from "./core/state/files";
-import { progressReducer } from "./core/state/progress";
+// import { fileReducer } from "./core/state/files";
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -38,6 +37,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     HomeModule,
     DetailModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -45,10 +45,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         deps: [HttpClient],
       },
     }),
-    StoreModule.forRoot({
-      fileArr: fileReducer,
-      progress: progressReducer
-    }),
+    // StoreModule.forRoot({
+    //   fileArr: fileReducer,
+    // }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: AppConfig.production,
