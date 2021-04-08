@@ -28,7 +28,7 @@
         <nz-slider 
           [nzDisabled]="sliderDisabled"
           [(ngModel)]="singleValue" 
-          [nzTooltipVisible]="never"
+          [nzTooltipVisible]="'never'"
           (nzOnAfterChange)="qualityChange($event)"></nz-slider>
         <div class="val" nz-col nzSpan="2">{{singleValue}}%</div>
       </div>
