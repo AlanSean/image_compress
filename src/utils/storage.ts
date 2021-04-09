@@ -37,7 +37,7 @@ export const setSetting = (options: DefultSetting): void => {
 };
 
 //创建输出目录
-async function mkOutdir(dirpath: string): Promise<void> {
+export async function mkOutdir(dirpath: string): Promise<void> {
   try {
     await fs.stat(dirpath);
   } catch (e) {
@@ -48,19 +48,18 @@ async function mkOutdir(dirpath: string): Promise<void> {
 //如果输出目录没有值 则 指定默认输出目录
 const setting = getSetting();
 const outdir = resolve(os.tmpdir(), "image_compress");
+mkOutdir(outdir);
 //本地没有配置存储
 if (!setting) {
   setSetting({
     outdir: outdir,
     quality: '80',
   });
-  mkOutdir(outdir);
 } else {
   if (setting.outdir === void 0) {
     setSetting({
       outdir: outdir,
     });
-    mkOutdir(outdir);
   }
   if (setting.quality === void 0) {
     setSetting({

@@ -7,7 +7,7 @@ import { ipcRenderer, webFrame, remote,  shell } from "electron";
 import * as childProcess from "child_process";
 import * as fs from "fs-extra";
 import { IpcChannel } from "@common/constants";
-import { getSetting } from "@utils/storage";
+import { getSetting, mkOutdir } from "@utils/storage";
 // import { FILE_ADD } from "../../state/files";
 // import { FILE } from "@common/constants";
 
@@ -52,7 +52,8 @@ export class ElectronService {
       await fs.stat(outdir);
       this.shell.showItemInFolder(outdir);
     } catch (e) {
-      alert("目录不存在");    
+      await mkOutdir(outdir);
+      this.shell.showItemInFolder(outdir);
     }
   }
   //开启监听主进程向子进程发送的命令
