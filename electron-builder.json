@@ -39,7 +39,7 @@
     ]
   },
   "mac": {
-    "category": "your.app.category.type",
+    "category": "public.app.category.imgCompress",
     "icon": "dist/assets/icons",
     "target": [
       "dmg"
