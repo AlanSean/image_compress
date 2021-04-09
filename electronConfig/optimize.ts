@@ -87,8 +87,8 @@ export async function dirSearchImg(
   // cb: (FILE:FILE) => void
 ): Promise<any> {
   for (const file of filepath) {
-    const fileName = regDir.exec(file)[1];
-    const outsrc = `${out}\\${fileName}`;
+    const fileName = path.basename(file);
+    const outsrc = path.resolve(out,fileName);
 
     try {
       //验证是否存在

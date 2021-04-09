@@ -82,6 +82,9 @@ function createWindow(): BrowserWindow {
     // Dereference the window object, usually you would store window
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
+    // if(serve){
+    //   app.quit();
+    // }
     win = null;
   });
 
@@ -89,6 +92,16 @@ function createWindow(): BrowserWindow {
 }
 
 try {
+  // 第二个实例调用时
+  const lodwin = app.requestSingleInstanceLock();
+  if (!lodwin) app.quit();
+
+  app.on("second-instance", () => {
+    if (win) {
+      if (win.isMinimized()) win.restore();
+      win.focus();
+    }
+  });
   app.on("ready", function () {
     const loadingwindow = createLoadingWindow();
     const win = createWindow();
@@ -105,11 +118,7 @@ try {
   });
 
   app.on("window-all-closed", () => {
-    // On OS X it is common for applications and their menu bar
-    // to stay active until the user quits explicitly with Cmd + Q
-    if (process.platform !== "darwin") {
-      app.quit();
-    }
+    app.quit();
   });
 
   app.on("activate", () => {
