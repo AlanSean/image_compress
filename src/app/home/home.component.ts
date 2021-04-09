@@ -81,6 +81,8 @@ export class HomeComponent implements OnInit {
   //更新进度条
   updateProgress(progress: number): void {
     this.progress = progress;
+    if (!this.sliderDisabled) this.sliderDisabled = true;
+    if (progress == 100) this.sliderDisabled = false;
     this.cdr.detectChanges();
   }
   // 质量设置
