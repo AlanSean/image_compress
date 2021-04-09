@@ -10,6 +10,6 @@ import { FormsModule } from "@angular/forms";
 @NgModule({
   declarations: [PageNotFoundComponent, WebviewDirective,IconComponent],
   imports: [CommonModule, TranslateModule, FormsModule],
-  exports: [TranslateModule, WebviewDirective, FormsModule, IconComponent],
+  exports: [TranslateModule, WebviewDirective, FormsModule],
 })
 export class SharedModule {}

@@ -25,10 +25,10 @@ describe('HomeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render title in a h1 tag', waitForAsync(() => {
+  it('should render title in a div tag', waitForAsync(() => {
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain(
-      'PAGES.HOME.TITLE'
+    expect(compiled.querySelector(".text-big").textContent).toContain(
+      "拖拽文件到此区域"
     );
   }));
 });
