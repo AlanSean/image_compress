@@ -47,6 +47,7 @@ export class HomeComponent implements OnInit {
    * @param e event
    */
   fileAdd(e: DragEvent): void {
+    if (this.sliderDisabled) return;
     e.preventDefault();
     e.stopPropagation();
     this.dragUp = false;
@@ -65,8 +66,8 @@ export class HomeComponent implements OnInit {
   }
 
   dragenter(): void {
+    if (this.sliderDisabled) return;
     this.dragUp = true;
-    this.sliderDisabled = true;
   }
 
   dragleave(): void {
