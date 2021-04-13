@@ -24,6 +24,8 @@
   ],
   "appId": "com.image_compress.app",
   "nsis": {
+    "oneClick": false, 
+    "allowToChangeInstallationDirectory": true,
     "perMachine": true
   },
   "asar": true,
