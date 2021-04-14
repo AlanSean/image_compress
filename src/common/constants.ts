@@ -11,21 +11,22 @@ export const enum TaskStatus {
 }
 
 export const enum IpcChannel {
-  FILE_SUM ='FILE_SUM',
-  PROGRESS = 'PROGRESS',
-  FILE_SELECT = 'FILE_SELECT',
-  FILE_SELECTED = 'FILE_SELECTED',
-  FILE_ADD = 'FILE_ADD',
-  OPEN_DIR = "OPEN_DIR",
-  OPTIMIZE = 'OPTIMIZE',
-  SAVE = 'SAVE',
-  SAVED = 'SAVED',
-  SYNC = 'SYNC',
-  APP_UPDATE = 'APP_UPDATE',
-  READY = 'READY',
-  DETECT_IMAGEMAGICK = 'DETECT_IMAGEMAGICK',
-  OUT_DIR = 'OUT_DIR',
-  SET_OUT_DIR = 'SET_OUT_DIR'
+  FILE_SUM = "FILE_SUM",
+  PROGRESS = "PROGRESS",
+  FILE_SELECT = "FILE_SELECT",
+  FILE_SELECTED = "FILE_SELECTED",
+  FILE_ADD = "FILE_ADD",
+  SELECT_DIR = "SELECT_DIR",
+  SELECTED_DIR_RESULT = "SELECTED_DIR_RESULT",
+  OPTIMIZE = "OPTIMIZE",
+  SAVE = "SAVE",
+  SAVED = "SAVED",
+  SYNC = "SYNC",
+  APP_UPDATE = "APP_UPDATE",
+  READY = "READY",
+  DETECT_IMAGEMAGICK = "DETECT_IMAGEMAGICK",
+  OUT_DIR = "OUT_DIR",
+  SET_OUT_DIR = "SET_OUT_DIR",
 }
 
 export const enum SaveType {
@@ -92,15 +93,15 @@ export interface IUpdateInfo {
   stagingPercentage: number
   version: string
 }
-export interface FILE{
-  src:string;
-  path:string;
-  ext:string;//'png' 'jpg'
-  outpath:string;
+export interface FILE {
+  src: string;
+  path: string;
+  extname: string; //"png" | "jpg" | "jpge"
+  ext: string; //".png" | ".jpg" | ".jpge"
+  outpath: string;
   outsrc: string;
 }
 export interface nowFILE extends FILE{
-  rawDataSize: number
   nowDataSize: number
 }
 

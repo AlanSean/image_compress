@@ -15,12 +15,12 @@ import { SharedModule } from "./shared/shared.module";
 import { AppRoutingModule } from "./app-routing.module";
 
 import { HomeModule } from "./home/home.module";
-import { DetailModule } from "./detail/detail.module";
 
 import { AppComponent } from "./app.component";
 import { AppConfig } from "../environments/environment";
 
-// import { fileReducer } from "./core/state/files";
+import { fileReducer } from "./core/state/files";
+import { StoreModule } from "@ngrx/store";
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -35,19 +35,19 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     CoreModule,
     SharedModule,
     HomeModule,
-    DetailModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     TranslateModule.forRoot({
+      defaultLanguage: "en-US",
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
         deps: [HttpClient],
       },
     }),
-    // StoreModule.forRoot({
-    //   fileArr: fileReducer,
-    // }),
+    StoreModule.forRoot({
+      fileArr: fileReducer,
+    }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: AppConfig.production,

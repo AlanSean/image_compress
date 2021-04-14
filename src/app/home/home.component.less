@@ -1,41 +1,47 @@
 .container {
-  .bg(#eee);
+  .bg(#f1f1f1);
 
   .menu {
-    position: absolute;
+    position: relative;
+    min-width: 400px;
     .t(0);
     .l(0);
-    .w(240px);
-    z-index: 3;
+    .r(0);
+    z-index: 1;
+    .icon{
+      font-size: 16px;
+    }
+    .setting{
+      float: right;
+      font-size: 18px;
+      .mr(20px);
+      .w(46px);
+      .t-c;
+    }
+  }
+
+  .progress {
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    right: 0;
+    box-shadow: 0 2px 6px -1px;
   }
 
   .view {
     position: absolute;
-    .t(0);
+    .t(56px);
     .b(0);
     .l(0);
     .r(0);
     z-index: 2;
     min-width: 400px;
+    min-height: 400px;
     color: red;
     display: flex;
     justify-content: center;
     align-items: center;
-
-    .progress {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      opacity: 1;
-
-      &.hidden {
-        opacity: 0;
-        top: -10px;
-        transition: all 0.2s;
-      }
-    }
-
+    overflow: scroll;
     .text {
       color: gray;
       margin: auto;
@@ -43,27 +49,35 @@
       .text-big {
         font-size: 50px;
       }
+
       .outdir {
         display: flex;
         align-items: center;
-        .text-outdir{
+
+        .text-outdir {
           user-select: text;
         }
-        .openDir{
+
+        .openDir {
           cursor: pointer;
+          line-height: 1;
         }
-        .folder-open{
+
+        .folder-open {
           display: flex;
         }
       }
-      .quality{
+
+      .quality {
         position: relative;
         display: flex;
         align-items: center;
-        .ng-untouched{
+
+        .ng-untouched {
           flex: 1;
         }
-        .val{
+
+        .val {
           .t-c;
         }
       }
@@ -80,6 +94,7 @@
 
 .dragUp {
   background-color: red;
+
   * {
     pointer-events: none;
   }
