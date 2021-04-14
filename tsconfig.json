@@ -16,6 +16,7 @@
     ],
     "paths": {
       "@common/*": ["common/*"],
+      "@assets/*": ["assets/*"],
       "@utils/*": ["utils/*"],
       "@app/*": ["app/*"],
      },
