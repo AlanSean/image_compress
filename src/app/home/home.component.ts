@@ -6,7 +6,7 @@ import {
 } from "@angular/core";
 import { ElectronService } from "../core/services";
 import { getSetting, setSetting } from "@utils/index";
-
+import { IpcChannel } from "@common/constants";
 
 @Component({
   selector: "app-home",
@@ -15,6 +15,7 @@ import { getSetting, setSetting } from "@utils/index";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit {
+  files = [];
   barShow = true; //进度条是否显示
   dragUp = false; //是否拖入状态
   outdir = getSetting().outdir; //输出目录
@@ -24,16 +25,11 @@ export class HomeComponent implements OnInit {
   constructor(
     private electronService: ElectronService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) {
+    this.ipcRendererOn();
+  }
 
   ngOnInit(): void {
-    //进度
-    this.electronService.ipcRenderer.on(
-      "PROGRESS",
-      (_, current: number, sum: number) => {
-        this.updateProgress((current / sum) * 100);
-      }
-    );
     document.ondragover = function (e) {
       e.preventDefault();
     };
@@ -41,7 +37,31 @@ export class HomeComponent implements OnInit {
       e.preventDefault();
     };
   }
-
+  //开启监听主进程向子进程发送的命令
+  ipcRendererOn(): void {
+    //添加按钮
+    this.electronService.ipcRenderer.on(
+      IpcChannel.SELECTED_DIR_RESULT,
+      (_, filePaths: string[], key?: "SELECT_FILE") => {
+        if (key){
+          //选择的文件夹或者文件
+          console.log("filePaths:", filePaths);
+          this.dragUp = false;
+          this.sliderDisabled = false;
+          this.electronService.fileAdd(filePaths);
+        } else {
+          //把存储的照片导出到心目录
+        }
+      }
+    );
+    //进度
+    this.electronService.ipcRenderer.on(
+      "PROGRESS",
+      (_, current: number, sum: number) => {
+        this.updateProgress((current / sum) * 100);
+      }
+    );
+  }
   /**
    * 添加图片
    * @param e event
@@ -57,14 +77,6 @@ export class HomeComponent implements OnInit {
       .map((file) => file.path);
     this.electronService.fileAdd(files);
   }
-  /**
-   * 打开文件夹
-   */
-  openDirectory(): void {
-    console.log("openDirectory");
-    this.electronService.showItemInFolder(this.outdir);
-  }
-
   dragenter(): void {
     if (this.sliderDisabled) return;
     this.dragUp = true;
@@ -89,7 +101,30 @@ export class HomeComponent implements OnInit {
   // 质量设置
   qualityChange(value: string): void {
     setSetting({
-      quality: value+''
+      quality: value + "",
     });
+  }
+
+  menuClick(value: string): void {
+    this[value] && this[value]();
+  }
+  //添加文件夹
+  addImgs(): void {
+    this.electronService.select_dir("SELECT_FILE");
+  }
+  //保存并覆盖
+  save(): void {}
+  //添加文件夹
+  saveOverwrite(): void {}
+  //添加文件夹
+  savenewdir(): void {}
+  //添加文件夹
+  cleanImgs(): void {}
+  //添加文件夹
+  openSetting(): void {}
+  //打开文件夹
+  openDir(): void {
+    console.log("openDirectory");
+    this.electronService.showItemInFolder(this.outdir);
   }
 }

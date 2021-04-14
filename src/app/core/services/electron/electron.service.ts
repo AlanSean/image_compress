@@ -3,7 +3,7 @@ import { Injectable, Input } from "@angular/core";
 // import { Store } from "@ngrx/store";
 // If you import a module but never use any of the imported values other than as TypeScript types,
 // the resulting javascript file will look as if you never imported the module at all.
-import { ipcRenderer, webFrame, remote,  shell } from "electron";
+import { ipcRenderer, webFrame, remote, shell, dialog } from "electron";
 import * as childProcess from "child_process";
 import * as fs from "fs-extra";
 import { IpcChannel } from "@common/constants";
@@ -22,13 +22,13 @@ export class ElectronService {
   remote: typeof remote;
   childProcess: typeof childProcess;
   fs: typeof fs;
+  dialog: typeof dialog;
   get isElectron(): boolean {
     return !!(window && window.process && window.process.type);
   }
 
-  constructor(
+  constructor() {
     // private store: Store
-  ) {
     const electron = window.require("electron");
     this.ipcRenderer = electron.ipcRenderer;
     this.webFrame = electron.webFrame;
@@ -43,12 +43,14 @@ export class ElectronService {
   fileAdd(files: string[]): void {
     this.ipcRenderer.send(IpcChannel.FILE_ADD, files, getSetting());
   }
-  openDirectory(): void {
-    this.ipcRenderer.send(IpcChannel.OPEN_DIR);
+  //选择文件
+  select_dir(key?: string): void {
+    this.ipcRenderer.send(IpcChannel.SELECT_DIR, key);
   }
+  //打开默认输出目录
   async showItemInFolder(outdir: string): Promise<void> {
     try {
-      console.log('openDir:', outdir);
+      console.log("openDir:", outdir);
       await fs.stat(outdir);
       this.shell.showItemInFolder(outdir);
     } catch (e) {
