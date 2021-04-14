@@ -17,7 +17,6 @@ const url = resolve(__dirname, "../bin"),
 
 export interface ImageInfo {
   status: number;
-  rawDataSize: number;
   data: Buffer | string;
   nowDataSize: number;
 }
@@ -37,7 +36,6 @@ export const pngquant = (options: { quality: string }) => async (
     .then((result) => {
       return {
         status: 0,
-        rawDataSize: input.length,
         data: result.stdout,
         nowDataSize: result.stdout.length,
       };
@@ -47,7 +45,6 @@ export const pngquant = (options: { quality: string }) => async (
       if (error.exitCode === 99) {
         return {
           status: 99,
-          rawDataSize: input.length,
           data: input,
           nowDataSize: 0,
         };
@@ -73,7 +70,6 @@ export const mozjpeg = (options: { quality: string }) => async (
     .then((result) => {
       return {
         status: 0,
-        rawDataSize: input.length,
         data: result.stdout,
         nowDataSize: result.stdout.length,
       };
@@ -82,7 +78,6 @@ export const mozjpeg = (options: { quality: string }) => async (
       if (error.exitCode === 99) {
         return {
           status: 99,
-          rawDataSize: input.length,
           data: input,
           nowDataSize: 0,
         };
