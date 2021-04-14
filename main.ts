@@ -3,6 +3,9 @@ import * as path from "path";
 import * as url from "url";
 import { app, BrowserWindow, ipcMain } from "electron";
 import { loadExtension, setProtocol, listenIpc, setMenu } from "./electronConfig";
+
+process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = '1';
+
 let win: BrowserWindow = null,
   loadingWindow: BrowserWindow = null;
 const args = process.argv.slice(1),
