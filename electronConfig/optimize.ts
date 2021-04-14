@@ -7,7 +7,6 @@ import * as log from "electron-log";
 //匹配文件后戳名
 export const regExt = /(?:\.(\w+))?$/i; //(?:)非捕获分组  () 捕获分组 匹配结果会返回 [ '.qweqe', 'qweqe']
 //匹配文件名或者文件夹名称
-const regDir = /.+\\(.+)/;
 const number = 10;
 let pngquant, mozjpeg;
 const compressPIPE = {
@@ -30,7 +29,6 @@ async function PIPE(arr: FILE[], cb: compress_callback) {
             await fs.writeFile(FILE.outsrc, result.data);
             const newFile = {
               ...FILE,
-              rawDataSize: result.rawDataSize,
               nowDataSize: result.nowDataSize,
             };
             log.info("file_info", newFile);
@@ -76,32 +74,34 @@ export function compress(
   }
 }
 
-/**
- * 搜索文件夹下的图片
- * @param filepath
- */
+//搜索文件夹下的图片
 export async function dirSearchImg(
-  filepath: string[],
+  filepaths: string[],
   out: string,
   FILES: FILE[] = []
   // cb: (FILE:FILE) => void
 ): Promise<any> {
-  for (const file of filepath) {
+  for (const file of filepaths) {
     const fileName = path.basename(file);
-    const outsrc = path.resolve(out,fileName);
-
+    const outsrc = path.resolve(out, fileName);
     try {
       //验证是否存在
       const imgFile = await fs.stat(file);
       //判断是否是文件以及格式是否是图片
-      if (imgFile.isFile() && /png|jpeg|jpg/.test(file)) {
-        const path = file.replace(/\\/g, "/");
+      if (
+        imgFile.isFile() &&
+        /\.png|\.jpeg|\.jpg/.test(fileName.toLocaleLowerCase())
+      ) {
+        const filepath = file.replace(/\\/g, "/");
+        const extname = path.extname(file);
         const FILE = {
-          src: `file://${path}`,
-          path: path,
-          ext: regExt.exec(file)[1],
+          src: `file://${filepath}`,
+          path: filepath,
+          extname: extname,
+          ext: extname.replace(/^\./, ""),
           outsrc: outsrc,
           outpath: out,
+          rawDataSize: imgFile.size,
         };
 
         FILES[FILES.length] = FILE;
@@ -115,7 +115,7 @@ export async function dirSearchImg(
           //地址拼接
           dirFiles = fileNames.map((filename) => path.resolve(file, filename));
         //回调继续查找 直到没有文件夹
-        FILES = await this.dirSearchImg(dirFiles, outsrc, FILES);
+        FILES = await dirSearchImg(dirFiles, outsrc, FILES);
       }
     } catch (e) {
       log.info(`Failed to access file ${file}`, e);
