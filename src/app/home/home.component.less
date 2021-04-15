@@ -68,19 +68,7 @@
         }
       }
 
-      .quality {
-        position: relative;
-        display: flex;
-        align-items: center;
-
-        .ng-untouched {
-          flex: 1;
-        }
-
-        .val {
-          .t-c;
-        }
-      }
+      
     }
   }
 
@@ -97,5 +85,88 @@
 
   * {
     pointer-events: none;
+  }
+}
+
+.nzDrawerContent{
+  .left {
+    .mr(10px);
+    .w(65px);
+    .c(#000);
+    font-size: 14px;
+    div{
+      .h(30px);
+      .lh(30px);
+      .t-c(right);
+    }
+    .imgtype{
+      font-size: 13px;
+      .mb(40px);
+    }
+  }
+  .right {
+    width: 340px;
+  }
+  > div{
+    display: flex;
+    .mb(30px);
+  }
+  .quality-setting{
+    .right{
+      div{
+        min-height: 30px;
+        .mb(10px);
+      }
+      .quality {
+        position: relative;
+        display: flex;
+        align-items: center;
+        .ng-untouched {
+          flex: 1;
+        }
+        .val {
+          .t-c;
+        }
+      }
+    }
+  }
+
+  .drawer-setting{
+    .right{
+      div{
+        height: 20px;
+      }
+      .desc {
+        color: #444;
+        font-size: 12px;
+        .lh(2);
+        .mb(5px);
+      }
+      .outdir{
+        width: 100%;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #d9d9d9;
+        border-radius: 2px;
+        transition: all .3s;
+        overflow-y: hidden;
+        padding: 4px 11px;
+        font-size: 14px;
+        line-height: 1.5715;
+        height: 30px;
+        cursor: text;
+        user-select: text;
+        white-space: nowrap;
+        &:hover{
+          border-color: #40a9ff;
+        }
+      }
+      .buttons {
+        .mt(10px);
+        button {
+          .mr(10px);
+        }
+      }
+    }
   }
 }

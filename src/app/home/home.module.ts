@@ -11,6 +11,8 @@ import { NzSliderModule } from "ng-zorro-antd/slider";
 import { NzInputModule } from "ng-zorro-antd/input";
 import { NzGridModule } from "ng-zorro-antd/grid";
 import { NzMenuModule } from "ng-zorro-antd/menu";
+import { NzDrawerModule } from "ng-zorro-antd/drawer";
+import { NzButtonModule } from "ng-zorro-antd/button";
 
 @NgModule({
   declarations: [HomeComponent],
@@ -23,6 +25,8 @@ import { NzMenuModule } from "ng-zorro-antd/menu";
     NzInputModule,
     NzGridModule,
     NzMenuModule,
+    NzDrawerModule,
+    NzButtonModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
