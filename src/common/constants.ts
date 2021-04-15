@@ -100,6 +100,7 @@ export interface FILE {
   ext: string; //".png" | ".jpg" | ".jpge"
   outpath: string;
   outsrc: string;
+  quality: string;
 }
 export interface nowFILE extends FILE{
   nowDataSize: number
