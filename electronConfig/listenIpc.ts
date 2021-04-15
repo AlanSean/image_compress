@@ -23,18 +23,19 @@ export function listenIpc(win: BrowserWindow): void {
 
   //打开文件夹 的配置参数
   const options: Electron.OpenDialogSyncOptions = {
-    filters: [{ name: "Images", extensions: ["jpg", "png", "jpge"] }],
     properties: [
-      "openFile",
       "openDirectory",
       "createDirectory"
-    ],
+    ]
   };
 
   const SELECT_DIR = (key?: "SELECT_FILE") => {
     //当打开目录是要选择文件时
     if (key == "SELECT_FILE") {
-      options.properties.push("multiSelections");
+      options.properties.push("multiSelections", "openFile");
+      options.filters = [
+        { name: "Images", extensions: ["jpg", "png", "jpge"] },
+      ];
     }
     const filePaths = dialog.showOpenDialogSync(win, options);
 
