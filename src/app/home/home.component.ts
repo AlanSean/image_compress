@@ -73,7 +73,7 @@ export class HomeComponent implements OnInit {
     this.dragUp = false;
     this.sliderDisabled = false;
     const files = Array.from(e.dataTransfer.files)
-      .filter((file) => !file.type || /png|jpeg/.test(file.type))
+      .filter((file) => !file.type || /jpg|png|jpeg/.test(file.type.toLocaleLowerCase()))
       .map((file) => file.path);
     this.electronService.fileAdd(files);
   }
