@@ -3,7 +3,9 @@ import * as fs from "fs-extra";
 import { resolve } from "path";
 export interface DefultSetting {
   outdir?: string;
-  quality?: string;
+  pngQuality?: string;
+  jpgQuality?: string;
+  webpQuality?: string;
 }
 
 const key = "SETTING";
@@ -53,7 +55,9 @@ mkOutdir(outdir);
 if (!setting) {
   setSetting({
     outdir: outdir,
-    quality: '80',
+    pngQuality: "80",
+    jpgQuality: "80",
+    webpQuality: "80",
   });
 } else {
   if (setting.outdir === void 0) {
@@ -61,9 +65,19 @@ if (!setting) {
       outdir: outdir,
     });
   }
-  if (setting.quality === void 0) {
+  if (setting.pngQuality === void 0) {
     setSetting({
-      quality: '80',
+      pngQuality: "80",
+    });
+  }
+  if (setting.jpgQuality === void 0) {
+    setSetting({
+      jpgQuality: "80",
+    });
+  }
+  if (setting.webpQuality === void 0) {
+    setSetting({
+      webpQuality: "80",
     });
   }
 }
