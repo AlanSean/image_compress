@@ -34,12 +34,6 @@
      
     <div class="text">
       <div class="text-big">拖拽文件到此区域</div>
-      <div class="quality">
-        <span>{{'quality' | translate}}: </span>
-        <nz-slider [nzDisabled]="sliderDisabled" [(ngModel)]="singleValue" [nzTooltipVisible]="'never'"
-          (nzOnAfterChange)="qualityChange($event)"></nz-slider>
-        <div class="val" nz-col nzSpan="2">{{singleValue}}%</div>
-      </div>
     </div>
   </div>
 </div>
