@@ -21,10 +21,11 @@ export interface ImageInfo {
   nowDataSize: number;
 }
 //version 2.12.0
-export const pngquant = (options: { quality: string }) => async (
-  path: string
+export const pngquant = async (
+  path: string,
+  quality: string
 ): Promise<ImageInfo> => {
-  pngquantArgs[3] = options.quality;
+  pngquantArgs[3] = quality;
 
   const input = await fs.readFile(path);
 
@@ -55,10 +56,11 @@ export const pngquant = (options: { quality: string }) => async (
 };
 
 //version 2.12.0
-export const mozjpeg = (options: { quality: string }) => async (
-  path: string
+export const mozjpeg = async (
+  path: string,
+  quality: string
 ): Promise<ImageInfo> => {
-  mozJpegargs[1] = options.quality;
+  mozJpegargs[1] = quality;
 
   const input = await fs.readFile(path);
 

@@ -11,10 +11,10 @@ export function listenIpc(win: BrowserWindow): void {
   const FILE_ADD = async (files: string[], setting: DefultSetting) => {
     //const arr = [];
     let count = 0;
-    const imgArr = await dirSearchImg(files, setting.outdir);
+    const imgArr = await dirSearchImg(files, setting);
     const len = imgArr.length;
     setProgress(0, 1);
-    compress(imgArr, setting.quality, (FILE) => {
+    compress(imgArr, (FILE) => {
       count++;
       setProgress(count, len);
       win.webContents.send(IpcChannel.FILE_SELECTED, FILE);
