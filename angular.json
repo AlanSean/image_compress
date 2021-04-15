@@ -21,14 +21,18 @@
               "crypto-js/md5"
             ],
             "assets": [
-              "src/assets",
-              {
-                "glob": "**/*",
-                "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
-                "output": "/assets/"
-              }
+              "src/assets"
             ],
             "styles": [
+              "node_modules/ng-zorro-antd/icon/style/index.min.css",
+              "node_modules/ng-zorro-antd/progress/style/index.min.css",
+              "node_modules/ng-zorro-antd/slider/style/index.min.css",
+              "node_modules/ng-zorro-antd/input/style/index.min.css",
+              "node_modules/ng-zorro-antd/grid/style/index.min.css",
+              "node_modules/ng-zorro-antd/menu/style/index.min.css",
+              "node_modules/ng-zorro-antd/modal/style/index.min.css",
+              "node_modules/ng-zorro-antd/button/style/index.min.css",
+              "node_modules/ng-zorro-antd/resizable/style/index.min.css",
               "src/styles.less"
             ],
             "scripts": [],
