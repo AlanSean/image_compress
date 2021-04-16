@@ -51,6 +51,10 @@
     "icon": "dist/assets/icons",
     "target": [
       "AppImage"
+    ],
+    "category": "Graphics Tool",
+    "publish": [
+      "github"
     ]
   }
 }
