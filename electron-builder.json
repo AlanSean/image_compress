@@ -5,8 +5,8 @@
   }, 
   "files": [
     "**/*",
-    "bin/${os}/mac/*",
-    "bin/${os}/win/*",
+    "bin/mac/*",
+    "bin/win/*",
     "!**/*.ts",
     "!*.code-workspace",
     "!LICENSE.md",

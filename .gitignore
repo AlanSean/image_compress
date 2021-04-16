@@ -54,3 +54,4 @@ Thumbs.db
 # mirror
 .npmrc
 .yarnrc
+*.lock
