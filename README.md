@@ -33,6 +33,25 @@ image_compress
 
 ```
 
+## mirror问题
+
+由于配置国内mirror，会导致github ci过不了。
+
+打包时进行手动添加
+```
+//electron-builder
+"electronDownload": {
+  "mirror": "https://npm.taobao.org/mirrors/electron/"
+}, 
+
+//.npmrc
+registry=https://registry.npm.taobao.org
+NODEJS_ORG_MIRROR=https://npm.taobao.org/mirrors/node/
+ELECTRON_MIRROR=https://npm.taobao.org/mirrors/electron/
+ELECTRON_BUILDER_BINARIES_MIRROR=http://npm.taobao.org/mirrors/electron-builder-binaries/
+```
+
+
 
 ## 任务
 - [x] 批量压缩 2000个

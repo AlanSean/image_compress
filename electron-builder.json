@@ -2,10 +2,7 @@
   "productName": "image_compress",
   "directories": {
     "output": "release/"
-  },
-  "electronDownload": {
-    "mirror": "https://npm.taobao.org/mirrors/electron/"
-  },  
+  }, 
   "files": [
     "**/*",
     "bin/${os}/mac/*",
