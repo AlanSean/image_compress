@@ -2,7 +2,7 @@
   "productName": "image_compress",
   "directories": {
     "output": "release/"
-  }, 
+  },
   "files": [
     "**/*",
     "bin/mac/*",
@@ -24,7 +24,7 @@
   ],
   "appId": "com.image_compress.app",
   "nsis": {
-    "oneClick": false, 
+    "oneClick": false,
     "allowToChangeInstallationDirectory": true,
     "perMachine": true
   },
@@ -56,5 +56,10 @@
     "publish": [
       "github"
     ]
-  }
+  },
+  "publish": [{
+    "provider": "github",
+    "owner": "Alan",
+    "repo": "image_compress"
+  }]
 }
