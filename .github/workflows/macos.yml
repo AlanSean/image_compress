@@ -19,7 +19,7 @@ jobs:
   build:
     strategy:
       matrix:
-        node-version: [10.13.0, 12.x, 14.x]
+        node-version: [10.13.0, 12.x, 14.x, 15.x]
 
     # The type of runner that the job will run on
     runs-on: macos-latest
@@ -45,8 +45,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: Install Dependencies
-      run: npm i
+      run: yarn
     - name: Check lint
-      run: npm run lint
+      run: yarn lint
     - name: Build the app
-      run: npm run electron:build
+      run: yarn electron:build
