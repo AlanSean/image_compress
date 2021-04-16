@@ -52,5 +52,5 @@ Thumbs.db
 
 
 # mirror
-./.npmrc
-./.yarnrc
+.npmrc
+.yarnrc
