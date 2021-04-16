@@ -1,8 +1,4 @@
-import {
-  NgModule,
-  CUSTOM_ELEMENTS_SCHEMA
-} from "@angular/core";
-import { CommonModule } from "@angular/common";
+import { NgModule } from "@angular/core";
 import { HomeRoutingModule } from "./home-routing.module";
 import { HomeComponent } from "./home.component";
 import { SharedModule } from "../shared/shared.module";
@@ -17,7 +13,6 @@ import { NzButtonModule } from "ng-zorro-antd/button";
 @NgModule({
   declarations: [HomeComponent],
   imports: [
-    CommonModule,
     SharedModule,
     HomeRoutingModule,
     NzProgressModule,
@@ -27,7 +22,6 @@ import { NzButtonModule } from "ng-zorro-antd/button";
     NzMenuModule,
     NzDrawerModule,
     NzButtonModule,
-  ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  ]
 })
 export class HomeModule {}
