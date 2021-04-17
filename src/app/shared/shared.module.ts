@@ -3,18 +3,23 @@ import { CommonModule } from "@angular/common";
 
 import { TranslateModule } from "@ngx-translate/core";
 
-import { PageNotFoundComponent, IconComponent } from "./components/";
+import {
+  PageNotFoundComponent,
+  IconComponent,
+  SettingModule,
+} from "./components/";
 import { WebviewDirective } from "./directives/";
 import { FormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [PageNotFoundComponent, WebviewDirective, IconComponent],
-  imports: [CommonModule, TranslateModule, FormsModule],
   exports: [
+    CommonModule,
     TranslateModule,
     WebviewDirective,
     FormsModule,
-    IconComponent
-  ]
+    IconComponent,
+    SettingModule,
+  ],
 })
 export class SharedModule {}

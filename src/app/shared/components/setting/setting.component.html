@@ -1,0 +1,59 @@
+<nz-drawer
+  [nzVisible]="isVisible"
+  nzPlacement="right"
+  [nzTitle]="'setting' | translate"
+  [nzWidth]="450"
+  (nzOnClose)="nzOnClose.emit()"
+>
+  <ng-container *nzDrawerContent>
+    <div class="nzDrawerContent">
+      <div class="quality-setting">
+        <div class="png">
+          <div class="title_desc">
+            <div class="title">png-quality:</div>
+            <div class="pngToExt"></div>
+          </div>
+          <div class="quality">
+            <nz-slider
+              [nzDisabled]="sliderDisabled"
+              [(ngModel)]="pngQuality"
+              [nzTooltipVisible]="'never'"
+              (nzOnAfterChange)="qualityChange('pngQuality', $event)"
+            ></nz-slider>
+            <div class="val" nz-col nzSpan="2">{{ pngQuality }}%</div>
+          </div>
+        </div>
+        <div class="jpg">
+          <div class="title_desc">
+            <div class="title">jpg&jpeg-quality:</div>
+            <div class="pngToExt"></div>
+          </div>
+          <div class="quality">
+            <nz-slider
+              [nzDisabled]="sliderDisabled"
+              [(ngModel)]="jpgQuality"
+              [nzTooltipVisible]="'never'"
+              (nzOnAfterChange)="qualityChange('jpgQuality', $event)"
+            ></nz-slider>
+            <div class="val" nz-col nzSpan="2">{{ jpgQuality }}%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 图片管理 -->
+      <div class="drawer-setting">
+        <div class="title_desc">
+          <div class="title">图片管理:</div>
+          <div class="desc">默认把压缩后的图片保存到此文件夹</div>
+        </div>
+        <div class="outdir" #outdirEl>
+          {{ outdir }}
+        </div>
+        <div class="buttons">
+          <button nz-button (click)="setOutdir()">修改目录</button>
+          <button nz-button (click)="openDir()">打开文件夹</button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</nz-drawer>

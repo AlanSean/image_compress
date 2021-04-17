@@ -2,12 +2,9 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   OnInit,
-  ViewChild,
 } from "@angular/core";
 import { ElectronService } from "../core/services";
-import { getSetting, setSetting } from "@utils/index";
 import { IpcChannel } from "@common/constants";
 
 @Component({
@@ -20,14 +17,12 @@ export class HomeComponent implements OnInit {
   files = [];
   barShow = true; //进度条是否显示
   dragUp = false; //是否拖入状态
-  outdir = getSetting().outdir; //输出目录
+
   progress = 100; //压缩进度
-  pngSingleValue = getSetting().pngQuality; //滑块唯一值
-  jpgSingleValue = getSetting().jpgQuality; //滑块唯一值
-  webpSingleValue = getSetting().webpQuality; //滑块唯一值
+
   sliderDisabled = false; //滑块是否不可用
   isVisible = true; //控制抽屉
-  @ViewChild("outdirEl") outdirEl: ElementRef;
+
   constructor(
     private electronService: ElectronService,
     private cdr: ChangeDetectorRef
@@ -55,15 +50,8 @@ export class HomeComponent implements OnInit {
           this.dragUp = false;
           this.sliderDisabled = false;
           this.electronService.fileAdd(filePaths);
-        } else {
-          //把存储的照片导出到新目录
-          setSetting({
-            outdir: filePaths[0],
-          });
-          this.outdir = filePaths[0];
-          this.outdirEl.nativeElement.scrollLeft = 1000000;
+          this.cdr.detectChanges();
         }
-        this.cdr.detectChanges();
       }
     );
     //进度
@@ -113,45 +101,36 @@ export class HomeComponent implements OnInit {
     if (progress == 100) this.sliderDisabled = false;
     this.cdr.detectChanges();
   }
-  // 质量设置
-  qualityChange(key:string,value: string): void {
-    setSetting({
-      [key]: value + "",
-    });
-  }
 
+  //菜单事件
   menuClick(value: string): void {
     this[value] && this[value]();
   }
-  //添加文件夹
+
+  //添加文件夹--进行压缩文件夹里面所有图片
   addImgs(): void {
     this.electronService.select_dir("SELECT_FILE");
   }
+
   //保存并覆盖
   save(): void {}
-  //添加文件夹
+
+  //保存并覆盖
   saveOverwrite(): void {}
-  //添加文件夹
+
+  //保存新图片
   savenewdir(): void {}
-  //添加文件夹
+
+  //清空图片
   cleanImgs(): void {}
+
   //添加文件夹
   openSetting(): void {
     this.isVisible = true;
-    this.outdirEl.nativeElement.scrollLeft = 1000000;
   }
-  //打开文件夹
-  openDir(): void {
-    console.log("openDirectory");
-    this.electronService.showItemInFolder(this.outdir);
-  }
+
   //关闭抽屉
   close(): void {
-    console.log("Button ok clicked!");
     this.isVisible = false;
-  }
-  //修改输出目录
-  setOutdir(): void {
-    this.electronService.select_dir();
   }
 }
