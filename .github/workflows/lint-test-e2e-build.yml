@@ -7,10 +7,11 @@ on:
   pull_request:
     branches:
       - master
-# This is a basic workflow to help you get started with Actions
-name: 'Terminal build more'
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+# This is a basic workflow to help you get started with Actions
+name: 'Terminal build more'
+  
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
