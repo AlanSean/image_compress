@@ -25,9 +25,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/labeler@v2
-      with:
-        repo-token: ${{ secrets.GH_TOKEN  }}
     - uses: actions/checkout@v2
 
     - name: Cache node modules
@@ -54,9 +51,6 @@ jobs:
     - name: Check lint
       run: yarn lint
 
-    - name: Build the app
-      run: yarn electron:build
-
     - name: Run headless unit test
       uses: GabrielBB/xvfb-action@v1
       with:
@@ -66,3 +60,10 @@ jobs:
       uses: GabrielBB/xvfb-action@v1
       with:
         run: yarn e2e
+
+    - name: Set  env GH_TOKEN
+      env: 
+        GH_TOKEN: ${{ secrets.GH_TOKEN  }}
+
+    - name: Build the app
+      run: yarn electron:build
