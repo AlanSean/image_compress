@@ -27,7 +27,7 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
-            
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -39,13 +39,8 @@ jobs:
       - name: Check lint
         run: yarn lint
 
-      - name: Run headless unit test
+      - name: Run headless unit test and e2e
         uses: GabrielBB/xvfb-action@v1
         with:
-          run: yarn test
-
-      - name: Run headless unit e2e
-        uses: GabrielBB/xvfb-action@v1
-        with:
-          run: yarn e2e
+          run: yarn test && yarn e2e
             
