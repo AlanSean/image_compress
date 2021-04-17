@@ -64,3 +64,6 @@ jobs:
         
     - name: Build the app
       run: yarn electron:build
+
+    - name: Releases published
+      run: yarn release
