@@ -27,7 +27,7 @@ electronConfig/**/*.js
 
 # IDE - VSCode
 .vscode/*
-.vscode/settings.json
+!.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
@@ -54,4 +54,4 @@ Thumbs.db
 # mirror
 .npmrc
 .yarnrc
-*.lock
+
