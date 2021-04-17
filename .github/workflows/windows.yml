@@ -20,6 +20,7 @@ jobs:
     strategy:
       matrix:
         node-version: [12.18.0]
+        os: ['ubuntu-latest', 'windows-latest', 'macos-latest']
 
     # The type of runner that the job will run on
     runs-on: windows-latest
@@ -43,9 +44,23 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+
+        
     - name: Install Dependencies
       run: yarn
     - name: Check lint
       run: yarn lint
-    # - name: Build the app
-      # run: yarn electron:build
+
+    - name: Run headless unit test
+        uses: GabrielBB/xvfb-action@v1
+        with:
+          run: |
+            yarn test
+            yarn e2e
+        if: matrix.os == 'ubuntu-latest'
+      - name: Run headless unit test
+        with:
+          run: |
+            yarn test
+            yarn e2e
+        if: matrix.os !== 'ubuntu-latest'
