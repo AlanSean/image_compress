@@ -10,6 +10,7 @@ module.exports = {
       2, //代表必须输入
       'always',
       [
+        'init', //初始化
         'merge', // 合并分支
         "feat",// 增加新功能
         "fix",// 修复bug

@@ -1,0 +1,18 @@
+{
+  "tabWidth": 2, //---------
+  "useTabs": false, // 使用tab缩进，默认false
+  "singleQuote": true, // 使用分号, 默认true
+  "trailingComma": "all", //es5 包括es5中的数组、对象  all 包括函数对象等所有可选
+  "printWidth": 120,
+  "bracketSpacing": true, //对象中的空格 默认true
+  "arrowParens": "avoid", // avoid 能省略括号的时候就省略 例如x => x always 总是有括号
+  "overrides": [
+    {
+      //忽略文件
+      "files": ".prettierrc",
+      "options": {
+        "parser": "json"
+      }
+    }
+  ]
+}
