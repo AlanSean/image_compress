@@ -42,5 +42,5 @@ jobs:
       - name: Run headless unit test and e2e
         uses: GabrielBB/xvfb-action@v1
         with:
-          run: npm run ci
+          run: npm run test
             
