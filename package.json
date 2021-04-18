@@ -43,6 +43,7 @@
     "e2e": "npm run build:prod && cross-env TS_NODE_PROJECT='e2e/tsconfig.e2e.json' mocha --timeout 300000 --require ts-node/register e2e/**/*.e2e.ts",
     "version": "conventional-changelog -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md",
     "lint": "ng lint",
+    "ci": "npm-run-all -p test e2e",
     "pretty-quick": "pretty-quick --staged",
     "prettier": "prettier -c --write '**/*'",
     "prepare": "husky install"
