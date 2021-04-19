@@ -1,28 +1,27 @@
 import * as path from "path";
 import * as fs from "fs-extra";
-import { FILE,nowFILE, compress_callback } from "../src/common/constants";
+import { FILE, nowFILE, compress_callback } from "../src/common/constants";
 import { pngquant, mozjpeg, ImageInfo } from "./bin";
 import * as log from "electron-log";
 import { DefultSetting } from "../src/utils/storage";
-import { byteConver,percent } from "./utils";
-
+import { byteConver, percent } from "./utils";
 
 const number = 10;
 const expMap = {
   ".png": {
     binary: pngquant,
     ext: "png",
-    quality: "pngquality",
+    quality: "pngQuality",
   },
   ".jpg": {
     binary: mozjpeg,
     ext: "jpg",
-    quality: "jpgquality",
+    quality: "jpgQuality",
   },
   ".jpeg": {
     binary: mozjpeg,
     ext: "jpeg",
-    quality: "jpgquality",
+    quality: "jpgQuality",
   },
   // ".webp": {
   //   binaryBin: () => {},
@@ -37,17 +36,17 @@ async function PIPE(arr: FILE[], cb: compress_callback) {
     let count = 0;
     for (const FILE of arr) {
       if (FILE.extname in expMap) {
-        const { binary} = expMap[FILE.extname];
+        const { binary } = expMap[FILE.extname];
         binary(FILE.path, FILE.quality).then(async (result: ImageInfo) => {
           const dirname = path.dirname(FILE.outsrc);
           await fs.mkdirs(dirname);
           // //生成文件
           await fs.writeFile(FILE.outsrc, result.data);
-          const newFile:nowFILE = {
+          const newFile: nowFILE = {
             ...FILE,
-            state: 'finish',
+            state: "finish",
             nowDataSize: byteConver(result.nowDataSize),
-            percentage: percent(result.percentage-1)
+            percentage: percent(result.percentage - 1),
           };
           log.info("file_info", newFile);
           cb && cb(newFile);
@@ -92,7 +91,7 @@ export async function dirSearchImg(
       if (imgFile.isFile() && extname in expMap) {
         const filepath = file.replace(/\\/g, "/");
         const fileExpMap = expMap[extname];
-        const FILE:FILE = {
+        const FILE: FILE = {
           state: "await",
           src: `file://${filepath}`,
           path: filepath,
@@ -102,7 +101,7 @@ export async function dirSearchImg(
           outpath: setting.outdir,
           quality: setting[fileExpMap.quality],
           rawDataSize: byteConver(imgFile.size),
-          percentage: ''
+          percentage: "",
         };
 
         FILES[FILES.length] = FILE;
