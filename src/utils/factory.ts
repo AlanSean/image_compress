@@ -3,6 +3,7 @@ export class HashMap<T> {
   val = {};
   length = 0;
   put(k: string, v: T): any {
+    console.log('path',k,this);
     const md5key = MD5(k).toString();
     if (!this.has(md5key)) this.length++;
     this.val[md5key] = {
@@ -17,8 +18,7 @@ export class HashMap<T> {
   }
   
   has(k: string): boolean {
-    const md5key = MD5(k).toString();
-    return md5key in this.val;
+    return k in this.val;
   }
 
   private _del(keys: string): T {

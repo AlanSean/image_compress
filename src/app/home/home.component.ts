@@ -6,6 +6,9 @@ import {
 } from "@angular/core";
 import { ElectronService } from "../core/services";
 import { IpcChannel } from "@common/constants";
+import { Store, select } from "@ngrx/store";
+import { getFilesLength } from "../core/state/files";
+
 
 @Component({
   selector: "app-home",
@@ -14,20 +17,24 @@ import { IpcChannel } from "@common/constants";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit {
-  files = [];
+  filesLength$ = this.store.pipe(select(getFilesLength));
   barShow = true; //进度条是否显示
   dragUp = false; //是否拖入状态
 
   progress = 100; //压缩进度
 
   sliderDisabled = false; //滑块是否不可用
-  isVisible = true; //控制抽屉
+  isVisible = false; //控制抽屉
 
   constructor(
     private electronService: ElectronService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private store: Store
   ) {
     this.ipcRendererOn();
+    this.filesLength$.subscribe( value => {
+      console.log(value);
+    });
   }
 
   ngOnInit(): void {
@@ -109,6 +116,7 @@ export class HomeComponent implements OnInit {
 
   //添加文件夹--进行压缩文件夹里面所有图片
   addImgs(): void {
+    if (this.sliderDisabled) return;
     this.electronService.select_dir("SELECT_FILE");
   }
 
@@ -126,6 +134,7 @@ export class HomeComponent implements OnInit {
 
   //添加文件夹
   openSetting(): void {
+    if (this.sliderDisabled) return;
     this.isVisible = true;
   }
 

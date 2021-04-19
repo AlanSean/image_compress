@@ -24,15 +24,7 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/ng-zorro-antd/progress/style/index.min.css",
-              "node_modules/ng-zorro-antd/slider/style/index.min.css",
-              "node_modules/ng-zorro-antd/input/style/index.min.css",
-              "node_modules/ng-zorro-antd/grid/style/index.min.css",
-              "node_modules/ng-zorro-antd/menu/style/index.min.css",
-              "node_modules/ng-zorro-antd/button/style/index.min.css",
-              "node_modules/ng-zorro-antd/drawer/style/index.min.css",
-              "node_modules/ng-zorro-antd/src/style/index.min.css",
-              "node_modules/ng-zorro-antd/resizable/style/index.min.css",
+              "node_modules/ng-zorro-antd/style/index.min.css",
               "src/styles.less"
             ],
             "scripts": [],

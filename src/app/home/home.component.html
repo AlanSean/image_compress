@@ -12,7 +12,7 @@
       nz-menu-item
       nz-submenu
       (click)="menuClick('save')"
-      [nzDisabled]="!files.length || sliderDisabled"
+      [nzDisabled]="!(filesLength$ | async) || sliderDisabled"
     >
       <div title>
         <app-icon name="icon-xiazai" class="icon"></app-icon>
@@ -32,7 +32,7 @@
       nz-menu-item
       nzDisabled
       (click)="menuClick('cleanImgs')"
-      [nzDisabled]="!files.length || sliderDisabled"
+      [nzDisabled]="!(filesLength$ | async) || sliderDisabled"
     >
       <app-icon name="icon-qingkong" class="icon"></app-icon>
       {{ "clean" | translate }}
@@ -65,8 +65,9 @@
     (dragover)="dragOver($event)"
     (drop)="fileAdd($event)"
   >
-    <div class="text">
-      <div class="text-big">拖拽文件到此区域</div>
+    <app-img-list></app-img-list>
+    <div *ngIf="!(filesLength$ | async)" class="text">
+      <span class="text-big" [class.hidden]="(filesLength$ | async)">拖拽文件到此区域</span>
     </div>
   </div>
 </div>

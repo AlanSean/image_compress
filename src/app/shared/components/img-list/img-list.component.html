@@ -1,0 +1,28 @@
+<div class="img-list" *ngIf="(files$ | async).length>0">
+  <div *ngFor="let item of (files$ | async); trackBy:trackByItem" class="imgInfo">
+    <div class="img">
+      <img [src]="item.src" />
+      <!-- *ngIf="item.state == 'await'" -->
+      <div class="spin" [class.spin_visi]="item.state != 'await'">
+        <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
+      </div>
+    </div>
+    <div class="img_info">
+      <div class="quality">
+        <span class="title">质量</span>
+        <nz-slider 
+          class="nz-slider"
+          [nzDisabled]="item.state == 'await'" 
+          [(ngModel)]="item.quality" 
+          [nzTooltipVisible]="'never'"
+          (nzOnAfterChange)="qualityChange(item,$event)"></nz-slider>
+        <span class="number">{{item.quality}}</span>
+      </div>
+      <div class="size">
+        <span>{{item.nowDataSize || '--'}} </span>
+        <span>/ {{item.rawDataSize}}</span>
+        <span>{{item.nowDataSize &&  '('+item.percentage+')'}}</span>
+      </div>
+    </div>
+  </div>
+</div>

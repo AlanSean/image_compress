@@ -7,6 +7,7 @@ import {
   PageNotFoundComponent,
   IconComponent,
   SettingModule,
+  ImgListModule
 } from "./components/";
 import { WebviewDirective } from "./directives/";
 import { FormsModule } from "@angular/forms";
@@ -20,6 +21,7 @@ import { FormsModule } from "@angular/forms";
     FormsModule,
     IconComponent,
     SettingModule,
+    ImgListModule
   ],
 })
 export class SharedModule {}

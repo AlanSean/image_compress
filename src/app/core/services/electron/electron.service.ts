@@ -1,6 +1,6 @@
 import { Injectable, Input } from "@angular/core";
 
-// import { Store } from "@ngrx/store";
+import { Store } from "@ngrx/store";
 // If you import a module but never use any of the imported values other than as TypeScript types,
 // the resulting javascript file will look as if you never imported the module at all.
 import { ipcRenderer, webFrame, remote, shell, dialog } from "electron";
@@ -8,8 +8,8 @@ import * as childProcess from "child_process";
 import * as fs from "fs-extra";
 import { IpcChannel } from "@common/constants";
 import { getSetting, mkOutdir } from "@utils/storage";
-// import { FILE_ADD } from "../../state/files";
-// import { FILE } from "@common/constants";
+import { FILE_ADD, UPDATE_STATE } from "../../state/files.action";
+import { FILE } from "@common/constants";
 
 @Injectable({
   providedIn: "root",
@@ -27,8 +27,10 @@ export class ElectronService {
     return !!(window && window.process && window.process.type);
   }
 
-  constructor() {
-    // private store: Store
+  constructor(
+    private store: Store
+  ) {
+    
     const electron = window.require("electron");
     this.ipcRenderer = electron.ipcRenderer;
     this.webFrame = electron.webFrame;
@@ -58,18 +60,36 @@ export class ElectronService {
       this.shell.showItemInFolder(outdir);
     }
   }
+
+  //向主进程发送 file_add命令
+  file_update_quality(file: FILE): void {
+    this.ipcRenderer.send(IpcChannel.FILE_UPDATE_QUALITY, file);
+  }
+
   //开启监听主进程向子进程发送的命令
   ipcRendererOn(): void {
     //压缩完成的文件
-    // this.ipcRenderer.on(
-    //   IpcChannel.FILE_SELECTED,
-    //   (_, FILE: FILE | Array<FILE>) => {
-    //     this.store.dispatch(
-    //       FILE_ADD({
-    //         files: FILE,
-    //       })
-    //     );
-    //   }
-    // );
+    this.ipcRenderer.on(
+      IpcChannel.FILE_SELECTED,
+      (_, FILE: FILE | Array<FILE>) => {
+        this.store.dispatch(
+          FILE_ADD({
+            files: FILE,
+          })
+        );
+      }
+    );
+
+    //重新压缩的图片
+    this.ipcRenderer.on(
+      IpcChannel.FILE_UPDATE_STATE,
+      (_, FILE: FILE) => {
+        this.store.dispatch(
+          UPDATE_STATE({
+            file: FILE,
+          })
+        );
+      }
+    );
   }
 }

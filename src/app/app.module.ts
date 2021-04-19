@@ -19,7 +19,8 @@ import { HomeModule } from "./home/home.module";
 import { AppComponent } from "./app.component";
 import { AppConfig } from "../environments/environment";
 
-import { fileReducer } from "./core/state/files";
+import * as fromFiles from "./core/state/files.reducer";
+
 import { StoreModule } from "@ngrx/store";
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -46,8 +47,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
       },
     }),
     StoreModule.forRoot({
-      fileArr: fileReducer,
+      [fromFiles.key]: fromFiles.reducer,
     }),
+    
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: AppConfig.production,

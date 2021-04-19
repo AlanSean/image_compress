@@ -1,0 +1,82 @@
+.nzDrawerContent {
+
+  >div {
+    .mb(30px);
+
+    .title_desc {
+      display: flex;
+      .lh(1);
+      .mb(5px);
+
+      .title {
+        .mr(10px);
+        min-width: 65px;
+        .c(#000);
+        font-size: 14px;
+      }
+
+      .desc {
+        color: #444;
+        font-size: 12px;
+        display: flex;
+        align-items: flex-end;
+      }
+    }
+
+  }
+
+  .quality-setting {
+    >div {
+      .title_desc {
+        justify-content: space-between;
+      }
+
+      .quality {
+        position: relative;
+        display: flex;
+        align-items: center;
+
+        .ng-untouched {
+          flex: 1;
+        }
+
+        .val {
+          .t-c(right);
+        }
+      }
+    }
+  }
+
+  .drawer-setting {
+    .outdir {
+      width: 100%;
+      background-color: #fff;
+      background-image: none;
+      border: 1px solid #d9d9d9;
+      border-radius: 2px;
+      transition: all .3s;
+      overflow-y: hidden;
+      padding: 4px 11px;
+      font-size: 12px;
+      line-height: 1.7;
+      height: 30px;
+      cursor: text;
+      user-select: text;
+      white-space: nowrap;
+      .m(10px 0);
+
+      &:hover {
+        border-color: #40a9ff;
+      }
+    }
+
+    .buttons {
+      .mt(10px);
+      font-size: 12px;
+
+      button {
+        .mr(10px);
+      }
+    }
+  }
+}

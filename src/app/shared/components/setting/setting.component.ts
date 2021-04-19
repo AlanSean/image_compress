@@ -41,8 +41,9 @@ export class SettingComponent implements OnInit {
   ngOnInit(): void {}
 
   //父传入的属性发生变化时
-  ngOnChanges(changes: SimpleChange) {
-    if (changes["isVisible"].currentValue && this.outdirEl) {
+  ngOnChanges(changes: SimpleChange):void {
+    const isVisible = changes["isVisible"];
+    if (isVisible && isVisible.currentValue && this.outdirEl) {
       this.outdirEl.nativeElement.scrollLeft = 1000000;
     }
   }
