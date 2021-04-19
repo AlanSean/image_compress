@@ -3,6 +3,9 @@ import * as fs from "fs-extra";
 import { resolve } from "path";
 import * as log from "electron-log";
 import Local_Bin_Wrapper from "./Local_Bin_Wrapper";
+
+
+
 const url = resolve(__dirname, "../bin"),
   pngquantBin = new Local_Bin_Wrapper()
     .src(`${url}/mac/pngquant`, "darwin")
@@ -19,6 +22,7 @@ export interface ImageInfo {
   status: number;
   data: Buffer | string;
   nowDataSize: number;
+  percentage: number;
 }
 //version 2.12.0
 export const pngquant = async (
@@ -39,6 +43,7 @@ export const pngquant = async (
         status: 0,
         data: result.stdout,
         nowDataSize: result.stdout.length,
+        percentage: result.stdout.length/input.length
       };
     })
     .catch((error) => {
@@ -47,6 +52,7 @@ export const pngquant = async (
         return {
           status: 99,
           data: input,
+          percentage: 0,
           nowDataSize: 0,
         };
       }
@@ -74,6 +80,7 @@ export const mozjpeg = async (
         status: 0,
         data: result.stdout,
         nowDataSize: result.stdout.length,
+        percentage: result.stdout.length/input.length
       };
     })
     .catch((error) => {
@@ -82,6 +89,7 @@ export const mozjpeg = async (
           status: 99,
           data: input,
           nowDataSize: 0,
+          percentage: 0,
         };
       }
       log.error("pngquanterror:", error);

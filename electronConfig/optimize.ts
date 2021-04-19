@@ -1,9 +1,11 @@
 import * as path from "path";
 import * as fs from "fs-extra";
-import { FILE, compress_callback } from "../src/common/constants";
+import { FILE,nowFILE, compress_callback } from "../src/common/constants";
 import { pngquant, mozjpeg, ImageInfo } from "./bin";
 import * as log from "electron-log";
 import { DefultSetting } from "../src/utils/storage";
+import { byteConver,percent } from "./utils";
+
 
 const number = 10;
 const expMap = {
@@ -35,15 +37,17 @@ async function PIPE(arr: FILE[], cb: compress_callback) {
     let count = 0;
     for (const FILE of arr) {
       if (FILE.extname in expMap) {
-        const { binary, quality } = expMap[FILE.extname];
+        const { binary} = expMap[FILE.extname];
         binary(FILE.path, FILE.quality).then(async (result: ImageInfo) => {
           const dirname = path.dirname(FILE.outsrc);
           await fs.mkdirs(dirname);
           // //生成文件
           await fs.writeFile(FILE.outsrc, result.data);
-          const newFile = {
+          const newFile:nowFILE = {
             ...FILE,
-            nowDataSize: result.nowDataSize,
+            state: 'finish',
+            nowDataSize: byteConver(result.nowDataSize),
+            percentage: percent(result.percentage-1)
           };
           log.info("file_info", newFile);
           cb && cb(newFile);
@@ -88,7 +92,8 @@ export async function dirSearchImg(
       if (imgFile.isFile() && extname in expMap) {
         const filepath = file.replace(/\\/g, "/");
         const fileExpMap = expMap[extname];
-        const FILE = {
+        const FILE:FILE = {
+          state: "await",
           src: `file://${filepath}`,
           path: filepath,
           extname: extname,
@@ -96,7 +101,8 @@ export async function dirSearchImg(
           outsrc: outsrc,
           outpath: setting.outdir,
           quality: setting[fileExpMap.quality],
-          rawDataSize: imgFile.size,
+          rawDataSize: byteConver(imgFile.size),
+          percentage: ''
         };
 
         FILES[FILES.length] = FILE;
