@@ -8,7 +8,7 @@ import * as childProcess from "child_process";
 import * as fs from "fs-extra";
 import { IpcChannel } from "@common/constants";
 import { getSetting, mkOutdir } from "@utils/storage";
-import { FILE_ADD, UPDATE_STATE } from "../../state/files.action";
+import { FILE_ADD, UPDATE_STATE } from "@app/core/core.module";
 import { FILE } from "@common/constants";
 
 @Injectable({
@@ -27,10 +27,7 @@ export class ElectronService {
     return !!(window && window.process && window.process.type);
   }
 
-  constructor(
-    private store: Store
-  ) {
-    
+  constructor(private store: Store) {
     const electron = window.require("electron");
     this.ipcRenderer = electron.ipcRenderer;
     this.webFrame = electron.webFrame;
@@ -81,15 +78,12 @@ export class ElectronService {
     );
 
     //重新压缩的图片
-    this.ipcRenderer.on(
-      IpcChannel.FILE_UPDATE_STATE,
-      (_, FILE: FILE) => {
-        this.store.dispatch(
-          UPDATE_STATE({
-            file: FILE,
-          })
-        );
-      }
-    );
+    this.ipcRenderer.on(IpcChannel.FILE_UPDATE_STATE, (_, FILE: FILE) => {
+      this.store.dispatch(
+        UPDATE_STATE({
+          file: FILE,
+        })
+      );
+    });
   }
 }

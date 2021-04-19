@@ -66,8 +66,8 @@
     (drop)="fileAdd($event)"
   >
     <app-img-list></app-img-list>
-    <div *ngIf="!(filesLength$ | async)" class="text">
-      <span class="text-big" [class.hidden]="(filesLength$ | async)">拖拽文件到此区域</span>
+    <div [class.hidden]="filesLength$ | async" class="text">
+      <span class="text-big">拖拽文件到此区域</span>
     </div>
   </div>
 </div>

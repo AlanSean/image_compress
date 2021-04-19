@@ -7,8 +7,7 @@ import {
 import { ElectronService } from "../core/services";
 import { IpcChannel } from "@common/constants";
 import { Store, select } from "@ngrx/store";
-import { getFilesLength } from "../core/state/files";
-
+import { getFilesLength } from "@app/core/core.module";
 
 @Component({
   selector: "app-home",
@@ -32,7 +31,7 @@ export class HomeComponent implements OnInit {
     private store: Store
   ) {
     this.ipcRendererOn();
-    this.filesLength$.subscribe( value => {
+    this.filesLength$.subscribe((value) => {
       console.log(value);
     });
   }

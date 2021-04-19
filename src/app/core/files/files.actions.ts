@@ -1,7 +1,4 @@
-import {
-  createAction,
-  props,
-} from "@ngrx/store";
+import { createAction, props } from "@ngrx/store";
 import { FILE } from "@common/constants";
 
 //action
@@ -23,7 +20,4 @@ export const UPDATE_STATE = createAction(
   "更新图片压缩状态",
   props<{ file: FILE }>()
 );
-export const CLEAR_FILE = createAction(
-  "清空图片",
-  props<{ file: FILE }>()
-);
+export const CLEAR_FILE = createAction("清空图片", props<{ file: FILE }>());
