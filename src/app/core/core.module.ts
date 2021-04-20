@@ -18,8 +18,8 @@ export { selectFilesState };
     AppConfig.production
       ? []
       : StoreDevtoolsModule.instrument({
-          name: "Angular NgRx Material Starter",
-        }),
+        name: "Angular NgRx Material Starter",
+      }),
   ],
 })
 export class CoreModule {}
