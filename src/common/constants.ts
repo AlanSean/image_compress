@@ -9,7 +9,7 @@ export const enum IpcChannel {
   FILE_UPDATE = "FILE_UPDATE",
 }
 export interface FILE {
-  state: 'await'  | 'finish';
+  state: "await" | "finish" | "error";
   src: string;
   path: string;
   extname: string; //"png" | "jpg" | "jpge"
@@ -19,12 +19,13 @@ export interface FILE {
   quality: string;
   rawDataSize: string;
   percentage: string;
-  MD5KEY?:string;
+  MD5KEY?: string;
 }
-export interface nowFILE extends FILE{
-  nowDataSize: string
+export interface nowFILE extends FILE {
+  nowDataSize: string;
+  errorInfo?: string;
 }
 
-export interface compress_callback{
-  (FILE: nowFILE): void
+export interface compress_callback {
+  (FILE: nowFILE): void;
 }

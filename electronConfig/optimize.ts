@@ -50,6 +50,10 @@ async function PIPE(arr: FILE[], cb: compress_callback) {
             nowDataSize: byteConver(result.nowDataSize),
             percentage: percent(result.percentage - 1),
           };
+          if (result.errorInfo) {
+            newFile.state = "error";
+            newFile.errorInfo = result.errorInfo;
+          }
           cb && cb(newFile);
           count++;
           if (count == arr.length) {
@@ -87,9 +91,10 @@ export async function dirSearchImg(
     try {
       //验证是否存在
       const imgFile = await fs.stat(file);
-      const extname = path.extname(file);
+      const extname = path.extname(file).toLocaleLowerCase();
       //判断是否是文件以及格式是否是图片
       if (imgFile.isFile() && extname in expMap) {
+        console.log();
         const filepath = file.replace(/\\/g, "/");
         const fileExpMap = expMap[extname];
         const FILE: FILE = {

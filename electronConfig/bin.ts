@@ -4,8 +4,6 @@ import { resolve } from "path";
 import * as log from "electron-log";
 import Local_Bin_Wrapper from "./Local_Bin_Wrapper";
 
-
-
 const url = resolve(__dirname, "../bin"),
   pngquantBin = new Local_Bin_Wrapper()
     .src(`${url}/mac/pngquant`, "darwin")
@@ -23,6 +21,7 @@ export interface ImageInfo {
   data: Buffer | string;
   nowDataSize: number;
   percentage: number;
+  errorInfo?: string;
 }
 //version 2.12.0
 export const pngquant = async (
@@ -43,20 +42,20 @@ export const pngquant = async (
         status: 0,
         data: result.stdout,
         nowDataSize: result.stdout.length,
-        percentage: result.stdout.length/input.length
+        percentage: result.stdout.length / input.length,
       };
     })
     .catch((error) => {
       //https://github.com/kornelski/pngquant#--quality-min-max
-      if (error.exitCode === 99) {
-        return {
-          status: 99,
-          data: input,
-          percentage: 0,
-          nowDataSize: 0,
-        };
-      }
-      log.error("pngquanterror:", error);
+      // if (error.exitCode === 99) {
+      return {
+        status: 99,
+        errorInfo: error.stderr.toString(),
+        data: input,
+        percentage: 0,
+        nowDataSize: 0,
+        // };
+      };
     });
   return childProcess;
 };
@@ -80,19 +79,20 @@ export const mozjpeg = async (
         status: 0,
         data: result.stdout,
         nowDataSize: result.stdout.length,
-        percentage: result.stdout.length/input.length
+        percentage: result.stdout.length / input.length,
       };
     })
     .catch((error) => {
-      if (error.exitCode === 99) {
-        return {
-          status: 99,
-          data: input,
-          nowDataSize: 0,
-          percentage: 0,
-        };
-      }
-      log.error("pngquanterror:", error);
+      // log.error("mozjpegerror:", error);
+      // if (error.exitCode === 99) {
+      return {
+        status: 99,
+        errorInfo: error.stderr.toString(),
+        data: input,
+        nowDataSize: 0,
+        percentage: 0,
+        // };
+      };
     });
   return childProcess;
 };

@@ -8,5 +8,8 @@
   "about": "关于产品",
   "defaultOutdir": "输出目录",
   "quality": "质量",
-  "setting": "设置"
+  "setting": "设置",
+  "error": "错误",
+  "await": "等待",
+  "finish": "完成"
 }
