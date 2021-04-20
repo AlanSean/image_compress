@@ -1,10 +1,12 @@
 import * as path from "path";
 import * as fs from "fs-extra";
+import * as MD5 from "crypto-js/md5";
+
 import { FILE, nowFILE, compress_callback } from "../src/common/constants";
 import { pngquant, mozjpeg, ImageInfo } from "./bin";
 import * as log from "electron-log";
 import { DefultSetting } from "../src/utils/storage";
-import { byteConver, percent } from "./utils";
+import { byteConver, percent, Queue } from "./utils";
 
 const number = 10;
 const expMap = {
@@ -48,7 +50,6 @@ async function PIPE(arr: FILE[], cb: compress_callback) {
             nowDataSize: byteConver(result.nowDataSize),
             percentage: percent(result.percentage - 1),
           };
-          log.info("file_info", newFile);
           cb && cb(newFile);
           count++;
           if (count == arr.length) {
@@ -77,8 +78,8 @@ export function compress(arr: FILE[], cb: compress_callback): void {
 export async function dirSearchImg(
   filepaths: string[],
   setting: DefultSetting,
-  FILES: FILE[] = []
-  // cb: (FILE:FILE) => void
+  FILES: FILE[] = [],
+  _filesQueue: Queue<FILE>
 ): Promise<any> {
   for (const file of filepaths) {
     const fileName = path.basename(file);
@@ -92,6 +93,7 @@ export async function dirSearchImg(
         const filepath = file.replace(/\\/g, "/");
         const fileExpMap = expMap[extname];
         const FILE: FILE = {
+          MD5KEY: MD5(filepath).toString(),
           state: "await",
           src: `file://${filepath}`,
           path: filepath,
@@ -103,7 +105,8 @@ export async function dirSearchImg(
           rawDataSize: byteConver(imgFile.size),
           percentage: "",
         };
-
+        _filesQueue.push(FILE);
+        _filesQueue.run();
         FILES[FILES.length] = FILE;
         //如果是文件 后面的逻辑不需要执行了
         continue;
@@ -121,7 +124,8 @@ export async function dirSearchImg(
             ...setting,
             outdir: outsrc,
           },
-          FILES
+          FILES,
+          _filesQueue
         );
       }
     } catch (e) {
