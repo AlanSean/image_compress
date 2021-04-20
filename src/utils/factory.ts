@@ -5,7 +5,6 @@ export class HashMap<T> {
     if (!this.has(md5key)) this.length++;
     this.val[md5key] = {
       ...v,
-      MD5KEY: md5key,
     };
   }
 
@@ -13,14 +12,13 @@ export class HashMap<T> {
     if (!this.has(md5key)) return;
     this.val[md5key] = {
       ...v,
-      MD5KEY: md5key,
     };
   }
 
   get(md5key: string): T | undefined {
     return this.has(md5key) ? this.val[md5key] : undefined;
   }
-  
+
   has(k: string): boolean {
     return k in this.val;
   }
@@ -52,7 +50,7 @@ export class HashMap<T> {
     const _val = [];
     for (const val in this.val) {
       _val[_val.length] = {
-        ...this.val[val]
+        ...this.val[val],
       };
     }
     return _val;

@@ -6,7 +6,7 @@ import { CoreModule } from "@app/core/core.module";
 import { ImgListComponent } from "./img-list.component";
 import { NzSpinModule } from "ng-zorro-antd/spin";
 import { NzSliderModule } from "ng-zorro-antd/slider";
-
+import { NzModalModule } from "ng-zorro-antd/modal";
 @NgModule({
   declarations: [ImgListComponent],
   imports: [
@@ -16,6 +16,7 @@ import { NzSliderModule } from "ng-zorro-antd/slider";
     FormsModule,
     NzSliderModule,
     NzSpinModule,
+    NzModalModule,
   ],
   exports: [ImgListComponent],
 })

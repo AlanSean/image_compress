@@ -77,13 +77,27 @@
       }
     }
     .size{
-      .t-c(right);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .await{
+        .c(gray);
+      }
+      .finish{
+        .c(green);  
+      }
+      .error{
+        .c(red);
+        cursor: pointer;
+      }
+      .percentage{
+         user-select: text;
+      }
     }
     .quality, .size{
       .p(0 10px);
       .lh(32px);
       border-top: 1px solid #dbdbdb;
-      user-select: text;
     }
   }
 }

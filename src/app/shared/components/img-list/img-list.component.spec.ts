@@ -6,6 +6,7 @@ import { FormsModule } from "@angular/forms";
 import { CoreModule } from "../../../core/core.module";
 import { NzSpinModule } from "ng-zorro-antd/spin";
 import { NzSliderModule } from "ng-zorro-antd/slider";
+import { NzModalService, NzModalModule } from "ng-zorro-antd/modal";
 import { ImgListComponent } from "./img-list.component";
 import { selectFile } from "../../../core/core.module";
 
@@ -18,6 +19,7 @@ describe("ImgListComponent", () => {
     await TestBed.configureTestingModule({
       declarations: [ImgListComponent],
       providers: [
+        NzModalService,
         provideMockStore({ initialState }),
         // other providers
       ],
@@ -27,6 +29,7 @@ describe("ImgListComponent", () => {
         FormsModule,
         NzSliderModule,
         NzSpinModule,
+        NzModalModule,
       ],
     }).compileComponents();
 

@@ -1,10 +1,15 @@
-import { Component, OnInit,  ChangeDetectionStrategy,
-  ChangeDetectorRef, } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import { Observable } from "rxjs";
-import { FILE } from "@common/constants";
-import { selectFile, UPDATE_STATE,REMOVE_FILE } from "@app/core/core.module";
+import { FILE, nowFILE } from "@common/constants";
+import { selectFile, UPDATE_STATE, REMOVE_FILE } from "@app/core/core.module";
 import { ElectronService } from "@app/core/services";
+import { NzModalService } from "ng-zorro-antd/modal";
 
 @Component({
   selector: "app-img-list",
@@ -211,59 +216,66 @@ export class ImgListComponent implements OnInit {
   //     nowDataSize: "2.28 KB",
   //   },
   // ];
-  files:FILE[] = [];
+  files: nowFILE[] = [];
   constructor(
     private electronService: ElectronService,
     private store: Store<Array<FILE>>,
     private cdr: ChangeDetectorRef,
-   
+    private modal: NzModalService
   ) {
     this.files$ = store.pipe(select(selectFile));
-
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
 
-  }
-
-  trackByItem(index: number, value: FILE): FILE["state"] {
+  trackByItem(index: number, value: nowFILE): nowFILE["state"] {
     return value.state;
   }
 
-  qualityChange(item: FILE, v: number): void {
+  qualityChange(item: nowFILE, v: number): void {
     this.store.dispatch(
       UPDATE_STATE({
         files: {
           ...item,
-          quality: `${v}`
-        }
+          quality: `${v}`,
+        },
       })
     );
   }
 
-  qualityAfterChange(item: FILE, v: number): void {
-    const newFileInfo:FILE = {
+  qualityAfterChange(item: nowFILE, v: number): void {
+    const newFileInfo: nowFILE = {
       ...item,
       state: "await",
-      quality: `${v}`
+      quality: `${v}`,
     };
 
     this.store.dispatch(
       UPDATE_STATE({
-        files: newFileInfo
+        files: newFileInfo,
       })
     );
 
-    
     this.electronService.file_update_quality(newFileInfo);
   }
 
-  remove(key: string):void{
+  remove(key: string): void {
     this.store.dispatch(
       REMOVE_FILE({
-        keys: key
+        keys: key,
       })
     );
   }
-  
+
+  //信息框
+  modalInfo(item: nowFILE): void {
+    // console.log("showItemInFolder", item.path);
+    // this.electronService.showItemInFolder(item.path);
+    if (item.state == "error") {
+      this.modal.error({
+        nzTitle: "Image compression failed",
+        nzContent: item.errorInfo.replace(/error/g, "<br/>error"),
+      });
+    }
+  }
 }

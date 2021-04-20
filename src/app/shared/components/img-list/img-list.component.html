@@ -1,29 +1,36 @@
-<div class="img-list" *ngIf="(files$ | async).length>0">
-  <div 
-    *ngFor="let item of (files$ | async);index as i; trackBy:trackByItem;"
-    class="imgInfo">
-    <div class="img" (click)="remove(item.MD5KEY)">
+<div class="img-list" *ngIf="(files$ | async).length > 0">
+  <div
+    *ngFor="let item of files$ | async; index as i; trackBy: trackByItem"
+    class="imgInfo"
+  >
+    <div class="img">
       <img [src]="item.src" />
-      <div class="spin" [class.spin_visi]="item.state != 'await'">
-        <img src="/assets/loading.gif" >
+      <div class="spin" [class.spin_visi]="item.state !== 'await'">
+        <img src="/assets/loading.gif" />
       </div>
     </div>
     <div class="img_info">
       <div class="quality">
-        <span class="title">质量{{i}}</span>
-        <nz-slider 
+        <span class="title">{{ "quality" | translate }}</span>
+        <nz-slider
           class="nz-slider"
-          [nzDisabled]="item.state == 'await'" 
-          [ngModel]="item.quality" 
+          [nzDisabled]="item.state == 'await'"
+          [ngModel]="item.quality"
           [nzTooltipVisible]="'never'"
-          (ngModelChange)="qualityChange(item,$event)"
-          (nzOnAfterChange)="qualityAfterChange(item,$event)"></nz-slider>
-        <span class="number">{{item.quality}}</span>
+          (ngModelChange)="qualityChange(item, $event)"
+          (nzOnAfterChange)="qualityAfterChange(item, $event)"
+        ></nz-slider>
+        <span class="number">{{ item.quality }}</span>
       </div>
       <div class="size">
-        <span>{{item.nowDataSize || '--'}} </span>
-        <span>/ {{item.rawDataSize}}</span>
-        <span>{{item.nowDataSize &&  '('+item.percentage+')'}}</span>
+        <div [class]="item.state" (click)="modalInfo(item)">
+          {{ item.state | translate }}
+        </div>
+        <div class="percentage">
+          <span>{{ item.nowDataSize || "--" }} </span>
+          <span>/ {{ item.rawDataSize }}</span>
+          <span>{{ item.nowDataSize && "(" + item.percentage + ")" }}</span>
+        </div>
       </div>
     </div>
   </div>
