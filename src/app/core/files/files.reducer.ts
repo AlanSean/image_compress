@@ -10,7 +10,7 @@ import { HashMap } from "@utils/index";
 import { FILE } from "@common/constants";
 
 export const fileMap = new HashMap<FILE>();
-
+window["fileMap"] = fileMap;
 //reducer
 const initialState: FileState = {
   fileArr: fileMap.getArrayVal(),
@@ -46,7 +46,7 @@ export const fileReducer = createReducer(
         fileMap.update(file.MD5KEY, file);
       }
     } else {
-      fileMap.put(files.MD5KEY, files);
+      fileMap.update(files.MD5KEY, files);
     }
     return {
       fileArr: fileMap.getArrayVal(),

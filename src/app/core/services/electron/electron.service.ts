@@ -6,6 +6,7 @@ import { Store } from "@ngrx/store";
 import { ipcRenderer, webFrame, remote, shell, dialog } from "electron";
 import * as childProcess from "child_process";
 import * as fs from "fs-extra";
+import * as path from "path";
 import { IpcChannel } from "@common/constants";
 import { getSetting, mkOutdir } from "@utils/storage";
 import { FILE_ADD, UPDATE_STATE } from "@app/core/core.module";
@@ -23,6 +24,7 @@ export class ElectronService {
   childProcess: typeof childProcess;
   fs: typeof fs;
   dialog: typeof dialog;
+  path: typeof path;
   get isElectron(): boolean {
     return !!(window && window.process && window.process.type);
   }
@@ -32,6 +34,7 @@ export class ElectronService {
     this.ipcRenderer = electron.ipcRenderer;
     this.webFrame = electron.webFrame;
     this.shell = electron.shell;
+    this.path = path;
     this.childProcess = window.require("child_process");
     this.ipcRendererOn();
     this.ipcRenderer.send("close-loading-window", {
@@ -48,13 +51,14 @@ export class ElectronService {
   }
   //打开默认输出目录
   async showItemInFolder(outdir: string): Promise<void> {
+    const dirPath = path.resolve(outdir);
     try {
-      console.log("openDir:", outdir);
-      await fs.stat(outdir);
-      this.shell.showItemInFolder(outdir);
+      console.log("openDir:", dirPath);
+      await fs.stat(dirPath);
+      this.shell.showItemInFolder(dirPath);
     } catch (e) {
-      await mkOutdir(outdir);
-      this.shell.showItemInFolder(outdir);
+      await mkOutdir(dirPath);
+      this.shell.showItemInFolder(dirPath);
     }
   }
 
@@ -81,7 +85,7 @@ export class ElectronService {
     this.ipcRenderer.on(IpcChannel.FILE_UPDATE, (_, FILE: FILE | FILE[]) => {
       this.store.dispatch(
         UPDATE_STATE({
-          files: FILE
+          files: FILE,
         })
       );
     });
