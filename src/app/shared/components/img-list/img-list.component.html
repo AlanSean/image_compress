@@ -1,21 +1,23 @@
 <div class="img-list" *ngIf="(files$ | async).length>0">
-  <div *ngFor="let item of (files$ | async); trackBy:trackByItem" class="imgInfo">
-    <div class="img">
+  <div 
+    *ngFor="let item of (files$ | async);index as i; trackBy:trackByItem;"
+    class="imgInfo">
+    <div class="img" (click)="remove(item.MD5KEY)">
       <img [src]="item.src" />
-      <!-- *ngIf="item.state == 'await'" -->
       <div class="spin" [class.spin_visi]="item.state != 'await'">
-        <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
+        <img src="/assets/loading.gif" >
       </div>
     </div>
     <div class="img_info">
       <div class="quality">
-        <span class="title">质量</span>
+        <span class="title">质量{{i}}</span>
         <nz-slider 
           class="nz-slider"
           [nzDisabled]="item.state == 'await'" 
-          [(ngModel)]="item.quality" 
+          [ngModel]="item.quality" 
           [nzTooltipVisible]="'never'"
-          (nzOnAfterChange)="qualityChange(item,$event)"></nz-slider>
+          (ngModelChange)="qualityChange(item,$event)"
+          (nzOnAfterChange)="qualityAfterChange(item,$event)"></nz-slider>
         <span class="number">{{item.quality}}</span>
       </div>
       <div class="size">
