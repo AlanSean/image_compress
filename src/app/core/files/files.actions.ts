@@ -11,13 +11,13 @@ export const FILE_ADD = createAction(
   "添加图片",
   props<{ files: FILE | Array<FILE> }>()
 );
-export const removeFILE = createAction(
+export const REMOVE_FILE = createAction(
   "删除图片 & 批量删除",
-  props<{ filePath: string | Array<string> }>()
+  props<{ keys: string | Array<string> }>()
 );
 
 export const UPDATE_STATE = createAction(
   "更新图片压缩状态",
-  props<{ file: FILE }>()
+  props<{ files: FILE | Array<FILE> }>()
 );
 export const CLEAR_FILE = createAction("清空图片", props<{ file: FILE }>());

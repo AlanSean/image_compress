@@ -1,7 +1,7 @@
 import { createReducer, on } from "@ngrx/store";
 import { FileState } from "./files.model";
 import {
-  removeFILE,
+  REMOVE_FILE,
   FILE_ADD,
   UPDATE_STATE,
   CLEAR_FILE,
@@ -18,29 +18,36 @@ const initialState: FileState = {
 };
 export const fileReducer = createReducer(
   initialState,
-  on(removeFILE, (_, { filePath }) => {
-    fileMap.delete(filePath);
+  on(REMOVE_FILE, (_, { keys }) => {
+    fileMap.delete(keys);
     return {
       fileArr: fileMap.getArrayVal(),
       length: fileMap.getLen(),
     };
   }),
-  on(FILE_ADD, (state, { files }) => {
+  on(FILE_ADD, (_, { files }) => {
     //如果是数组
     if (Array.isArray(files)) {
       for (const file of files) {
-        fileMap.put(file.path, file);
+        fileMap.put(file.MD5KEY, file);
       }
     } else {
-      fileMap.put(files.path, files);
+      fileMap.put(files.MD5KEY, files);
     }
     return {
       fileArr: fileMap.getArrayVal(),
       length: fileMap.getLen(),
     };
   }),
-  on(UPDATE_STATE, (_, { file }) => {
-    fileMap.put(file.path, file);
+  on(UPDATE_STATE, (_, { files }) => {
+    //如果是数组
+    if (Array.isArray(files)) {
+      for (const file of files) {
+        fileMap.update(file.MD5KEY, file);
+      }
+    } else {
+      fileMap.put(files.MD5KEY, files);
+    }
     return {
       fileArr: fileMap.getArrayVal(),
       length: fileMap.getLen(),
