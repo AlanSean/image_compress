@@ -76,7 +76,6 @@ export class SettingComponent implements OnInit {
 
   //打开文件夹
   openDir(): void {
-    console.log("openDirectory");
     this.electronService.showItemInFolder(this.outdir);
   }
 
