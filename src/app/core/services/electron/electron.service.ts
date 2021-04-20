@@ -58,7 +58,7 @@ export class ElectronService {
     }
   }
 
-  //向主进程发送 file_add命令
+  //向主进程发送 file_update_quality指令 进行按新质量压缩
   file_update_quality(file: FILE): void {
     this.ipcRenderer.send(IpcChannel.FILE_UPDATE_QUALITY, file);
   }
@@ -77,11 +77,11 @@ export class ElectronService {
       }
     );
 
-    //重新压缩的图片
-    this.ipcRenderer.on(IpcChannel.FILE_UPDATE_STATE, (_, FILE: FILE) => {
+    //更新图片信息
+    this.ipcRenderer.on(IpcChannel.FILE_UPDATE, (_, FILE: FILE | FILE[]) => {
       this.store.dispatch(
         UPDATE_STATE({
-          file: FILE,
+          files: FILE
         })
       );
     });
