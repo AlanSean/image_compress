@@ -1,10 +1,7 @@
-import MD5 from "crypto-js/md5";
 export class HashMap<T> {
   val = {};
   length = 0;
-  put(k: string, v: T): any {
-    console.log('path',k,this);
-    const md5key = MD5(k).toString();
+  put(md5key: string, v: T): any {
     if (!this.has(md5key)) this.length++;
     this.val[md5key] = {
       ...v,
@@ -12,8 +9,15 @@ export class HashMap<T> {
     };
   }
 
-  get(k: string): T | undefined {
-    const md5key = MD5(k).toString();
+  update(md5key: string, v: T): any {
+    if (!this.has(md5key)) return;
+    this.val[md5key] = {
+      ...v,
+      MD5KEY: md5key,
+    };
+  }
+
+  get(md5key: string): T | undefined {
     return this.has(md5key) ? this.val[md5key] : undefined;
   }
   
@@ -21,8 +25,7 @@ export class HashMap<T> {
     return k in this.val;
   }
 
-  private _del(keys: string): T {
-    const md5key = MD5(keys).toString();
+  private _del(md5key: string): T {
     const delval = this.val[md5key];
     delete this.val[md5key];
     this.length--;
