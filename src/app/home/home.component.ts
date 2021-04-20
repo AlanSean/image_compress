@@ -31,9 +31,6 @@ export class HomeComponent implements OnInit {
     private store: Store
   ) {
     this.ipcRendererOn();
-    this.filesLength$.subscribe((value) => {
-      console.log(value);
-    });
   }
 
   ngOnInit(): void {
@@ -52,7 +49,6 @@ export class HomeComponent implements OnInit {
       (_, filePaths: string[], key?: "SELECT_FILE") => {
         if (key) {
           //选择的文件夹或者文件
-          console.log("filePaths:", filePaths);
           this.dragUp = false;
           this.sliderDisabled = false;
           this.electronService.fileAdd(filePaths);
