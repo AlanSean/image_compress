@@ -1,25 +1,44 @@
 import { ipcMain, BrowserWindow, dialog } from "electron";
 import * as os from "os";
-import { IpcChannel } from "../src/common/constants";
+import { FILE, IpcChannel } from "../src/common/constants";
 import { dirSearchImg, compress } from "./optimize";
 import { DefultSetting } from "../src/utils/storage";
 
+import * as log from "electron-log";
+import { Queue } from "./utils";
+
 export function listenIpc(win: BrowserWindow): void {
+  
   const setProgress = function name(start: number, end: number) {
+   
     win.webContents.send(IpcChannel.PROGRESS, start, end);
   };
+
+  //初次渲染
+  const fileSelected = (files:FILE[]):void => {
+    win.webContents.send(IpcChannel.FILE_SELECTED, files);
+  };
+  const filesQueue = new Queue<FILE>(fileSelected);
+
+  //压缩完成渲染
+  const filesFinish = (files:FILE[]):void => {
+    win.webContents.send(IpcChannel.FILE_UPDATE, files);
+  };
+  const filesFinishQueue = new Queue<FILE>(filesFinish);
+
   //添加文件并压缩
   const FILE_ADD = async (files: string[], setting: DefultSetting) => {
-    //const arr = [];
+    const sTime = new Date().getTime();
+    const imgArr = await dirSearchImg(files, setting, [], filesQueue);
+    log.info('time:',new Date().getTime()-sTime);
     let count = 0;
-    const imgArr = await dirSearchImg(files, setting);
-    win.webContents.send(IpcChannel.FILE_SELECTED, imgArr);
     const len = imgArr.length;
     setProgress(0, 1);
     compress(imgArr, (FILE) => {
       count++;
       setProgress(count, len);
-      win.webContents.send(IpcChannel.FILE_SELECTED, FILE);
+      filesFinishQueue.push(FILE);
+      filesFinishQueue.run();
     });
   };
 
@@ -74,7 +93,7 @@ export function listenIpc(win: BrowserWindow): void {
   //设置 图片新质量再次压缩
   ipcMain.on(IpcChannel.FILE_UPDATE_QUALITY, (_, file) => {
     compress([file], (FILE) => {
-      win.webContents.send(IpcChannel.FILE_UPDATE_STATE, FILE);
+      win.webContents.send(IpcChannel.FILE_UPDATE, FILE);
     });
   });
 }
