@@ -6,7 +6,7 @@ export const enum IpcChannel {
   SELECT_DIR = "SELECT_DIR",
   SELECTED_DIR_RESULT = "SELECTED_DIR_RESULT",
   FILE_UPDATE_QUALITY = "FILE_UPDATE_QUALITY",
-  FILE_UPDATE_STATE = "FILE_UPDATE_STATE"
+  FILE_UPDATE = "FILE_UPDATE",
 }
 export interface FILE {
   state: 'await'  | 'finish';
@@ -19,6 +19,7 @@ export interface FILE {
   quality: string;
   rawDataSize: string;
   percentage: string;
+  MD5KEY?:string;
 }
 export interface nowFILE extends FILE{
   nowDataSize: string
