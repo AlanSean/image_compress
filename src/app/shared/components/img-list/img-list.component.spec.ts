@@ -29,7 +29,7 @@ describe("ImgListComponent", () => {
         FormsModule,
         NzSliderModule,
         NzSpinModule,
-        NzModalModule,
+        NzModalModule
       ],
     }).compileComponents();
 

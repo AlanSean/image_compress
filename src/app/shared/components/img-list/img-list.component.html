@@ -1,9 +1,11 @@
-<div class="img-list" *ngIf="(files$ | async).length > 0">
+<div class="img-list" *ngIf="files || (files$ | async).length > 0">
   <div
-    *ngFor="let item of files$ | async; index as i; trackBy: trackByItem"
+    *ngFor="let item of files; index as i; trackBy: trackByItem"
     class="imgInfo"
   >
-    <div class="img">
+    <div class="img" 
+      (contextmenu)="contextmenu($event)"
+    >
       <img [src]="item.src" />
       <div class="spin" [class.spin_visi]="item.state !== 'await'">
         <img src="/assets/loading.gif" />
@@ -34,4 +36,21 @@
       </div>
     </div>
   </div>
+  <div class="contextmenu" *ngIf="isOpen" [@zoom]="'active' " #contextmenuEl>
+    <div class="popover">
+      <div>
+        <div class="placement"></div>
+        <div class="tooltip-content">
+          <ng-template *ngTemplateOutlet="adHost"></ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<ng-template #adHost>
+  <ul >
+    <li>保存并覆盖</li>
+    <li>导出到新文件夹</li>
+  </ul>
+</ng-template>
 </div>
