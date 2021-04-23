@@ -25,7 +25,6 @@
         <li nz-menu-item (click)="menuClick('savenewdir')">
           {{ "savenewdir" | translate }}
         </li>
-        <li nz-menu-item (click)="menuClick('add')">使用新名称保存</li>
       </ul>
     </li>
     <li
@@ -66,7 +65,7 @@
     (drop)="fileAdd($event)"
   >
     <app-img-list></app-img-list>
-    <div [class.hidden]="filesLength$ | async" class="text">
+    <div [class.hidden]="true || (filesLength$ | async)" class="text">
       <span class="text-big">拖拽文件到此区域</span>
     </div>
   </div>
