@@ -54,4 +54,5 @@ Thumbs.db
 # mirror
 .npmrc
 .yarnrc
-
+yarn.lock
+package-lock.json
