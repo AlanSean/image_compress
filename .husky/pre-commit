@@ -1,9 +1,6 @@
 #!/bin/sh
 [ -n "$CI" ] && exit 0
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
 . "$(dirname "$0")/_/husky.sh"
-. "$(dirname "$0")/common.sh"
 
-yarn pretty-quick --staged
+npm run  pretty-quick
