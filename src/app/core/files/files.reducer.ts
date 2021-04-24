@@ -1,20 +1,15 @@
-import { createReducer, on } from "@ngrx/store";
-import { FileState } from "./files.model";
-import {
-  REMOVE_FILE,
-  FILE_ADD,
-  UPDATE_STATE,
-  CLEAR_FILE,
-} from "./files.actions";
-import { HashMap } from "@utils/index";
-import { FILE } from "@common/constants";
+import { createReducer, on } from '@ngrx/store';
+import { FileState } from './files.model';
+import { REMOVE_FILE, FILE_ADD, UPDATE_STATE, CLEAR_FILE } from './files.actions';
+import { HashMap } from '@utils/index';
+import { FILE } from '@common/constants';
 
 export const fileMap = new HashMap<FILE>();
-window["fileMap"] = fileMap;
+
 //reducer
 const initialState: FileState = {
-  fileArr: fileMap.getArrayVal(),
-  length: 0,
+  fileArr: [],
+  length: 0
 };
 export const fileReducer = createReducer(
   initialState,
@@ -22,7 +17,7 @@ export const fileReducer = createReducer(
     fileMap.delete(keys);
     return {
       fileArr: fileMap.getArrayVal(),
-      length: fileMap.getLen(),
+      length: fileMap.getLen()
     };
   }),
   on(FILE_ADD, (_, { files }) => {
@@ -36,7 +31,7 @@ export const fileReducer = createReducer(
     }
     return {
       fileArr: fileMap.getArrayVal(),
-      length: fileMap.getLen(),
+      length: fileMap.getLen()
     };
   }),
   on(UPDATE_STATE, (_, { files }) => {
@@ -50,14 +45,14 @@ export const fileReducer = createReducer(
     }
     return {
       fileArr: fileMap.getArrayVal(),
-      length: fileMap.getLen(),
+      length: fileMap.getLen()
     };
   }),
-  on(CLEAR_FILE, () => {
+  on(CLEAR_FILE, _ => {
     fileMap.clear();
     return {
-      fileArr: fileMap.getArrayVal(),
-      length: fileMap.getLen(),
+      fileArr: [],
+      length: 0
     };
   })
 );
