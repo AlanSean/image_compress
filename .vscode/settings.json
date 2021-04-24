@@ -10,4 +10,5 @@
     "singleQuote": false
   },
   "prettier.embeddedLanguageFormatting": "off",
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }
