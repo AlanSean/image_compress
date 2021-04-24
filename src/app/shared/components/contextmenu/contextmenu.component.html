@@ -1,0 +1,23 @@
+<ng-template
+  cdkConnectedOverlay
+  #overlay="cdkConnectedOverlay"
+  [cdkConnectedOverlayOrigin]="origin"
+  [cdkConnectedOverlayOpen]="isOpen"
+  [cdkConnectedOverlayPositions]="positions"
+  (overlayOutsideClick)="onOutsideClick($event)"
+  (detach)="hide()"
+>
+  <div class="contextmenu" [@zoom]="'active'">
+    <div class="popover">
+      <div>
+        <div class="placement"></div>
+        <div class="tooltip-content">
+          <ul [@zoom]="'active'">
+            <li>保存并覆盖</li>
+            <li>导出到新文件夹</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
