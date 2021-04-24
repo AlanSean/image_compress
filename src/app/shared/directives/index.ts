@@ -1,1 +1,3 @@
-export * from './webview/webview.directive';
+import { WebviewDirective } from './webview/webview.directive';
+
+export default [WebviewDirective];

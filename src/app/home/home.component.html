@@ -1,12 +1,8 @@
 <div class="container">
   <ul nz-menu class="menu" nzMode="horizontal" [nzSelectable]="false">
-    <li
-      nz-menu-item
-      (click)="menuClick('addImgs')"
-      [nzDisabled]="sliderDisabled"
-    >
+    <li nz-menu-item (click)="menuClick('addImgs')" [nzDisabled]="sliderDisabled">
       <app-icon name="icon-tianjiawenjianjia1" class="icon"></app-icon>
-      {{ "add" | translate }}
+      {{ 'add' | translate }}
     </li>
     <li
       nz-menu-item
@@ -16,14 +12,14 @@
     >
       <div title>
         <app-icon name="icon-xiazai" class="icon"></app-icon>
-        {{ "save" | translate }}
+        {{ 'save' | translate }}
       </div>
       <ul>
         <li nz-menu-item (click)="menuClick('saveOverwrite')">
-          {{ "saveOverwrite" | translate }}
+          {{ 'saveOverwrite' | translate }}
         </li>
         <li nz-menu-item (click)="menuClick('savenewdir')">
-          {{ "savenewdir" | translate }}
+          {{ 'savenewdir' | translate }}
         </li>
       </ul>
     </li>
@@ -34,7 +30,7 @@
       [nzDisabled]="!(filesLength$ | async) || sliderDisabled"
     >
       <app-icon name="icon-qingkong" class="icon"></app-icon>
-      {{ "clean" | translate }}
+      {{ 'clean' | translate }}
     </li>
     <div
       class="setting"

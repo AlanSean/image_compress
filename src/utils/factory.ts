@@ -1,17 +1,20 @@
+interface Val<T> {
+  [key: string]: T;
+}
 export class HashMap<T> {
-  val = {};
+  val: Val<T> = {};
   length = 0;
   put(md5key: string, v: T): any {
     if (!this.has(md5key)) this.length++;
     this.val[md5key] = {
-      ...v,
+      ...v
     };
   }
 
   update(md5key: string, v: T): any {
     if (!this.has(md5key)) return;
     this.val[md5key] = {
-      ...v,
+      ...v
     };
   }
 
@@ -50,13 +53,13 @@ export class HashMap<T> {
     const _val = [];
     for (const val in this.val) {
       _val[_val.length] = {
-        ...this.val[val],
+        ...this.val[val]
       };
     }
     return _val;
   }
 
   clear(): void {
-    this.val = new Object();
+    this.val = {};
   }
 }
