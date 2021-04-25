@@ -1,0 +1,62 @@
+.contextmenu {
+  position: relative;
+  pointer-events: auto;
+  z-index: 1000;
+
+  .popover {
+    cursor: pointer;
+    padding-left: 10px;
+
+    .placement {
+      border-top-color: transparent;
+      border-right-color: transparent;
+      border-bottom-color: #fff;
+      border-left-color: #fff;
+      box-shadow: -3px 3px 7px rgba(0, 0, 0, 0.07);
+      display: block;
+      width: 8px;
+      height: 8px;
+      background: transparent;
+      border-style: solid;
+      border-width: 4px;
+      position: absolute;
+      top: 50%;
+      left: 6px;
+      transform: translateY(-50%) rotate(45deg);
+    }
+
+    .tooltip-content {
+      padding: 3px 0;
+      color: #616161;
+      background-color: #fff;
+      background-clip: padding-box;
+      border-radius: 2px;
+      box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12),
+        0 6px 16px 0 rgba(0, 0, 0, 0.08),
+        0 9px 28px 8px rgba(0, 0, 0, 0.05);
+       .t-c;
+       background-color: #fff;
+      ul{
+        .mb(0);
+        font-size: 12px;
+        li {
+          padding:0 16px;
+          .lh(23px);
+          cursor: pointer;
+          &:hover{
+            .c(#fff);
+            .bg(#0060c0);
+          }
+          &:last-child{
+            border-bottom: none;
+          }
+        }
+        hr{
+          .lh(1);
+        }
+      }
+    }
+  }
+
+
+}

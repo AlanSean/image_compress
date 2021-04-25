@@ -26,7 +26,7 @@
     .bg(#fff);
     transition: box-shadow 0.2s;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
+    border-radius: 8px;
 
     &:hover {
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
@@ -61,14 +61,8 @@
         position: absolute;
         .t(0);
         .l(0);
-        .r(0);
-        .b(0);
-        .m(auto);
-        text-align: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(0, 0, 0, .25);
+        max-width: @img-w;
+        max-height: @img-w;
         border-radius: 8px 8px 0 0;
       }
 
@@ -121,59 +115,3 @@
 }
 
 
-
-.contextmenu {
-  position: absolute;
-  pointer-events: auto;
-  z-index: 1000;
-  .popover {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    color: rgba(0, 0, 0, 0.85);
-    font-size: 14px;
-    font-variant: tabular-nums;
-    line-height: 1.5715;
-    list-style: none;
-    font-feature-settings: 'tnum';
-    position: relative;
-    top: 0;
-    left: 0;
-    z-index: 1030;
-    font-weight: normal;
-    white-space: normal;
-    text-align: left;
-    cursor: auto;
-    user-select: text;
-    padding-left: 10px;
-    .placement {
-      border-top-color: transparent;
-      border-right-color: transparent;
-      border-bottom-color: #fff;
-      border-left-color: #fff;
-      box-shadow: -3px 3px 7px rgba(0, 0, 0, 0.07);
-      display: block;
-      width: 8px;
-      height: 8px;
-      background: transparent;
-      border-style: solid;
-      border-width: 4px;
-      position: absolute;
-      top: 50%;
-      left: 6px;
-      transform: translateY(-50%) rotate(45deg);
-    }
-    .tooltip-content {
-      padding: 12px 16px;
-      color: rgba(0, 0, 0, 0.85);
-      background-color: #fff;
-      background-clip: padding-box;
-      border-radius: 2px;
-      box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12),
-      0 6px 16px 0 rgba(0, 0, 0, 0.08),
-      0 9px 28px 8px rgba(0, 0, 0, 0.05);
-    }
-  }
-
-  
-}

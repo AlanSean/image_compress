@@ -39,7 +39,7 @@ import { data } from './data';
     ])
   ]
 })
-export class ImgListComponent implements OnInit {
+export class ImgListComponent {
   isOpen = false;
   files$ = this.store.pipe(select(selectFile));
   files = data;
@@ -51,19 +51,15 @@ export class ImgListComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private modal: NzModalService
   ) {
-    this.files$ = store.pipe(select(selectFile));
+    console.log(this.files);
   }
 
-  ngOnInit(): void {
-    console.log(245);
-  }
-
-  trackByItem(index: number, value: nowFILE): nowFILE['state'] {
+  trackByItem(index: number, value: nowFILE) {
     return value.state;
   }
 
   //拖动滑块
-  qualityChange(item: nowFILE, v: number): void {
+  qualityChange(item: nowFILE, v: number) {
     this.store.dispatch(
       UPDATE_STATE({
         files: {
@@ -75,7 +71,7 @@ export class ImgListComponent implements OnInit {
   }
 
   //滑块设置完质量后
-  qualityAfterChange(item: nowFILE, v: number): void {
+  qualityAfterChange(item: nowFILE, v: number) {
     const newFileInfo: nowFILE = {
       ...item,
       state: 'await',

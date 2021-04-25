@@ -1,17 +1,15 @@
-<div class="img-list" *ngIf="(files$ | async).length > 0">
+<div class="img-list" *ngIf="files || (files$ | async)!.length > 0">
   <div *ngFor="let item of files; index as i; trackBy: trackByItem" class="imgInfo">
     <div class="img" appContextmenu>
       <img [src]="item.src" />
-      <div class="spin" [class.spin_visi]="item.state !== 'await'">
-        <img src="/assets/loading.gif" />
-      </div>
+      <img src="/assets/loading.gif" class="spin" [class.spin_visi]="item.state !== 'await'" />
     </div>
     <div class="img_info">
       <div class="quality">
         <span class="title">{{ 'quality' | translate }}</span>
         <nz-slider
           class="nz-slider"
-          [nzDisabled]="item.state == 'await'"
+          [nzDisabled]="item.state == 'await' || item.state == 'error'"
           [ngModel]="item.quality"
           [nzTooltipVisible]="'never'"
           (ngModelChange)="qualityChange(item, $event)"

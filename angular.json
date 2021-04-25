@@ -7,6 +7,7 @@
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
+      "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-builders/custom-webpack:browser",
@@ -17,11 +18,9 @@
             "tsConfig": "src/tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
             "allowedCommonJsDependencies": ["fs-extra", "crypto-js/md5"],
+            "aot": true,
             "assets": ["src/assets"],
-            "styles": [
-              "node_modules/ng-zorro-antd/style/index.min.css",
-              "src/styles.less"
-            ],
+            "styles": ["node_modules/ng-zorro-antd/style/index.min.css", "src/styles.less"],
             "scripts": [],
             "customWebpackConfig": {
               "path": "./angular.webpack.js"
@@ -30,7 +29,6 @@
           "configurations": {
             "dev": {
               "optimization": false,
-              "outputHashing": "all",
               "sourceMap": true,
               "namedChunks": false,
               "aot": false,
@@ -62,28 +60,41 @@
               ]
             },
             "production": {
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
                 }
               ]
             }
           }
         },
         "serve": {
-          "hmrWarning": false,
           "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
             "browserTarget": "angular-electron:build"
+          },
+          "customWebpackConfig": {
+            "path": "./angular.webpack.js"
           },
           "configurations": {
             "dev": {
@@ -152,6 +163,9 @@
     "@schematics/angular:component": {
       "prefix": "app",
       "style": "less"
+    },
+    "@schematics/angular:application": {
+      "strict": true
     },
     "@schematics/angular:directive": {
       "prefix": "app"

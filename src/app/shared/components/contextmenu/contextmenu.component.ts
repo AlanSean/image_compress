@@ -45,9 +45,8 @@ export class ContextmenuDirective implements OnDestroy, AfterViewInit {
     };
 
     nativeElement.addEventListener('contextmenu', callback, false);
-
     this.listen = () => {
-      nativeElement.addEventListener('contextmenu', callback);
+      nativeElement.removeEventListener('contextmenu', callback, false);
     };
   }
   protected created() {

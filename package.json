@@ -29,7 +29,7 @@
     "build": "npm run electron:serve-tsc && ng build --base-href ./",
     "build:dev": "npm run build -- -c dev",
     "build:prod": "npm run build -- -c production",
-    "ng:dev": "ng serve -c  dev",
+    "ng:dev": "ng serve --hmr -c dev",
     "ng:serve": "ng serve -c web",
     "electron:serve-tsc": "tsc -p tsconfig.serve.json",
     "electron:serve": "wait-on tcp:4200 && npm run electron:serve-tsc && npx electron . --serve",
