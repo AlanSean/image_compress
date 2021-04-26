@@ -59,6 +59,19 @@ export class ElectronService {
     }
   }
 
+  //打开默认输出目录
+  async openFileDir(filepath: string): Promise<void> {
+    const filePath = path.resolve(filepath);
+    try {
+      console.log('openFileDir:', filePath);
+      await fs.stat(filePath);
+      this.shell.showItemInFolder(filePath);
+    } catch (e) {
+      //文件不存在
+      console.log(e);
+    }
+  }
+
   //向主进程发送 file_update_quality指令 进行按新质量压缩
   file_update_quality(file: FILE): void {
     this.ipcRenderer.send(IpcChannel.FILE_UPDATE_QUALITY, file);
