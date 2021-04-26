@@ -2,7 +2,8 @@
   "add": "添加",
   "save": "保存",
   "saveOverwrite": "保存并覆盖",
-  "savenewdir": "导出到新文件夹",
+  "savenewdir": "另存为...",
+  "openFileDir": "在资源管理器中显示",
   "down": "下载",
   "clean": "清空",
   "about": "关于产品",
@@ -11,5 +12,6 @@
   "setting": "设置",
   "error": "错误",
   "await": "等待",
-  "finish": "完成"
+  "finish": "完成",
+  "remove": "移除"
 }
