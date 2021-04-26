@@ -1,6 +1,11 @@
 <div class="img-list" *ngIf="files || (files$ | async)!.length > 0">
   <div *ngFor="let item of files; index as i; trackBy: trackByItem" class="imgInfo">
-    <div class="img" appContextmenu>
+    <div
+      class="img"
+      [disabled]="item.state != 'finish'"
+      (menuListClick)="menuListClick($event, item)"
+      appContextmenu
+    >
       <img [src]="item.src" />
       <img src="/assets/loading.gif" class="spin" [class.spin_visi]="item.state !== 'await'" />
     </div>

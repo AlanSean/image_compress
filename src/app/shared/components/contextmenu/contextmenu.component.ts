@@ -12,7 +12,11 @@ import {
   // 一个简单的注册表，它将 Components 映射到生成的 ComponentFactory 类，该类可用于创建组件的实例。用于获取给定组件类型的工厂，然后使用工厂的 create() 方法创建该类型的组件。
   ComponentFactoryResolver,
   ChangeDetectorRef,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  Output,
+  EventEmitter,
+  HostListener,
+  Input
 } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { CdkOverlayOrigin, ConnectedPosition } from '@angular/cdk/overlay';
@@ -20,47 +24,34 @@ import { CdkOverlayOrigin, ConnectedPosition } from '@angular/cdk/overlay';
 @Directive({
   selector: '[appContextmenu]'
 })
-export class ContextmenuDirective implements OnDestroy, AfterViewInit {
+export class ContextmenuDirective implements AfterViewInit {
+  @Output('menuListClick') menuListClick: EventEmitter<any> = new EventEmitter();
+  @Input('disabled') disabled!: boolean; //true 右键无效
   component!: ContextmenuComponent;
   origin!: any;
-  listen = () => {};
   //resolver.resolveComponentFactory ：检索创建给定类型组件的工厂对象。
   componentFactory: ComponentFactory<ContextmenuComponent> = this.resolver.resolveComponentFactory(ContextmenuComponent);
 
   constructor(private elementRef: ElementRef, protected resolver: ComponentFactoryResolver, private viewContainerRef: ViewContainerRef) {}
 
+  @HostListener('contextmenu', ['$event']) oncontextmenu(e: MouseEvent) {
+    e.preventDefault();
+    if (this.disabled) return;
+    this.component?.show();
+  }
+  @HostListener('click') onclick() {
+    this.component?.hide();
+  }
   ngAfterViewInit(): void {
     this.created();
-    this.setListen();
-  }
-  setListen() {
-    const { nativeElement } = this.elementRef;
-
-    //unlisten 防止多次绑定
-    this.listen();
-
-    const callback = (e: MouseEvent) => {
-      e.preventDefault();
-      this.component?.show();
-    };
-    const hide = (e: MouseEvent) => {
-      e.preventDefault();
-      this.component?.hide();
-    };
-    nativeElement.addEventListener('contextmenu', callback, false);
-    nativeElement.addEventListener('click', hide, false);
-    this.listen = () => {
-      nativeElement.removeEventListener('contextmenu', callback, false);
-      nativeElement.addEventListener('click', hide, false);
-    };
   }
   protected created() {
     this.component = this.viewContainerRef.createComponent(this.componentFactory).instance;
     this.component.saveOrigin({ elementRef: this.elementRef });
-  }
-
-  ngOnDestroy() {
-    this.listen();
+    this.component._menuListClick = key => {
+      this.menuListClick.emit(key);
+      this.component?.hide();
+    };
   }
 }
 
@@ -98,6 +89,14 @@ export class ContextmenuDirective implements OnDestroy, AfterViewInit {
   ]
 })
 export class ContextmenuComponent {
+  _menuListClick(key: string) {}
+  set menuListClick(fn: (key: string) => void) {
+    this._menuListClick = fn;
+  }
+  get menuListClick() {
+    return this._menuListClick;
+  }
+
   origin!: CdkOverlayOrigin;
   isOpen: boolean = false;
   positions: ConnectedPosition[] = [
@@ -108,9 +107,7 @@ export class ContextmenuComponent {
       overlayY: 'center'
     }
   ];
-  constructor(private cdr: ChangeDetectorRef) {
-    // this.cdr.detach();
-  }
+  constructor(private cdr: ChangeDetectorRef) {}
   onOutsideClick(e: MouseEvent) {
     if (e.target != null && !this.origin.elementRef.nativeElement.contains(e.target)) {
       this.hide();
@@ -120,8 +117,6 @@ export class ContextmenuComponent {
     //关闭检测 因为会出现警告
     this.cdr.detach();
     this.origin = origin;
-    console.log(origin);
-    // this.cdr.reattach();
     this.cdr.markForCheck();
   }
   show() {

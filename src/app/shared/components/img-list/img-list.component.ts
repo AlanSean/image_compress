@@ -1,6 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs';
 import { FILE, nowFILE } from '@common/constants';
 import { selectFile, UPDATE_STATE, REMOVE_FILE } from '@app/core/core.module';
 import { ElectronService } from '@app/core/services';
@@ -108,21 +107,9 @@ export class ImgListComponent {
     }
   }
 
-  //右键菜单
-  contextmenu(e: Event): void {
-    this.isOpen = false;
-    const { height, width, x, y } = (e.target as HTMLDivElement).getBoundingClientRect();
-    setTimeout(() => {
-      this.isOpen = true;
-      this.cdr.detectChanges();
-      requestAnimationFrame(() => {
-        const offsetHeight = this.contextmenuEl.nativeElement.offsetHeight;
-        console.log(offsetHeight);
-        this.contextmenuEl.nativeElement.style = `
-          top:${(y + height) / 2 - offsetHeight / 2}px;
-          left:${x + width + 10}px;
-        `;
-      });
-    }, 100);
+  menuListClick(key: string, item: nowFILE) {
+    if (key == 'openFileDir') {
+      this.electronService.openFileDir(item.outsrc);
+    }
   }
 }

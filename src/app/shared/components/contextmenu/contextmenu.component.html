@@ -12,11 +12,13 @@
       <div class="placement"></div>
       <div class="tooltip-content">
         <ul [@zoom]="'active'">
-          <li>查看/修改</li>
-          <li>打开文件</li>
-          <li>保存并覆盖</li>
-          <li>另存为...</li>
-          <!-- <li class="delete">删除</li> -->
+          <!-- <li 
+            (click)="menuListClick('viewImg')"
+            >{{'viewImg'| translate}}</li> -->
+          <li (click)="menuListClick('openFileDir')">{{ 'openFileDir' | translate }}</li>
+          <li (click)="menuListClick('savenewdir')">{{ 'savenewdir' | translate }}</li>
+          <hr />
+          <li (click)="menuListClick('remove')" class="delete">{{ 'remove' | translate }}</li>
         </ul>
       </div>
     </div>
