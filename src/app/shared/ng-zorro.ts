@@ -4,5 +4,6 @@ import { NzSliderModule } from 'ng-zorro-antd/slider';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzMessageModule } from 'ng-zorro-antd/message';
 
-export default [NzSliderModule, NzSpinModule, NzModalModule, NzGridModule, NzDrawerModule, NzButtonModule];
+export default [NzSliderModule, NzSpinModule, NzModalModule, NzGridModule, NzDrawerModule, NzButtonModule, NzMessageModule];

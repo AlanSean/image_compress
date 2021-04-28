@@ -38,6 +38,21 @@
             <div class="val" nz-col nzSpan="2">{{ jpgQuality }}%</div>
           </div>
         </div>
+        <div class="webp">
+          <div class="title_desc">
+            <div class="title">webp:</div>
+            <div class="pngToExt"></div>
+          </div>
+          <div class="quality">
+            <nz-slider
+              [nzDisabled]="sliderDisabled"
+              [(ngModel)]="webpQuality"
+              [nzTooltipVisible]="'never'"
+              (nzOnAfterChange)="qualityChange('webpQuality', $event)"
+            ></nz-slider>
+            <div class="val" nz-col nzSpan="2">{{ webpQuality }}%</div>
+          </div>
+        </div>
       </div>
 
       <!-- 图片管理 -->

@@ -1,30 +1,30 @@
-import * as path from "path";
-import * as fs from "fs-extra";
-import * as MD5 from "crypto-js/md5";
+import * as path from 'path';
+import * as fs from 'fs-extra';
+import * as MD5 from 'crypto-js/md5';
 
-import { FILE, nowFILE, compress_callback } from "../src/common/constants";
-import { pngquant, mozjpeg, ImageInfo } from "./bin";
-import * as log from "electron-log";
-import { DefultSetting } from "../src/utils/storage";
-import { byteConver, percent, Queue } from "./utils";
+import { FILE, compress_callback } from '../src/common/constants';
+import { ImageInfo, img_compress } from './bin';
+import * as log from 'electron-log';
+import { DefultSetting } from '../src/utils/storage';
+import { byteConver, percent, Queue } from './utils';
 
 const number = 10;
 const expMap = {
-  ".png": {
-    binary: pngquant,
-    ext: "png",
-    quality: "pngQuality",
+  '.png': {
+    // binary: pngquant,
+    ext: 'png',
+    quality: 'pngQuality'
   },
-  ".jpg": {
-    binary: mozjpeg,
-    ext: "jpg",
-    quality: "jpgQuality",
+  '.jpg': {
+    // binary: mozjpeg,
+    ext: 'jpg',
+    quality: 'jpgQuality'
   },
-  ".jpeg": {
-    binary: mozjpeg,
-    ext: "jpeg",
-    quality: "jpgQuality",
-  },
+  '.jpeg': {
+    // binary: mozjpeg,
+    ext: 'jpeg',
+    quality: 'jpgQuality'
+  }
   // ".webp": {
   //   binaryBin: () => {},
   //   ext: "webp",
@@ -34,24 +34,46 @@ const expMap = {
 
 //限速 每完成压缩多少个再进行下一批压缩
 async function PIPE(arr: FILE[], cb: compress_callback) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     let count = 0;
     for (const FILE of arr) {
       if (FILE.extname in expMap) {
-        const { binary } = expMap[FILE.extname];
-        binary(FILE.path, FILE.quality).then(async (result: ImageInfo) => {
+        // const { binary } = expMap[FILE.extname];
+        // binary(FILE.path, FILE.quality).then(async (result: ImageInfo) => {
+        //   const dirname = path.dirname(FILE.outsrc);
+        //   await fs.mkdirs(dirname);
+        //   // //生成文件
+        //   await fs.writeFile(FILE.outsrc, result.data);
+        //   const newFile: FILE = {
+        //     ...FILE,
+        //     state: "finish",
+        //     nowDataSize: byteConver(result.nowDataSize),
+        //     percentage: percent(result.percentage - 1),
+        //   };
+        //   if (result.errorInfo) {
+        //     newFile.state = "error";
+        //     newFile.errorInfo = result.errorInfo;
+        //   }
+        //   cb && cb(newFile);
+        //   count++;
+        //   if (count == arr.length) {
+        //     resolve(true);
+        //   }
+        // });
+
+        img_compress(FILE.path, FILE.quality).then(async (result: ImageInfo) => {
           const dirname = path.dirname(FILE.outsrc);
           await fs.mkdirs(dirname);
           // //生成文件
           await fs.writeFile(FILE.outsrc, result.data);
-          const newFile: nowFILE = {
+          const newFile: FILE = {
             ...FILE,
-            state: "finish",
+            state: 'finish',
             nowDataSize: byteConver(result.nowDataSize),
-            percentage: percent(result.percentage - 1),
+            percentage: percent(result.percentage - 1)
           };
           if (result.errorInfo) {
-            newFile.state = "error";
+            newFile.state = 'error';
             newFile.errorInfo = result.errorInfo;
           }
           cb && cb(newFile);
@@ -95,20 +117,22 @@ export async function dirSearchImg(
       //判断是否是文件以及格式是否是图片
       if (imgFile.isFile() && extname in expMap) {
         console.log();
-        const filepath = file.replace(/\\/g, "/");
+        const filepath = file.replace(/\\/g, '/');
         const fileExpMap = expMap[extname];
         const FILE: FILE = {
           MD5KEY: MD5(filepath).toString(),
-          state: "await",
+          state: 'await',
           src: `file://${filepath}`,
           path: filepath,
+          name: fileName,
           extname: extname,
           ext: fileExpMap.ext,
           outsrc: outsrc,
           outpath: setting.outdir,
           quality: setting[fileExpMap.quality],
           rawDataSize: byteConver(imgFile.size),
-          percentage: "",
+          percentage: '',
+          nowDataSize: '--'
         };
         _filesQueue.push(FILE);
         _filesQueue.run();
@@ -121,13 +145,13 @@ export async function dirSearchImg(
         //获取文件夹下的文件列表名
         const fileNames = await fs.readdir(file),
           //地址拼接
-          dirFiles = fileNames.map((filename) => path.resolve(file, filename));
+          dirFiles = fileNames.map(filename => path.resolve(file, filename));
         //回调继续查找 直到没有文件夹
         FILES = await dirSearchImg(
           dirFiles,
           {
             ...setting,
-            outdir: outsrc,
+            outdir: outsrc
           },
           FILES,
           _filesQueue
