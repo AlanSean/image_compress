@@ -1,6 +1,13 @@
+<p align="center">
+  <a href="http://ng.ant.design">
+    <img width="230" src="./favicon.512x512.png">
+  </a>
+</p>
+
+
 [English](README.md) | 简体中文
 
-![favicon.512x512](./favicon.512x512.png);
+
 
 # image_compress
 
