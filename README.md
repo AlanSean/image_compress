@@ -1,6 +1,6 @@
 English | [简体中文](README-zh_CN.md)
 
-![favicon.512x512]('https://github.com/AlanSean/image_compress/blob/master/favicon.512x512.png');
+![favicon.512x512](./favicon.512x512.png);
 
 # image_compress
 
