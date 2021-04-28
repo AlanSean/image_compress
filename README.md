@@ -1,6 +1,9 @@
-English | [简体中文](README-zh_CN.md)
+<p align="center">
+    <img width="230" src="./favicon.512x512.png">
+</p>
 
-![favicon.512x512](./favicon.512x512.png);
+
+English | [简体中文](README-zh_CN.md)
 
 # image_compress
 
@@ -8,7 +11,7 @@ WEBP,PNG/JPEG compression graphics program that base on Electron，Angular，Nod
 
 
 
-## task
+## 任务
 - [x] Voralent Antelope 
 - [x] Compression bar
 - [x] jpg png webp
@@ -20,7 +23,7 @@ WEBP,PNG/JPEG compression graphics program that base on Electron，Angular，Nod
 - [ ] File information prompt (during the development process, it was found that the real format of some pictures was different from the current format)
 
 
-## rely on
+## 依赖
 
 - [template](https://github.com/maximegris/angular-electron): Boot and package your project with Angular 11 and Electron 12 to create a desktop application.
 - [Angular](https://angular.cn/): Angular is an application design framework and development platform for creating efficient, complex, and elegant single-page applications.

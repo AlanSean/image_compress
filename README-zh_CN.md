@@ -1,6 +1,11 @@
+<p align="center">
+    <img width="230" src="./favicon.512x512.png">
+</p>
+
+
 [English](README.md) | 简体中文
 
-![favicon.512x512](./favicon.512x512.png);
+
 
 # image_compress
 
