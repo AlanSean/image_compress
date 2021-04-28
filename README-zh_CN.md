@@ -1,7 +1,5 @@
 <p align="center">
-  <a href="http://ng.ant.design">
     <img width="230" src="./favicon.512x512.png">
-  </a>
 </p>
 
 
