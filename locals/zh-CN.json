@@ -14,5 +14,19 @@
   "error": "错误",
   "await": "等待",
   "finish": "完成",
-  "remove": "移除"
+  "remove": "移除",
+  "msg": {
+    "finish": "导出完成"
+  },
+  "menu": {
+    "file": "文件",
+    "about": "关于我们",
+    "add": "添加",
+    "openFileDir": "在资源管理器中显示",
+    "savenewdir": "导出到新文件夹",
+    "clean": "清空",
+    "help": "帮助",
+    "learnmore": "了解更多",
+    "update": "检查更新"
+  }
 }

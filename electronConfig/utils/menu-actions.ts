@@ -17,10 +17,10 @@ export async function open_dir(_, win: BrowserWindow) {
 
 //另存为
 export async function save_new_dir(_, win: BrowserWindow) {
-  // win.webContents.send(IpcChannel.SAVE_NEW_DIR);
+  win.webContents.send(IpcChannel.SAVE_NEW_DIR);
 }
 
 //清空 文件
 export async function clean_file(_, win: BrowserWindow) {
-  // win.webContents.send(IpcChannel.CLEAN_FILE);
+  win.webContents.send(IpcChannel.CLEAN_FILE);
 }

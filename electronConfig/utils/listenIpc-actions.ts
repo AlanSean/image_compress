@@ -105,7 +105,7 @@ export class ListenIpcActions {
       await fs.writeFile(filePath, Buffer);
       // //保存成功 提示mssage
       // shell.showItemInFolder(filePath);
-      webContentsActions(this.win).message('success', '保存成功');
+      webContentsActions(this.win).message('success', 'msg.finish');
     }
   };
   save_new_dir = async (files: FILE[]) => {

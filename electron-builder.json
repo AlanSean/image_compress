@@ -29,37 +29,27 @@
     "perMachine": true
   },
   "asar": true,
-  "asarUnpack": [
-    "bin/mac",
-    "bin/win"
-  ],
+  "asarUnpack": ["bin/mac", "bin/win", "locals"],
   "win": {
     "icon": "dist/assets/icons",
-    "target": [
-      "nsis",
-      "zip"
-    ]
+    "target": ["nsis", "zip"]
   },
   "mac": {
     "category": "public.app.category.imgCompress",
     "icon": "dist/assets/icons",
-    "target": [
-      "dmg"
-    ]
+    "target": ["dmg"]
   },
   "linux": {
     "icon": "dist/assets/icons",
-    "target": [
-      "AppImage"
-    ],
+    "target": ["AppImage"],
     "category": "Graphics Tool",
-    "publish": [
-      "github"
-    ]
+    "publish": ["github"]
   },
-  "publish": [{
-    "provider": "github",
-    "owner": "Alan",
-    "repo": "image_compress"
-  }]
+  "publish": [
+    {
+      "provider": "github",
+      "owner": "Alan",
+      "repo": "image_compress"
+    }
+  ]
 }

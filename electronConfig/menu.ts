@@ -8,7 +8,8 @@ const Menus: MenuItemConstructorOptions[] = [
     label: app.name,
     submenu: [
       {
-        label: 'About',
+        id: 'About',
+        label: '关于我们',
         click: menuActions.about
       },
       { type: 'separator' },
@@ -16,7 +17,8 @@ const Menus: MenuItemConstructorOptions[] = [
     ]
   },
   {
-    label: 'File',
+    id: 'file',
+    label: '文件',
     submenu: [
       {
         id: 'add',
@@ -45,16 +47,19 @@ const Menus: MenuItemConstructorOptions[] = [
     ]
   },
   {
-    role: 'help',
+    id: 'help',
+    label: '帮助',
     submenu: [
       {
-        label: 'Learn More',
+        id: 'learnmore',
+        label: '了解更多',
         click: async () => {
           await shell.openExternal('https://github.com/AlanSean/image_compress/blob/master/README.md');
         }
       },
       {
-        label: 'update',
+        id: 'update',
+        label: '检查更新',
         click: async () => {
           await shell.openExternal('https://github.com/AlanSean/image_compress/blob/master/README.md');
         }
@@ -75,5 +80,9 @@ export function setMenu(isServe: boolean): void {
 }
 
 export function UpdateMenu() {
+  console.log(Menu.getApplicationMenu());
+}
+
+export function UpdateMenuLanguage() {
   console.log(Menu.getApplicationMenu());
 }

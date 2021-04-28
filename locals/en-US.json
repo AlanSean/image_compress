@@ -14,5 +14,19 @@
   "error": "Error",
   "await": "Await",
   "finish": "Finish",
-  "remove": "remove"
+  "remove": "remove",
+  "msg": {
+    "finish": "Export the finish"
+  },
+  "menu": {
+    "file": "File",
+    "about": "About",
+    "add": "Add",
+    "openFileDir": "Displays in the Explorer",
+    "savenewdir": "Export to new folder",
+    "clean": "Clean",
+    "help": "Help",
+    "learnmore": "Learn more",
+    "update": "Check update"
+  }
 }
