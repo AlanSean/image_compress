@@ -20,11 +20,6 @@
   },
   "menu": {
     "file": "文件",
-    "about": "关于我们",
-    "add": "添加",
-    "openFileDir": "在资源管理器中显示",
-    "savenewdir": "导出到新文件夹",
-    "clean": "清空",
     "help": "帮助",
     "learnmore": "了解更多",
     "update": "检查更新"

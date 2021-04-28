@@ -63,7 +63,7 @@
     "fs-extra": "9.1.0",
     "ng-zorro-antd": "11.4.0",
     "pretty-quick": "^3.1.0",
-    "sharp": "0.28.1",
+    "sharp": "^0.28.1",
     "wrap-ansi": "7.0.0"
   },
   "devDependencies": {

@@ -1,9 +1,10 @@
 import { ipcMain, BrowserWindow } from 'electron';
-import { FILE, IpcChannel } from '../src/common/constants';
+import { FILE, IpcChannel, MenuIpcChannel } from '../src/common/constants';
 import { compress } from './optimize';
 import { DefultSetting } from '../src/utils/storage';
 
 import { ListenIpcActions } from './utils';
+import { menuEnabled } from './menu';
 
 export function listenIpc(win: BrowserWindow): void {
   // 监听回调函数
@@ -30,5 +31,10 @@ export function listenIpc(win: BrowserWindow): void {
   //另存为
   ipcMain.on(IpcChannel.SAVE_NEW_DIR, async (_, file: FILE[]) => {
     save_new_dir(file);
+  });
+
+  //更新menu 状态
+  ipcMain.on(MenuIpcChannel.Enabled, async (_, keys: string[], enabled) => {
+    menuEnabled(keys, enabled);
   });
 }

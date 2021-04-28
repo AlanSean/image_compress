@@ -5,8 +5,6 @@
   },
   "files": [
     "**/*",
-    "bin/mac/*",
-    "bin/win/*",
     "!**/*.ts",
     "!*.code-workspace",
     "!LICENSE.md",
@@ -29,7 +27,7 @@
     "perMachine": true
   },
   "asar": true,
-  "asarUnpack": ["bin/mac", "bin/win", "locals"],
+  "asarUnpack": ["src/assets/i18n/"],
   "win": {
     "icon": "dist/assets/icons",
     "target": ["nsis", "zip"]
