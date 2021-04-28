@@ -1,8 +1,8 @@
 import { createReducer, on } from '@ngrx/store';
 import { FileState } from './files.model';
-import { REMOVE_FILE, FILE_ADD, UPDATE_STATE, CLEAR_FILE } from './files.actions';
+import { REMOVE_FILE, FILE_ADD, UPDATE_STATE, CLEAR_FILE, SAVE_NEW_DIR } from './files.actions';
 import { HashMap } from '@utils/index';
-import { FILE } from '@common/constants';
+import { FILE, IpcChannel } from '@common/constants';
 
 export const fileMap = new HashMap<FILE>();
 
@@ -53,6 +53,15 @@ export const fileReducer = createReducer(
     return {
       fileArr: [],
       length: 0
+    };
+  }),
+  on(SAVE_NEW_DIR, (state, { ipcRenderer }) => {
+    console.log(ipcRenderer);
+    ipcRenderer.send(IpcChannel.SAVE_NEW_DIR, state.fileArr);
+
+    return {
+      fileArr: fileMap.getArrayVal(),
+      length: fileMap.getLen()
     };
   })
 );

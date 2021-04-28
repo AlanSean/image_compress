@@ -1,5 +1,5 @@
-<div class="img-list" *ngIf="files || (files$ | async)!.length > 0">
-  <div *ngFor="let item of files; index as i; trackBy: trackByItem" class="imgInfo">
+<div class="img-list" *ngIf="(files$ | async)!.length > 0">
+  <div *ngFor="let item of files$ | async; index as i; trackBy: trackByItem" class="imgInfo">
     <div
       class="img"
       [disabled]="item.state != 'finish'"
@@ -27,9 +27,9 @@
           {{ item.state | translate }}
         </div>
         <div class="percentage">
-          <span>{{ item.nowDataSize || '--' }}</span>
+          <span>{{ item.nowDataSize }}</span>
           <span>/ {{ item.rawDataSize }}</span>
-          <span>{{ item.nowDataSize && '(' + item.percentage + ')' }}</span>
+          <span>{{ item.nowDataSize != '--' ? '(' + item.percentage + ')' : '' }}</span>
         </div>
       </div>
     </div>

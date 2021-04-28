@@ -3,13 +3,16 @@
   "save": "Save",
   "saveOverwrite": "Save and overwrite",
   "savenewdir": "Export to new folder",
+  "saveAs": "Save as",
   "openFileDir": "Displays in the Explorer",
   "down": "Down",
   "clean": "Clean",
   "about": "About",
-  "defaultOutdir": "outdir",
+  "defaultOutdir": "Outdir",
   "quality": "Quality",
+  "setting": "Setting",
   "error": "Error",
   "await": "Await",
-  "finish": "Finish"
+  "finish": "Finish",
+  "remove": "remove"
 }

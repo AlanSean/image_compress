@@ -27,6 +27,7 @@ describe('HomeComponent', () => {
       store.overrideSelector(selectFile, [
         {
           MD5KEY: '',
+          name: '',
           state: 'finish',
           percentage: '-9.8%',
           src: 'file://C:/Users/111/Desktop/copy/start.jpg',
@@ -38,7 +39,8 @@ describe('HomeComponent', () => {
           outpath:
             'J:\\QQ几率\\2316694914\\FileRecv\\剑灵小助手1.7.7(密码为jlxzs)\\剑灵工具箱 V2.91\\剑灵工具箱 V2.91\\Resources\\HaoZip\\Loading',
           quality: '80',
-          rawDataSize: '5.57 KB'
+          rawDataSize: '5.57 KB',
+          nowDataSize: '--'
         }
       ]);
     })

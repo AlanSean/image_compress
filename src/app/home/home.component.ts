@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit {
   ipcRendererOn(): void {
     //添加按钮
     this.electronService.ipcRenderer.on(IpcChannel.SELECTED_DIR_RESULT, (_, filePaths: string[], key?: 'SELECT_FILE') => {
-      if (key) {
+      if (key == 'SELECT_FILE') {
         //选择的文件夹或者文件
         this.dragUp = false;
         this.sliderDisabled = false;
@@ -82,8 +82,14 @@ export class HomeComponent implements OnInit {
   //更新进度条
   updateProgress(progress: number): void {
     this.progress = progress;
-    if (!this.sliderDisabled) this.sliderDisabled = true;
-    if (progress == 100) this.sliderDisabled = false;
+    if (!this.sliderDisabled) {
+      //冻结菜单栏
+      this.sliderDisabled = true;
+    }
+    if (progress == 100) {
+      //解除冻结
+      this.sliderDisabled = false;
+    }
     this.cdr.detectChanges();
   }
 
@@ -97,18 +103,14 @@ export class HomeComponent implements OnInit {
     if (this.sliderDisabled) return;
     this.electronService.select_dir('SELECT_FILE');
   }
-
-  //保存并覆盖
-  save(): void {}
-
-  //保存并覆盖
-  saveOverwrite(): void {}
-
   //保存新图片
-  savenewdir(): void {}
-
+  savenewdir(): void {
+    this.electronService.savenewdir();
+  }
   //清空图片
-  cleanImgs(): void {}
+  cleanImgs(): void {
+    this.electronService.clean();
+  }
 
   //添加文件夹
   openSetting(): void {

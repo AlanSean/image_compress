@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { FILE, nowFILE } from '@common/constants';
+import { FILE } from '@common/constants';
 import { selectFile, UPDATE_STATE, REMOVE_FILE } from '@app/core/core.module';
 import { ElectronService } from '@app/core/services';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -49,16 +49,14 @@ export class ImgListComponent {
     private store: Store<Array<FILE>>,
     private cdr: ChangeDetectorRef,
     private modal: NzModalService
-  ) {
-    console.log(this.files);
-  }
+  ) {}
 
-  trackByItem(index: number, value: nowFILE) {
+  trackByItem(index: number, value: FILE) {
     return value.state;
   }
 
   //拖动滑块
-  qualityChange(item: nowFILE, v: number) {
+  qualityChange(item: FILE, v: number) {
     this.store.dispatch(
       UPDATE_STATE({
         files: {
@@ -70,8 +68,8 @@ export class ImgListComponent {
   }
 
   //滑块设置完质量后
-  qualityAfterChange(item: nowFILE, v: number) {
-    const newFileInfo: nowFILE = {
+  qualityAfterChange(item: FILE, v: number) {
+    const newFileInfo: FILE = {
       ...item,
       state: 'await',
       quality: `${v}`
@@ -96,7 +94,7 @@ export class ImgListComponent {
   }
 
   //信息框
-  modalInfo(item: nowFILE): void {
+  modalInfo(item: FILE): void {
     // console.log("showItemInFolder", item.path);
     // this.electronService.showItemInFolder(item.path);
     if (item.state == 'error') {
@@ -107,9 +105,21 @@ export class ImgListComponent {
     }
   }
 
-  menuListClick(key: string, item: nowFILE) {
-    if (key == 'openFileDir') {
-      this.electronService.openFileDir(item.outsrc);
+  menuListClick(key: string, item: FILE) {
+    switch (key) {
+      case 'openFileDir':
+        this.electronService.openFileDir(item.outsrc);
+        break;
+      case 'saveAs':
+        this.electronService.saveAs(item);
+        break;
+      case 'remove':
+        this.store.dispatch(
+          REMOVE_FILE({
+            keys: item.MD5KEY
+          })
+        );
+        break;
     }
   }
 }

@@ -6,12 +6,22 @@ export const enum IpcChannel {
   SELECT_DIR = 'SELECT_DIR',
   SELECTED_DIR_RESULT = 'SELECTED_DIR_RESULT',
   FILE_UPDATE_QUALITY = 'FILE_UPDATE_QUALITY',
-  FILE_UPDATE = 'FILE_UPDATE'
+  FILE_UPDATE = 'FILE_UPDATE',
+  OPEN_DIR = 'OPEN_DIR',
+  CLEAN_FILE = 'CLEAN_FILE',
+  SAVE_NEW_DIR = 'SAVE_NEW_DIR',
+  SAVE_AS = 'SAVE_AS'
 }
+export const enum Message {
+  TOAST = 'TOAST'
+}
+export type messageType = 'success' | 'error';
+
 export interface FILE {
   state: 'await' | 'finish' | 'error';
   src: string;
   path: string;
+  name: string;
   extname: string; //"png" | "jpg" | "jpge"
   ext: string; //".png" | ".jpg" | ".jpge"
   outpath: string;
@@ -20,12 +30,10 @@ export interface FILE {
   rawDataSize: string;
   percentage: string;
   MD5KEY: string;
-}
-export interface nowFILE extends FILE {
   nowDataSize: string;
   errorInfo?: string;
 }
 
 export interface compress_callback {
-  (FILE: nowFILE): void;
+  (FILE: FILE): void;
 }

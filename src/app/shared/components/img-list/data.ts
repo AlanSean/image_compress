@@ -1,9 +1,10 @@
-import { nowFILE } from '@common/constants';
+import { FILE } from '@common/constants';
 
-export const data: nowFILE[] = [
+export const data: FILE[] = [
   {
     state: 'await',
     MD5KEY: '',
+    name: '',
     percentage: '-9.8%',
     src: 'file://C:/Users/黄清/Desktop/copy/start.jpg',
     path: 'C:/Users/黄清/Desktop/copy/start.jpg',
@@ -20,6 +21,7 @@ export const data: nowFILE[] = [
   {
     state: 'error',
     MD5KEY: '',
+    name: '',
     percentage: '-9.8%',
     src: 'file://C:/Users/黄清/Desktop/copy/start.jpg',
     path: 'C:/Users/黄清/Desktop/copy/start.jpg',
@@ -36,6 +38,7 @@ export const data: nowFILE[] = [
   {
     state: 'finish',
     MD5KEY: '',
+    name: '',
     percentage: '-9.8%',
     src: 'file://C:/Users/黄清/Desktop/copy/A7C5456AE069822E15E07B610590266B.jpg',
     path: 'C:/Users/黄清/Desktop/copy/start.jpg',
