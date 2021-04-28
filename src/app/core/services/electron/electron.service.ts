@@ -13,6 +13,7 @@ import { FILE_ADD, SAVE_NEW_DIR, UPDATE_STATE } from '@app/core/core.module';
 import { FILE } from '@common/constants';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { CLEAR_FILE } from '@app/core/files/files.actions';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,7 @@ export class ElectronService {
     return !!(window && window.process && window.process.type);
   }
 
-  constructor(private store: Store, private message: NzMessageService) {
+  constructor(private store: Store, private message: NzMessageService, private translate: TranslateService) {
     // const electron = window.require('electron');
     // this.ipcRenderer = ipcRenderer;
     // this.webFrame = webFrame;
@@ -124,15 +125,18 @@ export class ElectronService {
       this.openFileDir(outdir);
     });
 
-    //窗口菜单 发起的选择文件
-    this.ipcRenderer.on(IpcChannel.OPEN_DIR, () => {
-      const outdir = getSetting().outdir as string;
-      this.openFileDir(outdir);
+    //另存为事件
+    this.ipcRenderer.on(IpcChannel.SAVE_NEW_DIR, () => {
+      this.savenewdir();
+    });
+    //清空事件
+    this.ipcRenderer.on(IpcChannel.CLEAN_FILE, () => {
+      this.clean();
     });
 
     //消息
     this.ipcRenderer.on(Message.TOAST, (_, type: messageType, message: string) => {
-      this.message[type](message);
+      this.message[type](this.translate.instant(message));
     });
   }
 }

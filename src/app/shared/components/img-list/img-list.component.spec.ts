@@ -10,7 +10,7 @@ import { selectFile } from '../../../core/core.module';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzSliderModule } from 'ng-zorro-antd/slider';
 import { NzModalService, NzModalModule } from 'ng-zorro-antd/modal';
-
+import { NzMessageService, NzMessageModule } from 'ng-zorro-antd/message';
 describe('ImgListComponent', () => {
   let component: ImgListComponent;
   let fixture: ComponentFixture<ImgListComponent>;
@@ -21,10 +21,11 @@ describe('ImgListComponent', () => {
       declarations: [ImgListComponent],
       providers: [
         NzModalService,
+        NzMessageService,
         provideMockStore({ initialState })
         // other providers
       ],
-      imports: [CoreModule, TranslateModule.forRoot(), FormsModule, NzSliderModule, NzSpinModule, NzModalModule]
+      imports: [CoreModule, TranslateModule.forRoot(), FormsModule, NzSliderModule, NzSpinModule, NzModalModule, NzMessageModule]
     }).compileComponents();
 
     store = TestBed.inject(MockStore);
