@@ -68,7 +68,7 @@ export class ImgListComponent {
   }
 
   //滑块设置完质量后
-  qualityAfterChange(item: FILE, v: number) {
+  qualityAfterChange(item: FILE, v: number | number[]) {
     const newFileInfo: FILE = {
       ...item,
       state: 'await',

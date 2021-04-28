@@ -63,7 +63,7 @@ export class SettingComponent implements OnInit, OnChanges {
   }
 
   // 质量设置
-  qualityChange(key: string, value: string): void {
+  qualityChange(key: string, value: number | number[]): void {
     setSetting({
       [key]: value + ''
     });
