@@ -8,6 +8,7 @@
 /release
 main.js
 src/**/*.js
+!src/assets/**/*.js
 electronConfig/**/*.js
 !src/karma.conf.js
 *.js.map
@@ -26,7 +27,7 @@ electronConfig/**/*.js
 
 # IDE - VSCode
 .vscode/*
-.vscode/settings.json
+!.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
@@ -39,7 +40,6 @@ electronConfig/**/*.js
 npm-debug.log
 testem.log
 /typings
-package-lock.json
 
 # e2e
 /e2e/*.js
@@ -50,5 +50,9 @@ package-lock.json
 .DS_Store
 Thumbs.db
 
-#yarn
+
+# mirror
+.npmrc
+.yarnrc
 yarn.lock
+package-lock.json
