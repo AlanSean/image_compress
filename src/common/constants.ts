@@ -15,6 +15,17 @@ export const enum IpcChannel {
 export const enum Message {
   TOAST = 'TOAST'
 }
+export const enum MenuIpcChannel {
+  Enabled = 'Enabled',
+  ADD = 'ADD',
+  OPEN_FILE_DIR = 'OPEN_FILE_DIR',
+  SAVE_NEW_DIR = 'SAVE_NEW_DIR',
+  CLEAN = 'CLEAN'
+}
+const menus = [MenuIpcChannel.OPEN_FILE_DIR, MenuIpcChannel.SAVE_NEW_DIR, MenuIpcChannel.CLEAN];
+export const getMenuEnableds = (isAll?: boolean) => {
+  return isAll ? menus.concat(MenuIpcChannel.ADD) : menus;
+};
 export type messageType = 'success' | 'error';
 
 export interface FILE {

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ElectronService } from '../core/services';
-import { IpcChannel } from '@common/constants';
+import { getMenuEnableds, IpcChannel, MenuIpcChannel } from '@common/constants';
 import { Store, select } from '@ngrx/store';
 import { getFilesLength } from '@app/core/core.module';
 
@@ -23,6 +23,12 @@ export class HomeComponent implements OnInit {
 
   constructor(private electronService: ElectronService, private cdr: ChangeDetectorRef, private store: Store) {
     this.ipcRendererOn();
+    this.filesLength$.subscribe(len => {
+      if (len == 0) {
+        this.electronService.menuEnabled([MenuIpcChannel.ADD], true);
+        this.electronService.menuEnabled(getMenuEnableds(false), false);
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -85,10 +91,12 @@ export class HomeComponent implements OnInit {
     if (!this.sliderDisabled) {
       //冻结菜单栏
       this.sliderDisabled = true;
+      this.electronService.menuEnabled(getMenuEnableds(true), false);
     }
     if (progress == 100) {
       //解除冻结
       this.sliderDisabled = false;
+      this.electronService.menuEnabled(getMenuEnableds(true), true);
     }
     this.cdr.detectChanges();
   }

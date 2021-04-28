@@ -7,7 +7,7 @@ import { ipcRenderer, webFrame, shell } from 'electron';
 import * as childProcess from 'child_process';
 import * as fs from 'fs-extra';
 import * as path from 'path';
-import { IpcChannel, Message, messageType } from '@common/constants';
+import { getMenuEnableds, IpcChannel, MenuIpcChannel, Message, messageType } from '@common/constants';
 import { getSetting, mkOutdir } from '@utils/storage';
 import { FILE_ADD, SAVE_NEW_DIR, UPDATE_STATE } from '@app/core/core.module';
 import { FILE } from '@common/constants';
@@ -75,7 +75,15 @@ export class ElectronService {
 
   clean() {
     this.store.dispatch(CLEAR_FILE());
+    this.menuEnabled([MenuIpcChannel.ADD], true);
+    this.menuEnabled(getMenuEnableds(false), false);
   }
+
+  //更新menu 状态
+  menuEnabled(keys: MenuIpcChannel[], enabled: boolean) {
+    this.ipcRenderer.send(MenuIpcChannel.Enabled, keys, enabled);
+  }
+
   //打开默认输出目录
   async openFileDir(filepath: string): Promise<void> {
     const filePath = path.resolve(filepath);
