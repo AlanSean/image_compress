@@ -1,0 +1,15 @@
+{
+  "description": "Add shortcuts to easily debug your Angular application.",
+  "devtools_page": "devtoolsBackground.html",
+  "icons": {
+    "128": "icons/angular-gauntlets-128.png",
+    "16": "icons/angular-gauntlets-16.png",
+    "48": "icons/angular-gauntlets-48.png"
+  },
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgRDo67iF1PJLq9wUg2epCNsx9A+ikf+PCNqxChod1aUM2ZOeX2heJfwA8AbOmm8Vjq0snBRTovkoytanfoLx8odyAOb5bFbfaDT0qJauLFDvc85bs8Dr/rIBTxhelPiJzEXO5wcbyW0uf9kBvax1zWKD0yTHkI7mzBGVy/bzRTCpnrDHYP1HWBV93Iz1qInTjgL7IoLLWerUCYlQQ1JAZZYGezsD2z0p59H61hBwRPB6Bn3HldOP3FIdD5x+yc5RvrWVb6gkE5Lp2TPz5mIA0M/WW+lp8JTWDIDh7JPe+aMl+p+akZ4/+F1iMg+I1kR/kY18WMgz3KBp9oZI7W2XPwIDAQAB",
+  "manifest_version": 2,
+  "name": "Angular Gauntlets",
+  "permissions": ["activeTab"],
+  "update_url": "https://clients2.google.com/service/update2/crx",
+  "version": "1.2.1"
+}
