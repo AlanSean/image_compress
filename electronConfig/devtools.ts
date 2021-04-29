@@ -10,20 +10,11 @@ import * as path from 'path';
  * @param v  扩展版本号
  */
 const getExtension = function (id: string, v: string): string {
-  return path.join(
-    os.homedir(),
-    (process.platform !== 'darwin'
-      ? '/AppData/Local/Google/Chrome/User Data/Default/Extensions/'
-      : '/Library/Application Support/Google/Chrome/Default/Extensions/') +
-      id +
-      '/' +
-      v +
-      '_0'
-  );
+  return path.resolve(`./Extensions/${id}/${v}_0`);
 };
-
-const Angular_State_Inspector = getExtension('nelkodgfpddgpdbcjinaaalphkfffbem', '1.4.5');
-const Redux_DevTools = getExtension('lmhkpmbekcpmknklioeibfkpmmfibljd', '2.17.0');
+const Angular_Gauntlets = getExtension('Angular_Gauntlets', '1.2.1');
+const Redux_DevTools = getExtension('Redux_DevTools', '2.17.0');
+console.log(Angular_Gauntlets);
 // electron11不支持某个api 故此不用了
 // const Augury = getExtension(
 //   "elgalmkoelokbchhkhacckoklkejnhcd",
@@ -32,6 +23,6 @@ const Redux_DevTools = getExtension('lmhkpmbekcpmknklioeibfkpmmfibljd', '2.17.0'
 
 export function loadExtension(): void {
   //添加angular 扩展
-  session.defaultSession.loadExtension(Angular_State_Inspector);
-  session.defaultSession.loadExtension(Redux_DevTools);
+  session.defaultSession.loadExtension(Angular_Gauntlets, { allowFileAccess: true });
+  session.defaultSession.loadExtension(Redux_DevTools, { allowFileAccess: true });
 }

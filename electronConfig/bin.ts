@@ -1,10 +1,20 @@
+import { app } from 'electron';
 // import * as execa from "execa";
+
 import * as fs from 'fs-extra';
 // import { resolve } from "path";
 import * as log from 'electron-log';
 // import Local_Bin_Wrapper from "./Local_Bin_Wrapper";
-import * as sharp from 'sharp';
+import { isServe } from './utils';
 
+// import * as sharp from "sharp";
+// const args = process.argv.slice(1),
+//       isServe = args.some((val) => val === "--serve");
+function getSharp() {
+  return isServe ? require('sharp') : require('./app.asar.unpacked/node_modules/sharp');
+}
+const sharp = getSharp();
+// const sharp = remote.require('sharp');
 // const url = resolve(__dirname, "../bin"),
 //   pngquantBin = new Local_Bin_Wrapper()
 //     .src(`${url}/mac/pngquant`, "darwin")
