@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { FILE } from '@common/constants';
 import { selectFile, UPDATE_STATE, REMOVE_FILE } from '@app/core/core.module';
@@ -12,7 +12,6 @@ import { data } from './data';
   selector: 'app-img-list',
   templateUrl: './img-list.component.html',
   styleUrls: ['./img-list.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('zoom', [
       transition('void => active', [
@@ -44,12 +43,7 @@ export class ImgListComponent {
   files = data;
 
   @ViewChild('contextmenuEl') contextmenuEl!: ElementRef;
-  constructor(
-    private electronService: ElectronService,
-    private store: Store<Array<FILE>>,
-    private cdr: ChangeDetectorRef,
-    private modal: NzModalService
-  ) {}
+  constructor(private electronService: ElectronService, private store: Store<Array<FILE>>, private modal: NzModalService) {}
 
   trackByItem(index: number, value: FILE) {
     return value.state;

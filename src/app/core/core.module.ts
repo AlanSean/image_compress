@@ -1,12 +1,12 @@
-import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { StoreDevtoolsModule } from "@ngrx/store-devtools";
-import { StoreModule } from "@ngrx/store";
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreModule } from '@ngrx/store';
 
-import { AppConfig } from "../../environments/environment";
-import { reducers, metaReducers, selectFilesState } from "./core.state";
+import { AppConfig } from '../../environments/environment';
+import { reducers, metaReducers, selectFilesState } from './core.state';
 
-export * from "./files/files";
+export * from './files/files';
 
 export { selectFilesState };
 
@@ -18,8 +18,8 @@ export { selectFilesState };
     AppConfig.production
       ? []
       : StoreDevtoolsModule.instrument({
-        name: "Angular NgRx Material Starter",
-      }),
-  ],
+          maxAge: 5
+        })
+  ]
 })
 export class CoreModule {}

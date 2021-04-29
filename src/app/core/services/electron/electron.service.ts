@@ -1,9 +1,10 @@
-import { Injectable, Input } from '@angular/core';
+import { ApplicationRef, Injectable, Input } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 // If you import a module but never use any of the imported values other than as TypeScript types,
 // the resulting javascript file will look as if you never imported the module at all.
 import { ipcRenderer, webFrame, shell } from 'electron';
+
 import * as childProcess from 'child_process';
 import * as fs from 'fs-extra';
 import * as path from 'path';
@@ -25,17 +26,7 @@ export class ElectronService {
   shell = shell;
   childProcess = childProcess;
   path = path;
-  get isElectron(): boolean {
-    return !!(window && window.process && window.process.type);
-  }
-
-  constructor(private store: Store, private message: NzMessageService, private translate: TranslateService) {
-    // const electron = window.require('electron');
-    // this.ipcRenderer = ipcRenderer;
-    // this.webFrame = webFrame;
-    // this.shell = shell;
-    // this.path = path;
-    // this.childProcess = childProcess;
+  constructor(private cdr: ApplicationRef, private store: Store, private message: NzMessageService, private translate: TranslateService) {
     this.ipcRendererOn();
   }
   //向主进程发送 file_add命令
@@ -111,6 +102,7 @@ export class ElectronService {
           files: FILE
         })
       );
+      this.cdr.tick();
     });
 
     //更新图片信息
@@ -120,6 +112,7 @@ export class ElectronService {
           files: FILE
         })
       );
+      this.cdr.tick();
     });
 
     //窗口菜单 发起的选择文件
@@ -136,15 +129,18 @@ export class ElectronService {
     //另存为事件
     this.ipcRenderer.on(IpcChannel.SAVE_NEW_DIR, () => {
       this.savenewdir();
+      this.cdr.tick();
     });
     //清空事件
     this.ipcRenderer.on(IpcChannel.CLEAN_FILE, () => {
       this.clean();
+      this.cdr.tick();
     });
 
     //消息
     this.ipcRenderer.on(Message.TOAST, (_, type: messageType, message: string) => {
       this.message[type](this.translate.instant(message));
+      this.cdr.tick();
     });
   }
 }

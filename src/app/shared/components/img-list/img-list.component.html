@@ -7,9 +7,11 @@
       appContextmenu
     >
       <img [src]="item.src" />
-      <img src="/assets/loading.gif" class="spin" [class.spin_visi]="item.state !== 'await'" />
+      <img src="./assets/loading.gif" class="spin" [class.spin_visi]="item.state !== 'await'" />
     </div>
     <div class="img_info">
+      <div class="ico"></div>
+      <div class="name">{{ item.name }}</div>
       <div class="quality">
         <span class="title">{{ 'quality' | translate }}</span>
         <nz-slider
