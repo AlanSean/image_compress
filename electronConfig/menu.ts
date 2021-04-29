@@ -4,17 +4,17 @@ import { menuActions, setup } from './utils';
 
 const isMac = process.platform === 'darwin';
 
-let getLocals;
+let getLocales;
 let menuInstance: Menu;
 export function setMenu(isServe: boolean): void {
-  getLocals = setup();
+  getLocales = setup();
   const Menus: MenuItemConstructorOptions[] = [
     {
       label: app.name,
       submenu: [
         {
           id: 'About',
-          label: getLocals('about'),
+          label: getLocales('about'),
           click: menuActions.about
         },
         { type: 'separator' },
@@ -23,29 +23,29 @@ export function setMenu(isServe: boolean): void {
     },
     {
       id: 'file',
-      label: getLocals('menu.file'),
+      label: getLocales('menu.file'),
       submenu: [
         {
           id: MenuIpcChannel.ADD,
-          label: getLocals('add'),
+          label: getLocales('add'),
           click: menuActions.select_dir,
           enabled: true
         },
         {
           id: MenuIpcChannel.OPEN_FILE_DIR,
-          label: getLocals('openFileDir'),
+          label: getLocales('openFileDir'),
           click: menuActions.open_dir,
           enabled: false
         },
         {
           id: MenuIpcChannel.SAVE_NEW_DIR,
-          label: getLocals('savenewdir'),
+          label: getLocales('savenewdir'),
           click: menuActions.save_new_dir,
           enabled: false
         },
         {
           id: MenuIpcChannel.CLEAN,
-          label: getLocals('clean'),
+          label: getLocales('clean'),
           click: menuActions.clean_file,
           enabled: false
         }
@@ -53,18 +53,18 @@ export function setMenu(isServe: boolean): void {
     },
     {
       id: 'help',
-      label: getLocals('menu.help'),
+      label: getLocales('menu.help'),
       submenu: [
         {
           id: 'learnmore',
-          label: getLocals('menu.learnmore'),
+          label: getLocales('menu.learnmore'),
           click: async () => {
             await shell.openExternal('https://github.com/AlanSean/image_compress/blob/master/README.md');
           }
         },
         {
           id: 'update',
-          label: getLocals('menu.update'),
+          label: getLocales('menu.update'),
           click: async () => {
             await shell.openExternal('https://github.com/AlanSean/image_compress/blob/master/README.md');
           }
@@ -72,12 +72,12 @@ export function setMenu(isServe: boolean): void {
       ]
     }
   ];
-  if (isServe) {
-    Menus.push({
-      label: 'Debug',
-      submenu: [{ role: 'reload' }, { role: 'forceReload' }, { role: 'toggleDevTools' }]
-    });
-  }
+  // if (isServe) {
+  Menus.push({
+    label: 'Debug',
+    submenu: [{ role: 'reload' }, { role: 'forceReload' }, { role: 'toggleDevTools' }]
+  });
+  // }
 
   const menu = Menu.buildFromTemplate(Menus);
   Menu.setApplicationMenu(menu);
