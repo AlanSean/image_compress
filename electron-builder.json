@@ -3,31 +3,19 @@
   "directories": {
     "output": "release/"
   },
-  "files": [
-    "**/*",
-    "!**/*.ts",
-    "!*.code-workspace",
-    "!LICENSE.md",
-    "!package.json",
-    "!package-lock.json",
-    "!src/",
-    "!e2e/",
-    "!example/",
-    "!hooks/",
-    "!angular.json",
-    "!_config.yml",
-    "!karma.conf.js",
-    "!tsconfig.json",
-    "!tslint.json"
-  ],
+  "files": ["main.js", "./favicon.ico", "electronConfig/**/*", "dist/**/*", "!*/**/*.js.map", "!*/**/*.ts"],
+
   "appId": "com.image_compress.app",
   "nsis": {
     "oneClick": false,
     "allowToChangeInstallationDirectory": true,
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true, // 创建开始菜单图标
     "perMachine": true
   },
-  "asar": true,
-  "asarUnpack": ["src/assets/i18n/"],
+  "asar": {
+    "smartUnpack": true //是否自动解压缩可执行文件。
+  },
   "win": {
     "icon": "dist/assets/icons",
     "target": ["nsis", "zip"]
