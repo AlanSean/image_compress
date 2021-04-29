@@ -1,15 +1,15 @@
-import * as os from "os";
-import * as path from "path";
-import * as url from "url";
-import { app, BrowserWindow, ipcMain } from "electron";
-import { loadExtension, setProtocol, listenIpc, setMenu } from "./electronConfig";
+import * as os from 'os';
+import * as path from 'path';
+import * as url from 'url';
+import { app, BrowserWindow, ipcMain } from 'electron';
+import { loadExtension, setProtocol, listenIpc, setMenu } from './electronConfig';
 
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = '1';
 
 let win: BrowserWindow = null,
   loadingWindow: BrowserWindow = null;
 const args = process.argv.slice(1),
-  serve = args.some((val) => val === "--serve");
+  serve = args.some(val => val === '--serve');
 
 function createLoadingWindow() {
   //加载页面窗口
@@ -24,21 +24,13 @@ function createLoadingWindow() {
     frame: false, // 去掉顶部操作栏
     webPreferences: {
       webSecurity: false,
-      nodeIntegration: true,
-    },
+      nodeIntegration: true
+    }
   });
 
-  loadingWindow.loadURL(
-    url.pathToFileURL(
-      path.join(
-        __dirname,
-        serve ? "src/" : "dist/",
-        "assets/loading/loading.html"
-      )
-    ).href
-  );
+  loadingWindow.loadURL(url.pathToFileURL(path.join(__dirname, serve ? 'src/' : 'dist/', 'assets/loading/loading.html')).href);
 
-  loadingWindow.on("closed", () => {
+  loadingWindow.on('closed', () => {
     loadingWindow = null;
   });
   return loadingWindow;
@@ -46,10 +38,11 @@ function createLoadingWindow() {
 function createWindow(): BrowserWindow {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 800 + (os.platform() === "darwin" ? 15 : 34),
+    width: 800 + (os.platform() === 'darwin' ? 15 : 34),
     height: 600,
     minWidth: 540,
     minHeight: 540,
+    icon: path.join(__dirname, 'favicon.ico'),
     show: false,
     frame: true, // 去掉顶部操作栏
     webPreferences: {
@@ -57,31 +50,29 @@ function createWindow(): BrowserWindow {
       nodeIntegration: true,
       // allowRunningInsecureContent: serve ? true : false,
       contextIsolation: false, // false if you want to run 2e2 test with Spectron
-      enableRemoteModule: true, // true if you want to run 2e2 test  with Spectron or use remote module in renderer context (ie. Angular)
-    },
+      enableRemoteModule: true // true if you want to run 2e2 test  with Spectron or use remote module in renderer context (ie. Angular)
+    }
   });
   setMenu(serve);
   if (serve) {
     win.webContents.openDevTools();
 
-    require("electron-reload")(__dirname, {
-      electron: require(`${__dirname}/node_modules/electron`),
+    require('electron-reload')(__dirname, {
+      electron: require(`${__dirname}/node_modules/electron`)
     });
 
     //安装扩展
     loadExtension();
-    win.loadURL("http://localhost:4200");
+    win.loadURL('http://localhost:4200');
   } else {
-    win.loadURL(
-      url.pathToFileURL(path.join(__dirname, "dist/index.html")).href
-    );
+    win.loadURL(url.pathToFileURL(path.join(__dirname, 'dist/index.html')).href);
   }
 
   //设置自定义协议
   setProtocol();
   listenIpc.call(this, win);
   // Emitted when the window is closed.
-  win.on("closed", () => {
+  win.on('closed', () => {
     // Dereference the window object, usually you would store window
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
@@ -99,20 +90,20 @@ try {
   const lodwin = app.requestSingleInstanceLock();
   if (!lodwin) app.quit();
 
-  app.on("second-instance", () => {
+  app.on('second-instance', () => {
     if (win) {
       if (win.isMinimized()) win.restore();
       win.focus();
     }
   });
-  app.on("ready", function () {
+  app.on('ready', function () {
     const loadingwindow = createLoadingWindow();
     const win = createWindow();
 
-    loadingwindow.on("closed", () => {
+    loadingwindow.on('closed', () => {
       loadingWindow = null;
     });
-    ipcMain.on("close-loading-window", (e, res) => {
+    ipcMain.on('close-loading-window', (e, res) => {
       if (res.isClose && loadingWindow) {
         loadingwindow.close();
         win.show();
@@ -120,11 +111,11 @@ try {
     });
   });
 
-  app.on("window-all-closed", () => {
+  app.on('window-all-closed', () => {
     app.quit();
   });
 
-  app.on("activate", () => {
+  app.on('activate', () => {
     if (win === null) {
       createWindow();
     }
@@ -132,4 +123,5 @@ try {
 } catch (e) {
   // Catch Error
   // throw e;
+  app.quit();
 }
