@@ -8,7 +8,11 @@
   (detach)="hide()"
 >
   <div class="contextmenu" [@zoom]="'active'">
-    <div class="popover">
+    <div
+      class="popover"
+      [class.right]="trigger == 'contextmenu'"
+      [class.bottom]="trigger == 'hover'"
+    >
       <div class="placement"></div>
       <div class="tooltip-content">
         <ul [@zoom]="'active'">

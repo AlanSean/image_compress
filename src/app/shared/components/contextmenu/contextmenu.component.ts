@@ -16,19 +16,22 @@ import {
   Output,
   EventEmitter,
   HostListener,
-  Input
+  Input,
+  ViewChild
 } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { CdkOverlayOrigin, ConnectedPosition } from '@angular/cdk/overlay';
+import { CdkOverlayOrigin, ConnectedPosition, CdkConnectedOverlay } from '@angular/cdk/overlay';
+import { connectedPosition } from './postion';
 
 @Directive({
   selector: '[appContextmenu]'
 })
 export class ContextmenuDirective implements AfterViewInit {
   @Output('menuListClick') menuListClick: EventEmitter<any> = new EventEmitter();
-  @Input('disabled') disabled!: boolean; //true 右键无效
-  component!: ContextmenuComponent;
-  origin!: any;
+  @Input('Disabled') disabled!: boolean; //true 右键无效
+  @Input('trigger') trigger!: 'contextmenu' | 'hover'; //true 右键无效
+  private component!: ContextmenuComponent;
+  private time?: NodeJS.Timeout;
   //resolver.resolveComponentFactory ：检索创建给定类型组件的工厂对象。
   componentFactory: ComponentFactory<ContextmenuComponent> = this.resolver.resolveComponentFactory(ContextmenuComponent);
 
@@ -36,18 +39,64 @@ export class ContextmenuDirective implements AfterViewInit {
 
   @HostListener('contextmenu', ['$event']) oncontextmenu(e: MouseEvent) {
     e.preventDefault();
-    if (this.disabled) return;
+    if (this.disabled || this.trigger != 'contextmenu') return;
     this.component?.show();
   }
   @HostListener('click') onclick() {
+    if (this.disabled || this.trigger != 'contextmenu') return;
     this.component?.hide();
+  }
+  @HostListener('mouseenter', ['$event']) onmouseenter(e: MouseEvent) {
+    e.preventDefault();
+    if (this.disabled || this.trigger != 'hover') return;
+    this.clearTimer();
+    this.component?.show();
+  }
+  removeListener() {}
+  @HostListener('mouseleave') onmouseleave() {
+    if (this.disabled || this.trigger != 'hover') return;
+    this.listener();
   }
   ngAfterViewInit(): void {
     this.created();
   }
+  show = () => {
+    if (this.time) return this.clearTimer();
+    this.time = setTimeout(() => {
+      this.time = undefined;
+      this.component?.show();
+    }, 150);
+  };
+  hide = () => {
+    if (this.time) return this.clearTimer();
+    this.time = setTimeout(() => {
+      this.time = undefined;
+      this.component?.hide();
+    }, 100);
+  };
+
+  clearTimer() {
+    if (this.time) {
+      clearTimeout(this.time);
+      this.time = undefined;
+    }
+  }
+  listener() {
+    if (this.trigger != 'hover') return;
+    let overlayElement = this.component.overlay.overlayRef.overlayElement;
+    this.removeListener();
+    this.hide();
+    overlayElement.addEventListener('mouseenter', this.show);
+    overlayElement.addEventListener('mouseleave', this.hide);
+    this.removeListener = () => {
+      overlayElement.removeEventListener('mouseenter', this.show);
+      overlayElement.removeEventListener('mouseleave', this.hide);
+    };
+  }
   protected created() {
     this.component = this.viewContainerRef.createComponent(this.componentFactory).instance;
     this.component.saveOrigin({ elementRef: this.elementRef });
+    this.component.trigger = this.trigger;
     this.component._menuListClick = key => {
       this.menuListClick.emit(key);
       this.component?.hide();
@@ -89,6 +138,8 @@ export class ContextmenuDirective implements AfterViewInit {
   ]
 })
 export class ContextmenuComponent {
+  @ViewChild('overlay', { static: false }) overlay!: CdkConnectedOverlay;
+
   _menuListClick(key: string) {}
   set menuListClick(fn: (key: string) => void) {
     this._menuListClick = fn;
@@ -96,17 +147,19 @@ export class ContextmenuComponent {
   get menuListClick() {
     return this._menuListClick;
   }
+  _trigger!: 'contextmenu' | 'hover';
+  positions!: ConnectedPosition[];
+  set trigger(trigger) {
+    this._trigger = trigger;
+    this.positions = [connectedPosition[trigger]];
+  }
+  get trigger() {
+    return this._trigger;
+  }
 
   origin!: CdkOverlayOrigin;
   isOpen: boolean = false;
-  positions: ConnectedPosition[] = [
-    {
-      originX: 'end',
-      originY: 'center',
-      overlayX: 'start',
-      overlayY: 'center'
-    }
-  ];
+
   constructor(private cdr: ChangeDetectorRef) {}
   onOutsideClick(e: MouseEvent) {
     if (e.target != null && !this.origin.elementRef.nativeElement.contains(e.target)) {

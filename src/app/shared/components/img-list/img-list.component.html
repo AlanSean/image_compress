@@ -1,17 +1,27 @@
-<div class="img-list" *ngIf="(files$ | async)!.length > 0">
-  <div *ngFor="let item of files$ | async; index as i; trackBy: trackByItem" class="imgInfo">
-    <div
-      class="img"
-      [disabled]="item.state != 'finish'"
-      (menuListClick)="menuListClick($event, item)"
-      appContextmenu
-    >
+<div class="img-list" *ngIf="files || (files$ | async)!.length > 0">
+  <div *ngFor="let item of files; index as i; trackBy: trackByItem" class="imgInfo">
+    <div class="img">
+      <div class="title" [class.disabled]="item.state != 'finish'">
+        <!-- PNG WEBP JPG -->
+        <app-icon [name]="'icon-' + item.ext" class="icon imgicon"></app-icon>
+        <div class="name">
+          <span>{{ item.name }}</span>
+        </div>
+        <!-- <input class="name"  type="text" [ngModel]="item.name"> -->
+        <div
+          class="icon menu"
+          [Disabled]="item.state != 'finish'"
+          appContextmenu
+          trigger="hover"
+          (menuListClick)="menuListClick($event, item)"
+        >
+          <app-icon name="icon-more"></app-icon>
+        </div>
+      </div>
       <img [src]="item.src" />
       <img src="./assets/loading.gif" class="spin" [class.spin_visi]="item.state !== 'await'" />
     </div>
     <div class="img_info">
-      <div class="ico"></div>
-      <div class="name">{{ item.name }}</div>
       <div class="quality">
         <span class="title">{{ 'quality' | translate }}</span>
         <nz-slider

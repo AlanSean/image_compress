@@ -16,7 +16,7 @@
   "finish": "Finish",
   "remove": "remove",
   "msg": {
-    "finish": "Export the finish"
+    "export_finish": "Export the finish"
   },
   "menu": {
     "file": "File",

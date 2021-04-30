@@ -9,13 +9,15 @@ import Directives from './directives/';
 import ngZorro from './ng-zorro';
 //angular-cdk
 import Cdk from './cdk';
+import { CompareComponent } from './components/compare/compare.component';
 
 @NgModule({
   declarations: [
     //component
     ...Components,
     //Directive
-    ...Directives
+    ...Directives,
+    CompareComponent
   ],
   imports: [
     CommonModule,

@@ -5,5 +5,15 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzMessageModule } from 'ng-zorro-antd/message';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
 
-export default [NzSliderModule, NzSpinModule, NzModalModule, NzGridModule, NzDrawerModule, NzButtonModule, NzMessageModule];
+export default [
+  NzSliderModule,
+  NzSpinModule,
+  NzModalModule,
+  NzGridModule,
+  NzDrawerModule,
+  NzButtonModule,
+  NzMessageModule,
+  NzPopoverModule
+];

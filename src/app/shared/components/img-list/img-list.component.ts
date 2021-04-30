@@ -11,31 +11,7 @@ import { data } from './data';
 @Component({
   selector: 'app-img-list',
   templateUrl: './img-list.component.html',
-  styleUrls: ['./img-list.component.less'],
-  animations: [
-    trigger('zoom', [
-      transition('void => active', [
-        style({ opacity: 0, transform: 'scale(0.8)' }),
-        animate(
-          '0.2s cubic-bezier(0.08, 0.82, 0.17, 1)',
-          style({
-            opacity: 1,
-            transform: 'scale(1)'
-          })
-        )
-      ]),
-      transition('active => void', [
-        style({ opacity: 1, transform: 'scale(1)' }),
-        animate(
-          '0.1s cubic-bezier(0.78, 0.14, 0.15, 0.86)',
-          style({
-            opacity: 0,
-            transform: 'scale(0.8)'
-          })
-        )
-      ])
-    ])
-  ]
+  styleUrls: ['./img-list.component.less']
 })
 export class ImgListComponent {
   isOpen = false;

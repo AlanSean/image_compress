@@ -16,7 +16,7 @@
   "finish": "完成",
   "remove": "移除",
   "msg": {
-    "finish": "导出完成"
+    "export_finish": "导出完成"
   },
   "menu": {
     "file": "文件",

@@ -11,7 +11,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy', useHash: true }), HomeRoutingModule],
+  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }), HomeRoutingModule],
   exports: [RouterModule]
 })
 export class AppRoutingModule {}

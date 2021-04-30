@@ -105,7 +105,7 @@ export class ListenIpcActions {
       await fs.writeFile(filePath, Buffer);
       // //保存成功 提示mssage
       // shell.showItemInFolder(filePath);
-      webContentsActions(this.win).message('success', 'msg.finish');
+      webContentsActions(this.win).message('success', 'msg.export_finish');
     }
   };
   save_new_dir = async (files: FILE[]) => {
@@ -125,7 +125,7 @@ export class ListenIpcActions {
         count++;
         this.setProgress(count, len);
         if (count == len) {
-          webContentsActions(this.win).message('success', '导出完成');
+          webContentsActions(this.win).message('success', 'msg.export_finish');
           shell.showItemInFolder(filePaths[0]);
         }
       });

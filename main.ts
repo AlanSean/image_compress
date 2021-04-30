@@ -43,7 +43,7 @@ function createWindow(): BrowserWindow {
     minWidth: 540,
     minHeight: 540,
     icon: path.join(__dirname, 'favicon.ico'),
-    show: false,
+    // show: false,
     frame: true, // 去掉顶部操作栏
     webPreferences: {
       webSecurity: false, //允许加载本地资源
@@ -97,18 +97,18 @@ try {
     }
   });
   app.on('ready', function () {
-    const loadingwindow = createLoadingWindow();
-    const win = createWindow();
+    // const loadingwindow = createLoadingWindow();
+    createWindow();
 
-    loadingwindow.on('closed', () => {
-      loadingWindow = null;
-    });
-    ipcMain.on('close-loading-window', (e, res) => {
-      if (res.isClose && loadingWindow) {
-        loadingwindow.close();
-        win.show();
-      }
-    });
+    // loadingwindow.on('closed', () => {
+    //   loadingWindow = null;
+    // });
+    // ipcMain.on('close-loading-window', (e, res) => {
+    //   if (res.isClose && loadingWindow) {
+    //     loadingwindow.close();
+    //     win.show();
+    //   }
+    // });
   });
 
   app.on('window-all-closed', () => {
