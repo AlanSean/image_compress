@@ -17,9 +17,7 @@ import {
   HostListener,
   Input,
   ViewChild,
-  OnDestroy,
-  OnInit,
-  ApplicationRef
+  OnInit
 } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { CdkOverlayOrigin, ConnectedPosition, CdkConnectedOverlay } from '@angular/cdk/overlay';
@@ -28,7 +26,7 @@ import { connectedPosition } from './postion';
 @Directive({
   selector: '[appContextmenu]'
 })
-export class ContextmenuDirective implements AfterViewInit {
+export class ContextmenuDirective implements OnInit {
   @Output('menuListClick') menuListClick: EventEmitter<any> = new EventEmitter();
   @Input('Disabled') disabled!: boolean; //true 右键无效
   @Input('trigger') trigger!: 'contextmenu' | 'hover'; //true 右键无效
@@ -59,7 +57,7 @@ export class ContextmenuDirective implements AfterViewInit {
     if (this.disabled || this.trigger != 'hover') return;
     this.listener();
   }
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this.created();
   }
   show = () => {

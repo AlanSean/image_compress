@@ -33,6 +33,7 @@ describe('ImgListComponent', () => {
       {
         MD5KEY: '',
         name: '',
+        outdir: '',
         state: 'finish',
         percentage: '-9.8%',
         src: 'file://C:/Users/111/Desktop/copy/start.jpg',
