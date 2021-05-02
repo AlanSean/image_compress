@@ -3,8 +3,8 @@ import { Message, messageType } from '../../src/common/constants';
 
 export const webContentsActions = function (win: BrowserWindow) {
   return {
-    message(type: messageType, message: string) {
-      win.webContents.send(Message.TOAST, type, message);
+    message(type: messageType, message: string, options?: any) {
+      win.webContents.send(Message.TOAST, type, message, options);
     }
   };
 };

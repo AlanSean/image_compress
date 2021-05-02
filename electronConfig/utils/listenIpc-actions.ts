@@ -1,10 +1,8 @@
 import { BrowserWindow, dialog, shell } from 'electron';
 import * as os from 'os';
-import * as path from 'path';
 import * as fs from 'fs-extra';
-import { FILE, IpcChannel } from '../../src/common/constants';
+import { FILE, FileSetting, IpcChannel } from '../../src/common/constants';
 import { dirSearchImg, compress } from '../optimize';
-import { DefultSetting } from '../../src/utils/storage';
 
 import * as log from 'electron-log';
 import { Queue } from './loop';
@@ -60,7 +58,7 @@ export class ListenIpcActions {
   filesFinishQueue = new Queue<FILE>(this.filesFinish);
 
   //添加文件并压缩
-  file_add = async (files: string[], setting: DefultSetting) => {
+  file_add = async (files: string[], setting: FileSetting) => {
     const sTime = new Date().getTime();
     const imgArr = await dirSearchImg(files, setting, [], this.filesQueue);
     log.info('time:', new Date().getTime() - sTime);
@@ -99,13 +97,16 @@ export class ListenIpcActions {
     });
 
     if (filePath) {
+      webContentsActions(this.win).message('loading', 'msg.save_loading', {
+        nzDuration: 0
+      });
       console.log(filePath);
       //防止特殊字符导致失败
-      const Buffer = await fs.readFile(file.outsrc);
+      const Buffer = await fs.readFile(file.outpath);
       await fs.writeFile(filePath, Buffer);
       // //保存成功 提示mssage
       // shell.showItemInFolder(filePath);
-      webContentsActions(this.win).message('success', 'msg.export_finish');
+      webContentsActions(this.win).message('success', 'msg.save_finish');
     }
   };
   save_new_dir = async (files: FILE[]) => {
@@ -117,11 +118,13 @@ export class ListenIpcActions {
       let count = 0;
       const len = files.length;
       this.setProgress(0, 1);
+      webContentsActions(this.win).message('loading', 'msg.export_loading', {
+        nzDuration: 0
+      });
       files.forEach(async item => {
-        //防止特殊字符导致失败
-        const Buffer = await fs.readFile(item.outsrc);
-        const outpath = item.outsrc.replace(item.outpath, filePaths[0]);
-        await fs.writeFile(outpath, Buffer);
+        // const Buffer = await fs.readFile(item.outpath);
+        const outpath = item.outpath.replace(item.outdir, filePaths[0]);
+        await fs.copy(item.outpath, outpath);
         count++;
         this.setProgress(count, len);
         if (count == len) {
