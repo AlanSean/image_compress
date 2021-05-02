@@ -135,7 +135,7 @@
     "zone.js": "0.11.4"
   },
   "engines": {
-    "node": ">=15.14.0"
+    "node": "^14.0.0"
   },
   "browserslist": [
     "chrome 83"
