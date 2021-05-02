@@ -16,7 +16,10 @@
   "finish": "Finish",
   "remove": "remove",
   "msg": {
-    "export_finish": "Export the finish"
+    "export_finish": "Export the finish",
+    "save_finish": "Save the finish",
+    "save_loading": "In the save...",
+    "export_loading": "In the export..."
   },
   "menu": {
     "file": "File",

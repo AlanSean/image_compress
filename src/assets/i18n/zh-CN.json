@@ -16,7 +16,10 @@
   "finish": "完成",
   "remove": "移除",
   "msg": {
-    "export_finish": "导出完成"
+    "export_finish": "导出完成",
+    "save_finish": "保存完成",
+    "save_loading": "保存中...",
+    "export_loading": "导出中..."
   },
   "menu": {
     "file": "文件",
