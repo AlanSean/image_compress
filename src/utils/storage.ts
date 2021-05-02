@@ -1,12 +1,7 @@
 import * as os from 'os';
 import * as fs from 'fs-extra';
 import { resolve } from 'path';
-export interface DefultSetting {
-  outdir?: string;
-  pngQuality?: string;
-  jpgQuality?: string;
-  webpQuality?: string;
-}
+import { DefultSetting } from '@common/constants';
 
 const key = 'SETTING';
 const hasStrage = !(typeof localStorage === 'undefined');

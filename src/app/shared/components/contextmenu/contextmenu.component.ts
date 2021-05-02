@@ -7,7 +7,6 @@ import {
   ViewContainerRef,
   // 可用来动态创建组件的工厂的基类。resolveComponentFactory() 实例化给定类型的组件的工厂。使用生成的 ComponentFactory.create() 方法创建该类型的组件。
   ComponentFactory,
-  OnDestroy,
   AfterViewInit,
   // 一个简单的注册表，它将 Components 映射到生成的 ComponentFactory 类，该类可用于创建组件的实例。用于获取给定组件类型的工厂，然后使用工厂的 create() 方法创建该类型的组件。
   ComponentFactoryResolver,
@@ -17,7 +16,10 @@ import {
   EventEmitter,
   HostListener,
   Input,
-  ViewChild
+  ViewChild,
+  OnDestroy,
+  OnInit,
+  ApplicationRef
 } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { CdkOverlayOrigin, ConnectedPosition, CdkConnectedOverlay } from '@angular/cdk/overlay';
@@ -161,20 +163,24 @@ export class ContextmenuComponent {
   isOpen: boolean = false;
 
   constructor(private cdr: ChangeDetectorRef) {}
+  //更新位置
+  updateByDirective() {
+    this.overlay.overlayRef.updatePosition();
+  }
   onOutsideClick(e: MouseEvent) {
     if (e.target != null && !this.origin.elementRef.nativeElement.contains(e.target)) {
       this.hide();
     }
   }
   saveOrigin(origin: CdkOverlayOrigin) {
-    //关闭检测 因为会出现警告
-    this.cdr.detach();
     this.origin = origin;
+    console.log(origin);
     this.cdr.markForCheck();
   }
   show() {
     if (!this.isOpen) this.isOpen = true;
     this.cdr.detectChanges();
+    this.updateByDirective();
   }
   hide() {
     if (this.isOpen) this.isOpen = false;
