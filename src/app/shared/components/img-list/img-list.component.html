@@ -1,5 +1,5 @@
-<div class="img-list" *ngIf="files || (files$ | async)!.length > 0">
-  <div *ngFor="let item of files; index as i; trackBy: trackByItem" class="imgInfo">
+<div class="img-list">
+  <div *ngFor="let item of files$ | async; index as i; trackBy: trackByItem" class="imgInfo">
     <div class="img">
       <div class="title" [class.disabled]="item.state != 'finish'">
         <!-- PNG WEBP JPG -->
@@ -10,7 +10,6 @@
         <!-- <input class="name"  type="text" [ngModel]="item.name"> -->
         <div
           class="icon menu"
-          [Disabled]="item.state != 'finish'"
           appContextmenu
           trigger="hover"
           (menuListClick)="menuListClick($event, item)"
@@ -18,7 +17,7 @@
           <app-icon name="icon-more"></app-icon>
         </div>
       </div>
-      <img [src]="item.src" />
+      <img appCompare [data]="item" [src]="item.outsrc" />
       <img src="./assets/loading.gif" class="spin" [class.spin_visi]="item.state !== 'await'" />
     </div>
     <div class="img_info">

@@ -23,20 +23,25 @@ export const enum MenuIpcChannel {
   CLEAN = 'CLEAN'
 }
 const menus = [MenuIpcChannel.OPEN_FILE_DIR, MenuIpcChannel.SAVE_NEW_DIR, MenuIpcChannel.CLEAN];
+
 export const getMenuEnableds = (isAll?: boolean) => {
   return isAll ? menus.concat(MenuIpcChannel.ADD) : menus;
 };
-export type messageType = 'success' | 'error';
+export type FileExt = 'png' | 'jpg' | 'jpge' | 'webp';
+export const fileExtReg = /jpg|png|jpeg|webp/;
+export type messageType = 'success' | 'error' | 'loading' | 'remove';
 
 export interface FILE {
+  [key: string]: any;
   state: 'await' | 'finish' | 'error';
   src: string;
   path: string;
   name: string;
-  extname: string; //"png" | "jpg" | "jpge"
-  ext: string; //".png" | ".jpg" | ".jpge"
+  extname: string; //"png" | "jpg" | "webp"
+  ext: string; //".png" | ".jpg" | ".webp"
   outpath: string;
   outsrc: string;
+  outdir: string;
   quality: string;
   rawDataSize: string;
   percentage: string;
@@ -47,4 +52,15 @@ export interface FILE {
 
 export interface compress_callback {
   (FILE: FILE): void;
+}
+
+export interface DefultSetting {
+  outdir?: string;
+  pngQuality?: string;
+  jpgQuality?: string;
+  webpQuality?: string;
+}
+
+export interface FileSetting extends DefultSetting {
+  outpath?: string;
 }

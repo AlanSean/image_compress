@@ -1,0 +1,114 @@
+.compare{
+  position: fixed;
+  .l(0);
+  .t(0);
+  .w(100vw);
+  .h(100vh);
+  z-index: 1001;
+  cursor: default;
+  .tools{
+    position: absolute;
+    .t(0);
+    .l(0);
+    .r(0);
+    z-index: 1;
+    ul{
+      .lh(1.5);
+      color: rgba(255, 255, 255, 0.85);
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: center;
+      width: 100%;
+      background: rgba(0, 0, 0, .2);
+      pointer-events: auto;
+      li{
+        margin-left: 12px;
+        padding: 12px;
+        cursor: pointer;
+        svg{
+          font-size: 18px;
+        }
+      }
+      .disabled {
+        color: rgba(255, 255, 255, 0.25);
+        pointer-events: none;
+      }
+    }
+  }
+  .colors{
+    position: absolute;
+    .t(50px);
+    .r(0);
+    padding: 10px 10px 0;
+    background: #aaa;
+    div{
+      width: 50px;
+      height: 50px;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+  }
+
+  .img_continer{
+    .w(100vw);
+    .h(100vh);
+    display: flex;
+    justify-content: space-between;
+    .hr{
+      .w(5px);
+      .h(100%);
+      background-color: rgb(216, 216, 216);
+      box-shadow: 0 0 5px 5px #aaa;
+    }
+    .left {
+      justify-content: flex-end;
+    }
+    .right{
+      justify-content: flex-start;
+    }
+    .left ,.right{
+      .w(48%);
+      display: flex;
+      align-items: center;
+      flex:1;
+      overflow: hidden;
+      figure {
+          max-width: 100%;
+          -webkit-user-drag:none;
+          user-select: none;
+          transform: translate3d(var(--postionX--), var(--postionY--), 0);
+        div{
+          transform: rotate(var(--rotate--));
+          transition: transform 0.1s;
+          img {
+            width: 230px;
+            height: auto;
+            transition: transform 0.1s;
+            cursor: all-scroll;
+          }
+        }
+      }
+    }
+  }
+}
+.black {
+  .bg(#000);
+  .tools ul{
+    background: rgba(255, 255, 255, .2);
+  }
+}
+.white {
+  .bg(#fff);
+}
+.transparent {
+  background: url('../../../../assets/transparent.webp');
+}
+.red {
+  .bg(#ff0000);
+}
+.green {
+  .bg(#008000);
+}
+.blue {
+  .bg(#0000ff);
+}

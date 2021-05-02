@@ -1,19 +1,20 @@
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SharedModule } from '../../shared.module';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { CompareComponent } from './compare.component';
-
-describe('CompareComponent', () => {
-  let component: CompareComponent;
-  let fixture: ComponentFixture<CompareComponent>;
-
+describe('appCompare', () => {
+  let component: TestComponent;
+  let fixture: ComponentFixture<TestComponent>;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CompareComponent]
+      declarations: [TestComponent],
+      imports: [SharedModule, NoopAnimationsModule]
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CompareComponent);
+    fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -22,3 +23,10 @@ describe('CompareComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+@Component({
+  template: `
+    <div appCompare></div>
+  `
+})
+export class TestComponent {}

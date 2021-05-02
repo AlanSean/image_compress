@@ -1,10 +1,9 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { FILE } from '@common/constants';
 import { selectFile, UPDATE_STATE, REMOVE_FILE } from '@app/core/core.module';
 import { ElectronService } from '@app/core/services';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { animate, style, transition, trigger } from '@angular/animations';
 
 import { data } from './data';
 
@@ -12,19 +11,28 @@ import { data } from './data';
   selector: 'app-img-list',
   templateUrl: './img-list.component.html',
   styleUrls: ['./img-list.component.less']
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImgListComponent {
+export class ImgListComponent implements OnInit {
   isOpen = false;
   files$ = this.store.pipe(select(selectFile));
   files = data;
 
   @ViewChild('contextmenuEl') contextmenuEl!: ElementRef;
-  constructor(private electronService: ElectronService, private store: Store<Array<FILE>>, private modal: NzModalService) {}
-
-  trackByItem(index: number, value: FILE) {
-    return value.state;
+  constructor(
+    private electronService: ElectronService,
+    private store: Store<Array<FILE>>,
+    private cdr: ChangeDetectorRef,
+    private modal: NzModalService
+  ) {}
+  ngOnInit() {
+    this.files$.subscribe(() => {
+      this.cdr.detectChanges();
+    });
   }
-
+  trackByItem(index: number, value: FILE) {
+    return index;
+  }
   //拖动滑块
   qualityChange(item: FILE, v: number) {
     this.store.dispatch(
@@ -50,7 +58,6 @@ export class ImgListComponent {
         files: newFileInfo
       })
     );
-
     this.electronService.file_update_quality(newFileInfo);
   }
 
@@ -78,7 +85,7 @@ export class ImgListComponent {
   menuListClick(key: string, item: FILE) {
     switch (key) {
       case 'openFileDir':
-        this.electronService.openFileDir(item.outsrc);
+        this.electronService.openFileDir(item.outpath);
         break;
       case 'saveAs':
         this.electronService.saveAs(item);

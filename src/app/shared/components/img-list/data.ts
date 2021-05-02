@@ -4,6 +4,7 @@ export const data: FILE[] = [
   {
     state: 'await',
     MD5KEY: '',
+    outdir: '',
     name: '',
     percentage: '-9.8%',
     src: 'file://C:/Users/黄清/Desktop/copy/start.jpg',
@@ -21,6 +22,7 @@ export const data: FILE[] = [
   {
     state: 'error',
     MD5KEY: '',
+    outdir: '',
     name: ' 579c49ea039745b4b7a9fff9bbdf7d6b_tplv-k3u1fbpfcp-watermark.png',
     percentage: '-9.8%',
     src: 'file://C:/Users/黄清/Desktop/copy/start.jpg',
@@ -38,6 +40,7 @@ export const data: FILE[] = [
   {
     state: 'finish',
     MD5KEY: '',
+    outdir: '',
     name: '',
     percentage: '-9.8%',
     src: 'file://C:/Users/黄清/Desktop/copy/A7C5456AE069822E15E07B610590266B.jpg',

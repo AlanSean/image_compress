@@ -1,1 +1,70 @@
-<p>compare works!</p>
+<div *ngIf="isOpen" (detach)="hide()" class="compare" [ngClass]="color" [@zoom]="'active'">
+  <!-- 工具箱 -->
+  <div class="tools">
+    <ul>
+      <li (click)="hide()">
+        <app-icon name="icon-clear"></app-icon>
+      </li>
+      <li (click)="updateStyle(1, 0)">
+        <app-icon name="icon-zoom-in"></app-icon>
+      </li>
+      <li [class.disabled]="matrix.scale <= 1" (click)="updateStyle(-1, 0)">
+        <app-icon name="icon-zoom-out"></app-icon>
+      </li>
+      <li (click)="updateStyle(0, -45)">
+        <app-icon name="icon-rotate-right"></app-icon>
+      </li>
+      <li (click)="updateStyle(0, 45)">
+        <app-icon name="icon-rotate-left"></app-icon>
+      </li>
+      <li (click)="reset()">
+        <app-icon name="icon-focus1"></app-icon>
+      </li>
+    </ul>
+  </div>
+  <div class="colors">
+    <div *ngFor="let color of colors" [class]="color" (click)="setColor(color)"></div>
+  </div>
+
+  <div class="img_continer">
+    <div class="left">
+      <figure
+        #left
+        [style.--postionX--.px]="leftdragPosition.x"
+        [style.--postionY--.px]="leftdragPosition.y"
+      >
+        <div [style.--rotate--.deg]="matrix.rotate">
+          <img
+            (mousedown)="mousedown($event, 'left')"
+            (mouseleave)="mouseleave()"
+            (mousemove)="mousemove($event)"
+            (mousewheel)="mousewheel($event)"
+            [style.transform]="stylesMatrix"
+            [style.cursor]="isTouch == 'left' ? 'grabbing' : 'grab'"
+            [src]="CompressBeforeImage"
+          />
+        </div>
+      </figure>
+    </div>
+    <div class="hr"></div>
+    <div class="right">
+      <figure
+        [style.--postionX--.px]="rightdragPosition.x"
+        [style.--postionY--.px]="rightdragPosition.y"
+      >
+        <div [style]="'--rotate--:' + matrix.rotate + 'deg'">
+          <img
+            #right
+            (mousedown)="mousedown($event, 'right')"
+            (mouseleave)="mouseleave()"
+            (mousemove)="mousemove($event)"
+            (mousewheel)="mousewheel($event)"
+            [style.transform]="stylesMatrix"
+            [style.cursor]="isTouch == 'left' ? 'grabbing' : 'grab'"
+            [src]="CompressAfterImage"
+          />
+        </div>
+      </figure>
+    </div>
+  </div>
+</div>
