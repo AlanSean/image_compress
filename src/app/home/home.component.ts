@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ElectronService } from '../core/services';
-import { getMenuEnableds, IpcChannel, MenuIpcChannel } from '@common/constants';
+import { fileExtReg, getMenuEnableds, IpcChannel, MenuIpcChannel } from '@common/constants';
 import { Store, select } from '@ngrx/store';
 import { getFilesLength } from '@app/core/core.module';
 
@@ -67,7 +67,7 @@ export class HomeComponent implements OnInit {
     this.dragUp = false;
     this.sliderDisabled = false;
     const files = Array.from((e.dataTransfer as DataTransfer).files)
-      .filter(file => !file.type || /jpg|png|jpeg/.test(file.type.toLocaleLowerCase()))
+      .filter(file => !file.type || fileExtReg.test(file.type.toLocaleLowerCase()))
       .map(file => file.path);
     this.electronService.fileAdd(files);
   }

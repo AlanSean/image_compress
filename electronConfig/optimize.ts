@@ -2,13 +2,12 @@ import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as MD5 from 'crypto-js/md5';
 
-import { FILE, compress_callback } from '../src/common/constants';
+import { FILE, compress_callback, FileSetting } from '../src/common/constants';
 import { ImageInfo, img_compress } from './bin';
 import * as log from 'electron-log';
-import { DefultSetting } from '../src/utils/storage';
 import { byteConver, percent, Queue } from './utils';
 
-const number = 10;
+const number = 300;
 const expMap = {
   '.png': {
     // binary: pngquant,
@@ -24,12 +23,12 @@ const expMap = {
     // binary: mozjpeg,
     ext: 'jpeg',
     quality: 'jpgQuality'
+  },
+  '.webp': {
+    binaryBin: () => {},
+    ext: 'webp',
+    quality: 'webpQuality'
   }
-  // ".webp": {
-  //   binaryBin: () => {},
-  //   ext: "webp",
-  //   quality: "webpquality",
-  // },
 };
 
 //限速 每完成压缩多少个再进行下一批压缩
@@ -38,36 +37,14 @@ async function PIPE(arr: FILE[], cb: compress_callback) {
     let count = 0;
     for (const FILE of arr) {
       if (FILE.extname in expMap) {
-        // const { binary } = expMap[FILE.extname];
-        // binary(FILE.path, FILE.quality).then(async (result: ImageInfo) => {
-        //   const dirname = path.dirname(FILE.outsrc);
-        //   await fs.mkdirs(dirname);
-        //   // //生成文件
-        //   await fs.writeFile(FILE.outsrc, result.data);
-        //   const newFile: FILE = {
-        //     ...FILE,
-        //     state: "finish",
-        //     nowDataSize: byteConver(result.nowDataSize),
-        //     percentage: percent(result.percentage - 1),
-        //   };
-        //   if (result.errorInfo) {
-        //     newFile.state = "error";
-        //     newFile.errorInfo = result.errorInfo;
-        //   }
-        //   cb && cb(newFile);
-        //   count++;
-        //   if (count == arr.length) {
-        //     resolve(true);
-        //   }
-        // });
-
         img_compress(FILE.path, FILE.quality).then(async (result: ImageInfo) => {
-          const dirname = path.dirname(FILE.outsrc);
+          const dirname = path.dirname(FILE.outpath);
           await fs.mkdirs(dirname);
           // //生成文件
-          await fs.writeFile(FILE.outsrc, result.data);
+          await fs.writeFile(FILE.outpath, result.data);
           const newFile: FILE = {
             ...FILE,
+            outsrc: `file://${FILE.outpath}?t=${new Date().getTime()}`,
             state: 'finish',
             nowDataSize: byteConver(result.nowDataSize),
             percentage: percent(result.percentage - 1)
@@ -101,22 +78,16 @@ export function compress(arr: FILE[], cb: compress_callback): void {
 }
 
 //搜索文件夹下的图片
-export async function dirSearchImg(
-  filepaths: string[],
-  setting: DefultSetting,
-  FILES: FILE[] = [],
-  _filesQueue: Queue<FILE>
-): Promise<any> {
+export async function dirSearchImg(filepaths: string[], setting: FileSetting, FILES: FILE[] = [], _filesQueue: Queue<FILE>): Promise<any> {
   for (const file of filepaths) {
     const fileName = path.basename(file);
-    const outsrc = path.resolve(setting.outdir, fileName);
+    const outpath = path.resolve(setting.outpath || setting.outdir, fileName);
     try {
       //验证是否存在
       const imgFile = await fs.stat(file);
       const extname = path.extname(file).toLocaleLowerCase();
       //判断是否是文件以及格式是否是图片
       if (imgFile.isFile() && extname in expMap) {
-        console.log();
         const filepath = file.replace(/\\/g, '/');
         const fileExpMap = expMap[extname];
         const FILE: FILE = {
@@ -127,8 +98,9 @@ export async function dirSearchImg(
           name: fileName,
           extname: extname,
           ext: fileExpMap.ext,
-          outsrc: outsrc,
-          outpath: setting.outdir,
+          outsrc: `file://${outpath}?t=${new Date().getTime()}`,
+          outpath: outpath,
+          outdir: setting.outdir,
           quality: setting[fileExpMap.quality],
           rawDataSize: byteConver(imgFile.size),
           percentage: '',
@@ -151,7 +123,7 @@ export async function dirSearchImg(
           dirFiles,
           {
             ...setting,
-            outdir: outsrc
+            outpath: outpath
           },
           FILES,
           _filesQueue

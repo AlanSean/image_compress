@@ -102,7 +102,7 @@ export class ElectronService {
           files: FILE
         })
       );
-      this.cdr.tick();
+      // this.cdr.tick();
     });
 
     //更新图片信息
@@ -112,7 +112,7 @@ export class ElectronService {
           files: FILE
         })
       );
-      this.cdr.tick();
+      // this.cdr.tick();
     });
 
     //窗口菜单 发起的选择文件
@@ -129,17 +129,19 @@ export class ElectronService {
     //另存为事件
     this.ipcRenderer.on(IpcChannel.SAVE_NEW_DIR, () => {
       this.savenewdir();
-      this.cdr.tick();
+      // this.cdr.tick();
     });
     //清空事件
     this.ipcRenderer.on(IpcChannel.CLEAN_FILE, () => {
       this.clean();
-      this.cdr.tick();
+      // this.cdr.tick();
     });
 
     //消息
-    this.ipcRenderer.on(Message.TOAST, (_, type: messageType, message: string) => {
-      this.message[type](this.translate.instant(message));
+    this.ipcRenderer.on(Message.TOAST, (_, type: messageType, message: string, options?: number) => {
+      this.message.remove();
+      console.log(type);
+      this.message[type](message && this.translate.instant(message, options));
       this.cdr.tick();
     });
   }

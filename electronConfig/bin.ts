@@ -7,13 +7,13 @@ import * as log from 'electron-log';
 // import Local_Bin_Wrapper from "./Local_Bin_Wrapper";
 import { isServe } from './utils';
 
-// import * as sharp from "sharp";
+import * as sharp from 'sharp';
 // const args = process.argv.slice(1),
 //       isServe = args.some((val) => val === "--serve");
-function getSharp() {
-  return isServe ? require('sharp') : require('./app.asar.unpacked/node_modules/sharp');
-}
-const sharp = getSharp();
+// function getSharp() {
+//   return isServe ? require('sharp') : require('./app.asar.unpacked/node_modules/sharp');
+// }
+// const sharp = getSharp();
 // const sharp = remote.require('sharp');
 // const url = resolve(__dirname, "../bin"),
 //   pngquantBin = new Local_Bin_Wrapper()
@@ -153,25 +153,35 @@ export const img_compress = async (path: string, quality: string): Promise<Image
     .png({
       force: false,
       palette: true,
-      colors: Math.floor((256 * parseInt(quality)) / 100)
+      quality: parseInt(quality) || 1
     })
     .webp({
       force: false,
-      quality: parseInt(quality)
+      quality: parseInt(quality) || 1
     })
     .jpeg({
       force: false,
       progressive: true, //隔行扫描
-      quality: parseInt(quality)
+      quality: parseInt(quality) || 1
     })
     .toBuffer({ resolveWithObject: true })
     .then(({ data, info }) => {
-      log.info('jpginfo', info);
+      log.info('img', path, info);
       return {
         status: 0,
         data: data,
         nowDataSize: data.length,
         percentage: data.length / input.length
+      };
+    })
+    .catch(err => {
+      log.error('imgerr', err);
+      return {
+        status: 99,
+        data: input,
+        errorInfo: err.stderr.toString(),
+        nowDataSize: 0,
+        percentage: 0
       };
     });
   return childProcess;

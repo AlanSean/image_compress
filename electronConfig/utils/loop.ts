@@ -8,7 +8,7 @@ export class Queue<T> {
   private data = [];
   private state: 'stop' | 'runing' = 'stop';
   pipe: PIPE<T>;
-  timeout = 100;
+  timeout = 30;
   constructor(pipe: PIPE<T>) {
     this.pipe = pipe;
   }
