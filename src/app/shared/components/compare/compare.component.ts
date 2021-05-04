@@ -208,6 +208,10 @@ export class CompareComponent implements OnDestroy {
       x: width / 2,
       y: height / 2
     };
+    this.current = {
+      x:0,
+      y:0
+    }
     this.matrix = {
       scale: 1,
       lastMoveScale: 1,
@@ -220,8 +224,8 @@ export class CompareComponent implements OnDestroy {
         y: 0
       },
       scaleOrigin: {
-        x: 0,
-        y: 0
+        x: width / 2,
+        y: height / 2
       },
       imgOrigin: imgOrigin,
       rotate: 0
