@@ -93,7 +93,7 @@ export class ListenIpcActions {
     //当打开目录是要选择文件时
     const { filePath } = await dialog.showSaveDialog({
       title: 'Save files',
-      defaultPath: file.outsrc,
+      defaultPath: file.outpath,
       filters: [
         {
           name: 'Images',
