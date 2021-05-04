@@ -29,7 +29,7 @@ export const getMenuEnableds = (isAll?: boolean) => {
 };
 export type FileExt = 'png' | 'jpg' | 'jpge' | 'webp';
 export const fileExtReg = /jpg|png|jpeg|webp/;
-export type messageType = 'success' | 'error' | 'loading' | 'remove';
+export type messageType = 'success' | 'error' | 'loading' | 'remove' | 'warning';
 
 export interface FILE {
   [key: string]: any;

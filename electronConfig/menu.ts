@@ -72,12 +72,12 @@ export function setMenu(isServe: boolean): void {
       ]
     }
   ];
-  // if (isServe) {
+  if (isServe) {
   Menus.push({
     label: 'Debug',
     submenu: [{ role: 'reload' }, { role: 'forceReload' }, { role: 'toggleDevTools' }]
   });
-  // }
+  }
 
   const menu = Menu.buildFromTemplate(Menus);
   Menu.setApplicationMenu(menu);

@@ -175,11 +175,11 @@ export const img_compress = async (path: string, quality: string): Promise<Image
       };
     })
     .catch(err => {
-      log.error('imgerr', err);
+      log.error('imgerr',path, err);
       return {
         status: 99,
         data: input,
-        errorInfo: err.stderr.toString(),
+        errorInfo: err,
         nowDataSize: 0,
         percentage: 0
       };

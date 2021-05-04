@@ -6,14 +6,15 @@ import { dirSearchImg, compress } from '../optimize';
 
 import * as log from 'electron-log';
 import { Queue } from './loop';
-import { webContentsActions } from './webContents-actions';
+import { message, webContentsActions } from './webContents-actions';
 
 export class ListenIpcActions {
   win!: BrowserWindow;
+  message: message;
   constructor(win: BrowserWindow) {
     this.win = win;
+    this.message = webContentsActions(this.win).message;
   }
-
   //打开文件夹的参数
   getOptions = function (key?: 'SELECT_FILE' | 'SAVE_AS_DIR') {
     //打开文件夹 的配置参数
@@ -64,6 +65,11 @@ export class ListenIpcActions {
     log.info('time:', new Date().getTime() - sTime);
     let count = 0;
     const len = imgArr.length;
+
+    if(len == 0) {
+      this.message('warning','msg.not_img_warning');
+      return;
+    };
     this.setProgress(0, 1);
     compress(imgArr, FILE => {
       count++;
@@ -97,7 +103,7 @@ export class ListenIpcActions {
     });
 
     if (filePath) {
-      webContentsActions(this.win).message('loading', 'msg.save_loading', {
+      this.message('loading', 'msg.save_loading', {
         nzDuration: 0
       });
       console.log(filePath);
@@ -106,7 +112,7 @@ export class ListenIpcActions {
       await fs.writeFile(filePath, Buffer);
       // //保存成功 提示mssage
       // shell.showItemInFolder(filePath);
-      webContentsActions(this.win).message('success', 'msg.save_finish');
+      this.message('success', 'msg.save_finish');
     }
   };
   save_new_dir = async (files: FILE[]) => {
