@@ -209,9 +209,9 @@ export class CompareComponent implements OnDestroy {
       y: height / 2
     };
     this.current = {
-      x:0,
-      y:0
-    }
+      x: 0,
+      y: 0
+    };
     this.matrix = {
       scale: 1,
       lastMoveScale: 1,

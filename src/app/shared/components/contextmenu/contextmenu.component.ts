@@ -172,7 +172,6 @@ export class ContextmenuComponent {
   }
   saveOrigin(origin: CdkOverlayOrigin) {
     this.origin = origin;
-    console.log(origin);
     this.cdr.markForCheck();
   }
   show() {
