@@ -26,7 +26,12 @@ export class ElectronService {
   shell = shell;
   childProcess = childProcess;
   path = path;
-  constructor(private cdr: ApplicationRef, private store: Store, private message: NzMessageService, private translate: TranslateService) {
+  constructor(
+    // private cdr: ApplicationRef,
+    private store: Store,
+    private message: NzMessageService,
+    private translate: TranslateService
+  ) {
     this.ipcRendererOn();
   }
   //向主进程发送 file_add命令
@@ -142,7 +147,7 @@ export class ElectronService {
       this.message.remove();
       console.log(type);
       this.message[type](message && this.translate.instant(message, options));
-      this.cdr.tick();
+      // this.cdr.tick();
     });
   }
 }

@@ -166,7 +166,7 @@ export const img_compress = async (path: string, quality: string): Promise<Image
     })
     .toBuffer({ resolveWithObject: true })
     .then(({ data, info }) => {
-      log.info('img', path, info);
+      // log.info('img', path, info);
       return {
         status: 0,
         data: data,
@@ -175,7 +175,7 @@ export const img_compress = async (path: string, quality: string): Promise<Image
       };
     })
     .catch(err => {
-      log.error('imgerr',path, err);
+      log.error('imgerr', path, err);
       return {
         status: 99,
         data: input,

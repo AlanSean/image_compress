@@ -22,12 +22,12 @@ export class ImgListComponent implements OnInit {
   constructor(
     private electronService: ElectronService,
     private store: Store<Array<FILE>>,
-    private cdr: ChangeDetectorRef,
+    // private cdr: ChangeDetectorRef,
     private modal: NzModalService
   ) {}
   ngOnInit() {
     this.files$.subscribe(() => {
-      this.cdr.detectChanges();
+      // this.cdr.detectChanges();
     });
   }
   trackByItem(index: number, value: FILE) {
