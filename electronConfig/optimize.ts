@@ -106,8 +106,8 @@ export async function dirSearchImg(filepaths: string[], setting: FileSetting, FI
           percentage: '',
           nowDataSize: '--'
         };
+        log.info(FILE);
         _filesQueue.push(FILE);
-        _filesQueue.run();
         FILES[FILES.length] = FILE;
         //如果是文件 后面的逻辑不需要执行了
         continue;

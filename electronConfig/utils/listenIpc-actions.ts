@@ -46,14 +46,14 @@ export class ListenIpcActions {
   };
 
   //初次渲染
-  fileSelected = (files: FILE[]): void => {
+  fileSelected = (files: FILE | FILE[]): void => {
     this.win.webContents.send(IpcChannel.FILE_SELECTED, files);
   };
 
   filesQueue = new Queue<FILE>(this.fileSelected);
 
   //压缩完成渲染
-  filesFinish = (files: FILE[]): void => {
+  filesFinish = (files: FILE | FILE[]): void => {
     this.win.webContents.send(IpcChannel.FILE_UPDATE, files);
   };
   filesFinishQueue = new Queue<FILE>(this.filesFinish);
@@ -66,16 +66,16 @@ export class ListenIpcActions {
     let count = 0;
     const len = imgArr.length;
 
-    if(len == 0) {
-      this.message('warning','msg.not_img_warning');
+    if (len == 0) {
+      this.message('warning', 'msg.not_img_warning');
       return;
-    };
+    }
     this.setProgress(0, 1);
     compress(imgArr, FILE => {
       count++;
       this.setProgress(count, len);
       this.filesFinishQueue.push(FILE);
-      this.filesFinishQueue.run();
+      // this.filesFinishQueue.run();
     });
   };
 
