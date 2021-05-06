@@ -10,22 +10,18 @@ import { byteConver, percent, Queue } from './utils';
 const number = 300;
 const expMap = {
   '.png': {
-    // binary: pngquant,
     ext: 'png',
     quality: 'pngQuality'
   },
   '.jpg': {
-    // binary: mozjpeg,
     ext: 'jpg',
     quality: 'jpgQuality'
   },
   '.jpeg': {
-    // binary: mozjpeg,
     ext: 'jpeg',
     quality: 'jpgQuality'
   },
   '.webp': {
-    binaryBin: () => {},
     ext: 'webp',
     quality: 'webpQuality'
   }
@@ -38,10 +34,7 @@ async function PIPE(arr: FILE[], cb: compress_callback) {
     for (const FILE of arr) {
       if (FILE.extname in expMap) {
         img_compress(FILE.path, FILE.quality).then(async (result: ImageInfo) => {
-          const dirname = path.dirname(FILE.outpath);
-          await fs.mkdirs(dirname);
-          // //生成文件
-          await fs.writeFile(FILE.outpath, result.data);
+          fs.outputFileSync(FILE.outpath, result.data);
           const newFile: FILE = {
             ...FILE,
             outsrc: `file://${FILE.outpath}?t=${new Date().getTime()}`,
@@ -88,24 +81,25 @@ export async function dirSearchImg(filepaths: string[], setting: FileSetting, FI
       const extname = path.extname(file).toLocaleLowerCase();
       //判断是否是文件以及格式是否是图片
       if (imgFile.isFile() && extname in expMap) {
-        const filepath = file.replace(/\\/g, '/');
-        const fileExpMap = expMap[extname];
-        const FILE: FILE = {
-          MD5KEY: MD5(filepath).toString(),
-          state: 'await',
-          src: `file://${filepath}`,
-          path: filepath,
-          name: fileName,
-          extname: extname,
-          ext: fileExpMap.ext,
-          outsrc: `file://${outpath}?t=${new Date().getTime()}`,
-          outpath: outpath,
-          outdir: setting.outdir,
-          quality: setting[fileExpMap.quality],
-          rawDataSize: byteConver(imgFile.size),
-          percentage: '',
-          nowDataSize: '--'
-        };
+        const filepath = file.replace(/\\/g, '/'),
+          fileExpMap = expMap[extname],
+          FILE: FILE = {
+            MD5KEY: MD5(filepath + new Date().getTime()).toString(),
+            state: 'await',
+            src: `file://${filepath}`,
+            path: filepath,
+            name: fileName,
+            extname: extname,
+            ext: fileExpMap.ext,
+            outsrc: null,
+            outpath: outpath,
+            outdir: setting.outdir,
+            quality: setting[fileExpMap.quality],
+            rawDataSize: byteConver(imgFile.size),
+            percentage: '',
+            nowDataSize: '--'
+          };
+
         _filesQueue.push(FILE);
         FILES[FILES.length] = FILE;
         //如果是文件 后面的逻辑不需要执行了

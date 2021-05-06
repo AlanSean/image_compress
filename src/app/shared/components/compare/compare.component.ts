@@ -25,7 +25,7 @@ import { FILE } from '@common/constants';
   selector: '[appCompare]'
 })
 export class CompareDirective implements OnInit, OnChanges {
-  @Input('data') data!: FILE;
+  @Input('appCompareData') data!: FILE;
   component!: CompareComponent;
   origin!: any;
   //resolver.resolveComponentFactory ：检索创建给定类型组件的工厂对象。
@@ -50,7 +50,7 @@ export class CompareDirective implements OnInit, OnChanges {
   }
   updateComponentData() {
     this.component._CompressBeforeImage = this.data.src;
-    this.component._CompressAfterImage = this.data.outsrc;
+    this.component._CompressAfterImage = this.data.outsrc!;
   }
 }
 
@@ -312,6 +312,7 @@ export class CompareComponent implements OnDestroy {
     };
   }
   mousewheel = (e: any) => {
+    console.log(e.offsetX);
     if (e.wheelDeltaY < 0) {
       this.updateStyle(-0.1, 0);
     }
