@@ -39,8 +39,8 @@ export interface FILE {
   name: string;
   extname: string; //"png" | "jpg" | "webp"
   ext: string; //".png" | ".jpg" | ".webp"
-  outpath: string;
-  outsrc: string;
+  outpath: null | string;
+  outsrc: null | string;
   outdir: string;
   quality: string;
   rawDataSize: string;
