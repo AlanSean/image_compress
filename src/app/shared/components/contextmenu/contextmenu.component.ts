@@ -39,20 +39,23 @@ export class ContextmenuDirective implements OnInit {
 
   @HostListener('contextmenu', ['$event']) oncontextmenu(e: MouseEvent) {
     e.preventDefault();
+    e.stopPropagation();
     if (this.disabled || this.trigger != 'contextmenu') return;
     this.component?.show();
   }
-  @HostListener('click') onclick() {
+  @HostListener('click', ['$event']) onclick(e: MouseEvent) {
+    e.stopPropagation();
     if (this.disabled || this.trigger != 'contextmenu') return;
     this.component?.hide();
   }
   @HostListener('mouseenter', ['$event']) onmouseenter(e: MouseEvent) {
     e.preventDefault();
+    e.stopPropagation();
     if (this.disabled || this.trigger != 'hover') return;
     this.clearTimer();
     this.component?.show();
   }
-  removeListener() {}
+
   @HostListener('mouseleave') onmouseleave() {
     if (this.disabled || this.trigger != 'hover') return;
     this.listener();
@@ -81,6 +84,7 @@ export class ContextmenuDirective implements OnInit {
       this.time = undefined;
     }
   }
+  removeListener() {}
   listener() {
     if (this.trigger != 'hover') return;
     let overlayElement = this.component.overlay.overlayRef.overlayElement;
