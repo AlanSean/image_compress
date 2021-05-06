@@ -40,8 +40,8 @@ function createWindow(): BrowserWindow {
   win = new BrowserWindow({
     width: 800 + (os.platform() === 'darwin' ? 15 : 34),
     height: 600,
-    minWidth: 540,
-    minHeight: 540,
+    minWidth: 560,
+    minHeight: 560,
     icon: path.join(__dirname, 'favicon.ico'),
     // show: false,
     frame: true, // 去掉顶部操作栏
