@@ -1,10 +1,9 @@
-import { BrowserWindow, dialog, shell } from 'electron';
 import * as os from 'os';
 import * as fs from 'fs-extra';
+import * as log from 'electron-log';
+import { BrowserWindow, dialog, shell } from 'electron';
 import { FILE, FileSetting, IpcChannel } from '../../src/common/constants';
 import { dirSearchImg, compress } from '../optimize';
-
-import * as log from 'electron-log';
 import { Queue } from './loop';
 import { message, webContentsActions } from './webContents-actions';
 
@@ -49,20 +48,19 @@ export class ListenIpcActions {
   fileSelected = (files: FILE | FILE[]): void => {
     this.win.webContents.send(IpcChannel.FILE_SELECTED, files);
   };
-
   filesQueue = new Queue<FILE>(this.fileSelected);
-
   //压缩完成渲染
-  filesFinish = (files: FILE | FILE[]): void => {
-    this.win.webContents.send(IpcChannel.FILE_UPDATE, files);
-  };
-  filesFinishQueue = new Queue<FILE>(this.filesFinish);
+  // filesFinish = (files: FILE | FILE[]): void => {
+  //   this.win.webContents.send(IpcChannel.FILE_UPDATE, files);
+  // };
+  // filesFinishQueue = new Queue<FILE>(this.filesFinish);
 
   //添加文件并压缩
   file_add = async (files: string[], setting: FileSetting) => {
     const sTime = new Date().getTime();
     const imgArr = await dirSearchImg(files, setting, [], this.filesQueue);
-    log.info('time:', new Date().getTime() - sTime);
+    this.win.webContents.send(IpcChannel.FILE_SELECTED, imgArr);
+    log.info('time:', new Date().getTime() - sTime, imgArr.length);
     let count = 0;
     const len = imgArr.length;
 
@@ -71,11 +69,11 @@ export class ListenIpcActions {
       return;
     }
     this.setProgress(0, 1);
-    compress(imgArr, FILE => {
+    compress(imgArr, async FILE => {
+      // await delay(3);
       count++;
       this.setProgress(count, len);
-      this.filesFinishQueue.push(FILE);
-      // this.filesFinishQueue.run();
+      this.win.webContents.send(IpcChannel.FILE_UPDATE, FILE);
     });
   };
 
@@ -106,7 +104,6 @@ export class ListenIpcActions {
       this.message('loading', 'msg.save_loading', {
         nzDuration: 0
       });
-      console.log(filePath);
       //防止特殊字符导致失败
       const Buffer = await fs.readFile(file.outpath);
       await fs.writeFile(filePath, Buffer);
@@ -128,7 +125,6 @@ export class ListenIpcActions {
         nzDuration: 0
       });
       files.forEach(async item => {
-        // const Buffer = await fs.readFile(item.outpath);
         const outpath = item.outpath.replace(item.outdir, filePaths[0]);
         await fs.copy(item.outpath, outpath);
         count++;

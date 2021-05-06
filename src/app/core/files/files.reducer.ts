@@ -27,7 +27,7 @@ export const fileReducer = createReducer(
       for (const file of files) {
         //searchImg 也许会比 压缩完成时要慢
         //因为图片压缩是批量压缩,而添加file是同步的
-        if (fileMap.get(file.MD5KEY)?.state !== 'await' && file.state == 'await') {
+        if (fileMap.has(file.MD5KEY) && file.state == 'await') {
           continue;
         }
         fileMap.put(file.MD5KEY, file);

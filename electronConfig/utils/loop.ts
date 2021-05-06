@@ -5,7 +5,7 @@ interface PIPE<T> {
 export class Queue<T> {
   private data = [];
   private pipe: PIPE<T>;
-  timeout = 30;
+  timeout = 100;
   constructor(pipe: PIPE<T>) {
     this.pipe = pipe;
   }
@@ -16,16 +16,16 @@ export class Queue<T> {
       this.run(data[0]);
     }
   }
-  shift() {
+  shift(len) {
     const data = this.data;
-    data.shift();
+    data.splice(0, len);
     if (data.length > 0) {
-      this.run(data[0]);
+      this.run(data.slice(0, 30));
     }
   }
-  async run(files: T | T[]): Promise<void> {
+  async run(files: T[]): Promise<void> {
     await delay(this.timeout);
     this.pipe && this.pipe(files);
-    this.shift();
+    this.shift(files.length);
   }
 }
