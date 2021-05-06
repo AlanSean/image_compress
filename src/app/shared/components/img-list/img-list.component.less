@@ -10,6 +10,11 @@
   border-radius: @border-width;
 }
 
+img {
+  pointer-events: none;
+  user-select: none;
+}
+
 .img-list {
   width: 100%;
   display: flex;
@@ -27,18 +32,22 @@
     transition: box-shadow 0.2s;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
+    position: relative;
 
     &:hover {
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-      .img {
-        .title{
-            .bg(#fff);
-            box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
-            .name {
-              opacity: 1;
-            }
+
+      .img_continer {
+        .title {
+          .bg(#fff);
+          box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+
+          .name {
+            opacity: 1;
+          }
         }
       }
+
     }
 
     &.hidden {
@@ -49,16 +58,12 @@
       }
     }
 
-    .img {
+    .img_continer {
       .border-tl-tr;
       position: relative;
       .w(@img-w);
       .h(@img-w);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      .title{
+      .title {
         position: absolute;
         .l(0);
         .r(0);
@@ -71,89 +76,103 @@
         border-radius: @border-width @border-width 0 0;
         transition: all 0.2s;
         .h(40px);
+
+        &:not(.disabled) .menu {
+          cursor: pointer;
+        }
+
         .imgicon {
           font-size: 20px;
         }
-        .name{
+
+        .name {
           .t-c;
-          flex:1;
+          flex: 1;
           white-space: nowrap;
-          overflow:hidden;
+          overflow: hidden;
           text-overflow: ellipsis;
           margin: 0 10px;
           opacity: 0;
           transition: opacity 0.2s;
         }
       }
-      .title:not(.disabled) .menu {
-        cursor: pointer;
-      }
-      
-      img {
+
+      .img {
         .border-tl-tr;
-        display: block;
-        max-width: @img-maxw;
-        max-height: @img-maxw;
+        .w(@img-w);
+        .h(@img-w);
+        display: flex;
+        justify-content: center;
+        align-items: center;
         cursor: pointer;
-        pointer-events: none;
-        user-select: none;
+
+        img {
+          .border-tl-tr;
+          display: block;
+          max-width: @img-maxw;
+          max-height: @img-maxw;
+          cursor: pointer;
+        }
       }
 
-      .spin {
+      .loading {
         position: absolute;
         .t(0);
         .l(0);
-        max-width: @img-w;
-        max-height: @img-w;
+        .b(0);
+        .w(@img-w);
+        .h(@img-w);
         border-radius: @border-width @border-width 0 0;
-      }
+        background: url('~assets/loading.gif') no-repeat center / 100%;
 
-      .spin_visi {
-        visibility: hidden;
-      }
-    }
-
-    .quality {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      .nz-slider {
-        flex: 1;
-        .m(0 5px);
+        &.loading_visi {
+          visibility: hidden;
+          background: none;
+        }
       }
     }
 
-    .size {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .quality_size {
+      .quality {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 
-      .await {
-        .c(gray);
+        .nz-slider {
+          flex: 1;
+          .m(0 5px);
+        }
       }
 
-      .finish {
-        .c(green);
+      .size {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .await {
+          .c(gray);
+        }
+
+        .finish {
+          .c(green);
+        }
+
+        .error {
+          .c(red);
+          cursor: pointer;
+        }
+
+        .percentage {
+          user-select: text;
+        }
       }
 
-      .error {
-        .c(red);
-        cursor: pointer;
+      .quality,
+      .size {
+        .p(0 10px);
+        .lh(32px);
+        border-top: 1px solid #dbdbdb;
       }
-
-      .percentage {
-        user-select: text;
-      }
-    }
-
-    .quality,
-    .size {
-      .p(0 10px);
-      .lh(32px);
-      border-top: 1px solid #dbdbdb;
     }
   }
 }
-
-

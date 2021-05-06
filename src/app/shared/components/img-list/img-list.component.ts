@@ -26,8 +26,9 @@ export class ImgListComponent implements OnInit {
     private modal: NzModalService
   ) {}
   ngOnInit() {
-    this.files$.subscribe(() => {
+    this.files$.subscribe(v => {
       // this.cdr.detectChanges();
+      console.log(v.length);
     });
   }
   trackByItem(index: number, value: FILE) {
@@ -72,8 +73,6 @@ export class ImgListComponent implements OnInit {
 
   //信息框
   modalInfo(item: FILE): void {
-    // console.log("showItemInFolder", item.path);
-    // this.electronService.showItemInFolder(item.path);
     if (item.state == 'error') {
       this.modal.error({
         nzTitle: 'Image compression failed',
@@ -85,7 +84,7 @@ export class ImgListComponent implements OnInit {
   menuListClick(key: string, item: FILE) {
     switch (key) {
       case 'openFileDir':
-        this.electronService.openFileDir(item.outpath);
+        item.outpath && this.electronService.openFileDir(item.outpath);
         break;
       case 'saveAs':
         this.electronService.saveAs(item);

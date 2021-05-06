@@ -1,13 +1,18 @@
 <div class="img-list">
   <div *ngFor="let item of files$ | async; index as i; trackBy: trackByItem" class="imgInfo">
-    <div class="img">
+    <div class="img_continer">
+      <div *ngIf="item.outsrc !== null" class="img" appCompare [appCompareData]="item">
+        <img [src]="item.outsrc" />
+      </div>
+
       <div class="title" [class.disabled]="item.state != 'finish'">
         <!-- PNG WEBP JPG -->
         <app-icon [name]="'icon-' + item.ext" class="icon imgicon"></app-icon>
+
         <div class="name">
           <span>{{ item.name }}</span>
         </div>
-        <!-- <input class="name"  type="text" [ngModel]="item.name"> -->
+
         <div
           class="icon menu"
           appContextmenu
@@ -17,15 +22,15 @@
           <app-icon name="icon-more"></app-icon>
         </div>
       </div>
-      <img appCompare [data]="item" [src]="item.outsrc" />
-      <img src="./assets/loading.gif" class="spin" [class.spin_visi]="item.state !== 'await'" />
+
+      <div class="loading" [class.loading_visi]="item.state !== 'await'"></div>
     </div>
-    <div class="img_info">
-      <div class="quality">
-        <span class="title">{{ 'quality' | translate }}</span>
+    <div class="quality">
+      <!-- <div class="quality">
+        <span class="text">{{ 'quality' | translate }}</span>
         <nz-slider
           class="nz-slider"
-          [nzDisabled]="item.state == 'await' || item.state == 'error'"
+          [nzDisabled]="item.state === 'await' || item.state === 'error'"
           [ngModel]="item.quality"
           [nzTooltipVisible]="'never'"
           (ngModelChange)="qualityChange(item, $event)"
@@ -33,6 +38,7 @@
         ></nz-slider>
         <span class="number">{{ item.quality }}</span>
       </div>
+
       <div class="size">
         <div [class]="item.state" (click)="modalInfo(item)">
           {{ item.state | translate }}
@@ -40,9 +46,13 @@
         <div class="percentage">
           <span>{{ item.nowDataSize }}</span>
           <span>/ {{ item.rawDataSize }}</span>
-          <span>{{ item.nowDataSize != '--' ? '(' + item.percentage + ')' : '' }}</span>
+          <span
+            >{{ item.nowDataSize != '--' ? '(' + item.percentage + ')' : ''
+            }}</span
+          >
         </div>
-      </div>
+
+      </div> -->
     </div>
   </div>
 </div>
