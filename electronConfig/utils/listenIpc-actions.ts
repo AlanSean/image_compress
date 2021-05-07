@@ -59,7 +59,6 @@ export class ListenIpcActions {
   file_add = async (files: string[], setting: FileSetting) => {
     const sTime = new Date().getTime();
     const imgArr = await dirSearchImg(files, setting, [], this.filesQueue);
-    this.win.webContents.send(IpcChannel.FILE_SELECTED, imgArr);
     log.info('time:', new Date().getTime() - sTime, imgArr.length);
     let count = 0;
     const len = imgArr.length;

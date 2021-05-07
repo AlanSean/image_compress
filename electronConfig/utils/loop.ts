@@ -13,7 +13,7 @@ export class Queue<T> {
     const data = this.data;
     data[data.length] = value;
     if (data.length == 1) {
-      this.run(data[0]);
+      this.run(data.slice(0));
     }
   }
   shift(len) {
@@ -24,7 +24,8 @@ export class Queue<T> {
     }
   }
   async run(files: T[]): Promise<void> {
-    await delay(this.timeout);
+    // await delay(this.timeout);
+    console.log(files.length, this.data);
     this.pipe && this.pipe(files);
     this.shift(files.length);
   }
