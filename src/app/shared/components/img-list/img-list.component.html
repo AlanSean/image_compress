@@ -1,5 +1,5 @@
 <div class="img-list">
-  <div *ngFor="let item of files$ | async; index as i; trackBy: trackByItem" class="imgInfo">
+  <div *ngFor="let item of files; index as i; trackBy: trackByItem" class="imgInfo">
     <div class="img_continer">
       <div *ngIf="item.outsrc !== null" class="img" appCompare [appCompareData]="item">
         <img [src]="item.outsrc" />
@@ -25,8 +25,8 @@
 
       <div class="loading" [class.loading_visi]="item.state !== 'await'"></div>
     </div>
-    <div class="quality">
-      <!-- <div class="quality">
+    <div class="quality_size">
+      <div class="quality">
         <span class="text">{{ 'quality' | translate }}</span>
         <nz-slider
           class="nz-slider"
@@ -46,13 +46,9 @@
         <div class="percentage">
           <span>{{ item.nowDataSize }}</span>
           <span>/ {{ item.rawDataSize }}</span>
-          <span
-            >{{ item.nowDataSize != '--' ? '(' + item.percentage + ')' : ''
-            }}</span
-          >
+          <span>{{ item.nowDataSize != '--' ? '(' + item.percentage + ')' : '' }}</span>
         </div>
-
-      </div> -->
+      </div>
     </div>
   </div>
 </div>
