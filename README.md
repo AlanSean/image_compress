@@ -24,7 +24,7 @@ npm run dev
 
 
 ## 任务
-- [x] Voralent Antelope 
+- [x] Voralent Antelope (Batch compression of 500 pieces)
 - [x] Compression bar
 - [x] jpg png webp
 - [x] Can save as
