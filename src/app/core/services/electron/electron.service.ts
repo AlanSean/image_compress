@@ -13,7 +13,7 @@ import { getSetting, mkOutdir } from '@utils/storage';
 import { FILE_ADD, SAVE_NEW_DIR, UPDATE_STATE } from '@app/core/core.module';
 import { FILE } from '@common/constants';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { CLEAR_FILE } from '@app/core/files/files.actions';
+import { CLEAR_FILE, REMOVE_FILE } from '@app/core/files/files.actions';
 import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
@@ -26,12 +26,7 @@ export class ElectronService {
   shell = shell;
   childProcess = childProcess;
   path = path;
-  constructor(
-    // private cdr: ApplicationRef,
-    private store: Store,
-    private message: NzMessageService,
-    private translate: TranslateService
-  ) {
+  constructor(private cdr: ApplicationRef, private store: Store, private message: NzMessageService, private translate: TranslateService) {
     this.ipcRendererOn();
   }
   //向主进程发送 file_add命令
@@ -97,28 +92,36 @@ export class ElectronService {
   file_update_quality(file: FILE): void {
     this.ipcRenderer.send(IpcChannel.FILE_UPDATE_QUALITY, file);
   }
-
+  add = (_: any, FILE: FILE | Array<FILE>) => {
+    console.log('file', FILE);
+    this.store.dispatch(
+      FILE_ADD({
+        files: FILE
+      })
+    );
+  };
+  update = (_: any, FILE: FILE | FILE[]) => {
+    console.log('update', FILE);
+    this.store.dispatch(
+      UPDATE_STATE({
+        files: FILE
+      })
+    );
+  };
+  remove(key: string) {
+    this.store.dispatch(
+      REMOVE_FILE({
+        keys: key
+      })
+    );
+  }
   //开启监听主进程向子进程发送的命令
   ipcRendererOn(): void {
     //压缩完成的文件
-    this.ipcRenderer.on(IpcChannel.FILE_SELECTED, (_, FILE: FILE | Array<FILE>) => {
-      this.store.dispatch(
-        FILE_ADD({
-          files: FILE
-        })
-      );
-      // this.cdr.tick();
-    });
+    this.ipcRenderer.on(IpcChannel.FILE_SELECTED, this.add);
 
     //更新图片信息
-    this.ipcRenderer.on(IpcChannel.FILE_UPDATE, (_, FILE: FILE | FILE[]) => {
-      this.store.dispatch(
-        UPDATE_STATE({
-          files: FILE
-        })
-      );
-      // this.cdr.tick();
-    });
+    this.ipcRenderer.on(IpcChannel.FILE_UPDATE, this.update);
 
     //窗口菜单 发起的选择文件
     this.ipcRenderer.on(IpcChannel.SELECT_DIR, (_, key: string) => {
