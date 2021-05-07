@@ -8,11 +8,10 @@ import { getFilesLength } from '@app/core/core.module';
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.less']
-  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent implements OnInit {
   [key: string]: any;
-  filesLength$ = this.store.pipe(select(getFilesLength));
+  filesLength = 0;
   barShow = true; //进度条是否显示
   dragUp = false; //是否拖入状态
 
@@ -21,16 +20,16 @@ export class HomeComponent implements OnInit {
   sliderDisabled = false; //滑块是否不可用
   isVisible = false; //控制抽屉
 
-  constructor(
-    private electronService: ElectronService,
-    // private cdr: ChangeDetectorRef,
-    private store: Store
-  ) {
+  constructor(private electronService: ElectronService, private cdr: ChangeDetectorRef, private store: Store) {
     this.ipcRendererOn();
-    this.filesLength$.subscribe(len => {
+    this.store.pipe(select(getFilesLength)).subscribe(len => {
       if (len == 0) {
         this.electronService.menuEnabled([MenuIpcChannel.ADD], true);
         this.electronService.menuEnabled(getMenuEnableds(false), false);
+      }
+      if (len != this.filesLength) {
+        this.filesLength = len;
+        this.cdr.detectChanges();
       }
     });
   }
@@ -102,7 +101,7 @@ export class HomeComponent implements OnInit {
       this.sliderDisabled = false;
       this.electronService.menuEnabled(getMenuEnableds(true), true);
     }
-    // this.cdr.detectChanges();
+    this.cdr.detectChanges();
   }
 
   //菜单事件

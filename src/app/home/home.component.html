@@ -8,7 +8,7 @@
       nz-menu-item
       nz-submenu
       (click)="menuClick('save')"
-      [nzDisabled]="!(filesLength$ | async) || sliderDisabled"
+      [nzDisabled]="!filesLength || sliderDisabled"
     >
       <div title>
         <app-icon name="icon-xiazai" class="icon"></app-icon>
@@ -24,7 +24,7 @@
       nz-menu-item
       nzDisabled
       (click)="menuClick('cleanImgs')"
-      [nzDisabled]="!(filesLength$ | async) || sliderDisabled"
+      [nzDisabled]="!filesLength || sliderDisabled"
     >
       <app-icon name="icon-qingkong" class="icon"></app-icon>
       {{ 'clean' | translate }}
@@ -58,7 +58,7 @@
     (drop)="fileAdd($event)"
   >
     <app-img-list></app-img-list>
-    <div [class.hidden]="true || (filesLength$ | async)" class="text">
+    <div [class.hidden]="true || filesLength" class="text">
       <span class="text-big">拖拽文件到此区域</span>
     </div>
   </div>
