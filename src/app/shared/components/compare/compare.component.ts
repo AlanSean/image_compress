@@ -47,9 +47,10 @@ export class CompareDirective implements OnInit, OnChanges {
   }
   protected created() {
     this.component = this.viewContainerRef.createComponent(this.componentFactory).instance;
+    this.updateComponentData();
   }
   updateComponentData() {
-    this.component._CompressBeforeImage = this.data.src;
+    this.component._CompressBeforeImage = this.data.src!;
     this.component._CompressAfterImage = this.data.outsrc!;
   }
 }
