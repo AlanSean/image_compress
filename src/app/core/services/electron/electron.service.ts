@@ -68,6 +68,7 @@ export class ElectronService {
     this.store.dispatch(CLEAR_FILE());
     this.menuEnabled([MenuIpcChannel.ADD], true);
     this.menuEnabled(getMenuEnableds(false), false);
+    // this.cdr.tick();
   }
 
   //更新menu 状态
@@ -93,28 +94,29 @@ export class ElectronService {
     this.ipcRenderer.send(IpcChannel.FILE_UPDATE_QUALITY, file);
   }
   add = (_: any, FILE: FILE | Array<FILE>) => {
-    console.log('file', FILE);
     this.store.dispatch(
       FILE_ADD({
         files: FILE
       })
     );
+    // this.cdr.tick();
   };
   update = (_: any, FILE: FILE | FILE[]) => {
-    console.log('update', FILE);
     this.store.dispatch(
       UPDATE_STATE({
         files: FILE
       })
     );
+    // this.cdr.tick();
   };
-  remove(key: string) {
+  remove = (key: string) => {
     this.store.dispatch(
       REMOVE_FILE({
         keys: key
       })
     );
-  }
+    // this.cdr.tick();
+  };
   //开启监听主进程向子进程发送的命令
   ipcRendererOn(): void {
     //压缩完成的文件
@@ -137,20 +139,18 @@ export class ElectronService {
     //另存为事件
     this.ipcRenderer.on(IpcChannel.SAVE_NEW_DIR, () => {
       this.savenewdir();
-      // this.cdr.tick();
+      this.cdr.tick();
     });
     //清空事件
     this.ipcRenderer.on(IpcChannel.CLEAN_FILE, () => {
       this.clean();
-      // this.cdr.tick();
     });
 
     //消息
     this.ipcRenderer.on(Message.TOAST, (_, type: messageType, message: string, options?: number) => {
       this.message.remove();
-      console.log(type);
       this.message[type](message && this.translate.instant(message, options));
-      // this.cdr.tick();
+      this.cdr.tick();
     });
   }
 }
