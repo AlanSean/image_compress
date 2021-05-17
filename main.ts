@@ -2,7 +2,7 @@ import * as os from 'os';
 import * as path from 'path';
 import * as url from 'url';
 import { app, BrowserWindow, ipcMain } from 'electron';
-import { loadExtension, setProtocol, listenIpc, setMenu } from './electronConfig';
+import { loadExtension, setProtocol, listenIpc, setMenu, Update } from './electronConfig';
 
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = '1';
 
@@ -70,6 +70,7 @@ function createWindow(): BrowserWindow {
 
   //设置自定义协议
   setProtocol();
+  Update();
   listenIpc.call(this, win);
   // Emitted when the window is closed.
   win.on('closed', () => {

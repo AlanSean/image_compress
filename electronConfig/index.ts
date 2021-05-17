@@ -5,3 +5,4 @@ export * from './optimize';
 export * from './bin';
 export * from './Local_Bin_Wrapper';
 export * from './menu';
+export * from './update';

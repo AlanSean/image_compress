@@ -36,6 +36,6 @@
     "strictTemplates": true
   },
   "files": ["src/main.ts", "src/polyfills.ts"],
-  "include": ["src/**/*.d.ts"],
+  "include": ["electronConfig/**/*.ts", "src/**/*.d.ts"],
   "exclude": ["node_modules", "!src/assets/**/*.js"]
 }
