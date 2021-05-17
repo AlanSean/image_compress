@@ -4,7 +4,7 @@
   "description": "png/jpge optimization app",
   "homepage": "https://github.com/AlanSean/image_compress",
   "author": {
-    "name": "Alan",
+    "name": "AlanSean",
     "email": "miaomimiya@gmail.com"
   },
   "keywords": [
@@ -104,8 +104,9 @@
     "cross-env": "7.0.3",
     "electron": "12.0.5",
     "electron-builder": "22.10.5",
-    "electron-log": "^4.3.5",
+    "electron-log": "4.3.5",
     "electron-reload": "1.5.0",
+    "electron-updater": "4.3.9",
     "eslint": "7.25.0",
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-jsdoc": "32.3.3",

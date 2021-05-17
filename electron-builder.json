@@ -18,12 +18,12 @@
   },
   "win": {
     "icon": "dist/assets/icons",
-    "target": ["nsis", "zip"]
+    "target": ["nsis"]
   },
   "mac": {
     "category": "public.app.category.imgCompress",
     "icon": "dist/assets/icons",
-    "target": ["dmg"]
+    "target": ["dmg", "zip"]
   },
   "linux": {
     "icon": "dist/assets/icons",
@@ -34,7 +34,7 @@
   "publish": [
     {
       "provider": "github",
-      "owner": "Alan",
+      "owner": "AlanSean",
       "repo": "image_compress"
     }
   ]
