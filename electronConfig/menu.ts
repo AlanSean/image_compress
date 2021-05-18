@@ -65,18 +65,16 @@ export function setMenu(isServe: boolean): void {
         {
           id: 'update',
           label: getLocales('menu.update'),
-          click: async () => {
-            await shell.openExternal('https://github.com/AlanSean/image_compress/blob/master/README.md');
-          }
+          click: menuActions.checkForUpdates
         }
       ]
     }
   ];
   if (isServe) {
-  Menus.push({
-    label: 'Debug',
-    submenu: [{ role: 'reload' }, { role: 'forceReload' }, { role: 'toggleDevTools' }]
-  });
+    Menus.push({
+      label: 'Debug',
+      submenu: [{ role: 'reload' }, { role: 'forceReload' }, { role: 'toggleDevTools' }]
+    });
   }
 
   const menu = Menu.buildFromTemplate(Menus);
@@ -87,6 +85,7 @@ export function setMenu(isServe: boolean): void {
 export function menuEnabled(menuKeys: string[], enabled: boolean) {
   if (!menuInstance) return;
   menuKeys.forEach(v => {
-    menuInstance.getMenuItemById(v).enabled = enabled;
+    let menu = menuInstance.getMenuItemById(v);
+    menu && (menu.enabled = enabled);
   });
 }

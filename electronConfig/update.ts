@@ -1,20 +1,67 @@
+import { dialog, app, BrowserWindow } from 'electron';
 import { autoUpdater } from 'electron-updater';
-
-import * as path from 'path';
-import { isServe } from './utils';
 import log from 'electron-log';
 
 autoUpdater.logger = log;
-// autoUpdater.logger.transports.file.level = "info"
-if (isServe) {
-  autoUpdater.updateConfigPath = path.join(__dirname, '../release/win-unpacked/resources/app-update.yml');
-  // mac的地址是'Contents/Resources/app-update.yml'
-}
+autoUpdater.autoDownload = false;
+// let updater: any;
 
-export function Update() {
-  autoUpdater.on('update-available', async (info: any) => {
-    log.info('update available', info.version, info.path);
+export function Update(win: BrowserWindow) {
+  autoUpdater.on('error', error => {
+    dialog.showErrorBox('Error: ', error == null ? 'unknown' : (error.stack || error).toString());
   });
-  const status = autoUpdater.checkForUpdates();
-  log.info(status);
+
+  // 可更新
+  autoUpdater.on('update-available', () => {
+    dialog
+      .showMessageBox(win, {
+        type: 'info',
+        title: 'Found Updates',
+        message: 'Found updates, do you want update now?',
+        buttons: ['Sure', 'No']
+      })
+      .then(({ response }) => {
+        if (response === 0) {
+          autoUpdater.downloadUpdate();
+        } else {
+          // updater.enabled = true;
+          // updater = null;
+        }
+      });
+  });
+  //没有更新
+  autoUpdater.on('update-not-available', () => {
+    // dialog.showMessageBox({
+    //   title: 'No Updates',
+    //   message: 'Current version is up-to-date.',
+    // });
+    dialog
+      .showMessageBox(win, {
+        type: 'info',
+        title: 'Found Updates',
+        message: 'Found updates, do you want update now?',
+        buttons: ['Sure', 'No']
+      })
+      .then(({ response }) => {
+        if (response === 0) {
+          autoUpdater.downloadUpdate();
+        } else {
+          // updater.enabled = true;
+          // updater = null;
+        }
+      });
+    // updater.enabled = true;
+    // updater = null;
+  });
+  //开始更新
+  autoUpdater.on('update-downloaded', () => {
+    dialog
+      .showMessageBox(win, {
+        title: 'Install Updates',
+        message: 'Updates downloaded, application will be quit for update...'
+      })
+      .then(() => {
+        setImmediate(() => autoUpdater.quitAndInstall());
+      });
+  });
 }

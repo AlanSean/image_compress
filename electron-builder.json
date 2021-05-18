@@ -8,6 +8,7 @@
   "appId": "com.image_compress.app",
   "nsis": {
     "oneClick": false,
+    "allowElevation": false,
     "allowToChangeInstallationDirectory": true,
     "createDesktopShortcut": true,
     "createStartMenuShortcut": true, // 创建开始菜单图标

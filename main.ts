@@ -70,7 +70,7 @@ function createWindow(): BrowserWindow {
 
   //设置自定义协议
   setProtocol();
-  Update();
+  Update(win);
   listenIpc.call(this, win);
   // Emitted when the window is closed.
   win.on('closed', () => {
