@@ -1,8 +1,8 @@
-import { dialog, app, BrowserWindow } from 'electron';
+import { dialog, BrowserWindow } from 'electron';
 import { autoUpdater } from 'electron-updater';
-import log from 'electron-log';
+// import * as log from 'electron-log';
 
-autoUpdater.logger = log;
+// autoUpdater.logger = log;
 autoUpdater.autoDownload = false;
 // let updater: any;
 

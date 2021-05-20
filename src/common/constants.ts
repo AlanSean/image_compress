@@ -39,7 +39,7 @@ export interface FILE {
   name: string;
   extname: string; //"png" | "jpg" | "webp"
   ext: string; //".png" | ".jpg" | ".webp"
-  outpath: null | string;
+  outpath: string;
   outsrc: null | string;
   outdir: string;
   quality: string;
@@ -63,4 +63,11 @@ export interface DefultSetting {
 
 export interface FileSetting extends DefultSetting {
   outpath?: string;
+}
+
+export interface settingType {
+  [key: string]: string;
+  outpath: string;
+  outdir: string;
+  quality: string;
 }

@@ -1,7 +1,7 @@
 import * as os from 'os';
 import * as path from 'path';
 import * as url from 'url';
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow } from 'electron';
 import { loadExtension, setProtocol, listenIpc, setMenu, Update } from './electronConfig';
 
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = '1';

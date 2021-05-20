@@ -2,7 +2,7 @@ import * as os from 'os';
 import * as fs from 'fs-extra';
 import * as log from 'electron-log';
 import { BrowserWindow, dialog, shell } from 'electron';
-import { FILE, FileSetting, IpcChannel } from '../../src/common/constants';
+import { FILE, IpcChannel, settingType } from '../../src/common/constants';
 import { dirSearchImg, compress } from '../optimize';
 import { Queue } from './loop';
 import { message, webContentsActions } from './webContents-actions';
@@ -15,7 +15,7 @@ export class ListenIpcActions {
     this.message = webContentsActions(this.win).message;
   }
   //打开文件夹的参数
-  getOptions = function (key?: 'SELECT_FILE' | 'SAVE_AS_DIR') {
+  getOptions = (key?: 'SELECT_FILE' | 'SAVE_AS_DIR') => {
     //打开文件夹 的配置参数
     let options: Electron.OpenDialogSyncOptions;
     //当打开目录是要选择文件时
@@ -25,7 +25,7 @@ export class ListenIpcActions {
         filters: [{ name: 'Images', extensions: ['jpg', 'png', 'jpge'] }]
       };
       //macos系统下允许选择文件夹
-      if (os.platform() === 'darwin') {
+      if (os.platform() === 'darwin' && options.properties) {
         options.properties.push('openDirectory');
       }
     } else if (key == 'SAVE_AS_DIR') {
@@ -40,7 +40,7 @@ export class ListenIpcActions {
     return options;
   };
 
-  setProgress = function name(start: number, end: number) {
+  setProgress = (start: number, end: number) => {
     this.win.webContents.send(IpcChannel.PROGRESS, start, end);
   };
 
@@ -49,14 +49,9 @@ export class ListenIpcActions {
     this.win.webContents.send(IpcChannel.FILE_SELECTED, files);
   };
   filesQueue = new Queue<FILE>(this.fileSelected);
-  //压缩完成渲染
-  // filesFinish = (files: FILE | FILE[]): void => {
-  //   this.win.webContents.send(IpcChannel.FILE_UPDATE, files);
-  // };
-  // filesFinishQueue = new Queue<FILE>(this.filesFinish);
 
   //添加文件并压缩
-  file_add = async (files: string[], setting: FileSetting) => {
+  file_add = async (files: string[], setting: settingType) => {
     const sTime = new Date().getTime();
     const imgArr = await dirSearchImg(files, setting, [], this.filesQueue);
     log.info('time:', new Date().getTime() - sTime, imgArr.length);
@@ -68,7 +63,7 @@ export class ListenIpcActions {
       return;
     }
     this.setProgress(0, 1);
-    compress(imgArr, async FILE => {
+    compress(imgArr, FILE => {
       // await delay(3);
       count++;
       this.setProgress(count, len);

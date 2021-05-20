@@ -2,7 +2,7 @@ import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as MD5 from 'crypto-js/md5';
 
-import { FILE, compress_callback, FileSetting } from '../src/common/constants';
+import { FILE, compress_callback, settingType } from '../src/common/constants';
 import { ImageInfo, img_compress } from './bin';
 import * as log from 'electron-log';
 import { byteConver, percent, Queue } from './utils';
@@ -33,7 +33,7 @@ async function PIPE(arr: FILE[], cb: compress_callback) {
     let count = 0;
     for (const FILE of arr) {
       if (FILE.extname in expMap) {
-        img_compress(FILE.path, FILE.quality).then(async (result: ImageInfo) => {
+        img_compress(FILE.path, FILE.quality).then((result: ImageInfo) => {
           fs.outputFileSync(FILE.outpath, result.data);
           const newFile: FILE = {
             ...FILE,
@@ -71,20 +71,20 @@ export function compress(arr: FILE[], cb: compress_callback): void {
 }
 
 //搜索文件夹下的图片
-export async function dirSearchImg(filepaths: string[], setting: FileSetting, FILES: FILE[] = [], _filesQueue: Queue<FILE>): Promise<any> {
+export async function dirSearchImg(filepaths: string[], setting: settingType, FILES: FILE[] = [], _filesQueue: Queue<FILE>): Promise<any> {
   for (const file of filepaths) {
     const fileName = path.basename(file);
     const outpath = path.resolve(setting.outpath || setting.outdir, fileName);
     try {
       //验证是否存在
       const imgFile = await fs.stat(file);
-      const extname = path.extname(file).toLocaleLowerCase();
+      const extname = path.extname(file).toLocaleLowerCase() as '.png' | '.jpg' | '.jpeg' | '.webp';
       //判断是否是文件以及格式是否是图片
       if (imgFile.isFile() && extname in expMap) {
         const filepath = file.replace(/\\/g, '/'),
           fileExpMap = expMap[extname],
           FILE: FILE = {
-            MD5KEY: MD5(filepath + new Date().getTime()).toString(),
+            MD5KEY: MD5(`${filepath}${new Date().getTime()}`).toString(),
             state: 'await',
             src: `file://${filepath}`,
             path: filepath,

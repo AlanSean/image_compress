@@ -39,6 +39,7 @@
     "electron:local": "npm run build:prod && npx electron .",
     "electron:pack": "npm run build:prod && electron-builder --dir",
     "electron:build": "npm run build:prod && npm run electron:serve-tsc && electron-builder build",
+    "electron:lint": "eslint \"electronConfig/**/*.ts\"",
     "debug": "npm run electron:serve-tsc && electron-builder build",
     "release": "electron-builder  --publish always",
     "test": "ng test --watch=false",
@@ -136,7 +137,7 @@
     "zone.js": "0.11.4"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=12.0.0"
   },
   "browserslist": [
     "chrome 83"

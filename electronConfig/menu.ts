@@ -85,7 +85,7 @@ export function setMenu(isServe: boolean): void {
 export function menuEnabled(menuKeys: string[], enabled: boolean) {
   if (!menuInstance) return;
   menuKeys.forEach(v => {
-    let menu = menuInstance.getMenuItemById(v);
+    const menu = menuInstance.getMenuItemById(v);
     menu && (menu.enabled = enabled);
   });
 }

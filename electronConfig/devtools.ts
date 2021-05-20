@@ -1,7 +1,6 @@
 //添加扩展
 
 import { session } from 'electron';
-import * as os from 'os';
 import * as path from 'path';
 
 /**

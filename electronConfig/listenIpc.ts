@@ -1,5 +1,5 @@
 import { ipcMain, BrowserWindow } from 'electron';
-import { FILE, IpcChannel, MenuIpcChannel, FileSetting } from '../src/common/constants';
+import { FILE, IpcChannel, MenuIpcChannel, settingType } from '../src/common/constants';
 import { compress } from './optimize';
 
 import { ListenIpcActions } from './utils';
@@ -10,7 +10,7 @@ export function listenIpc(win: BrowserWindow): void {
   const { file_add, select_dir, save_as, save_new_dir } = new ListenIpcActions(win);
 
   //添加文件
-  ipcMain.on(IpcChannel.FILE_ADD, (_, files: string[], setting: FileSetting) => {
+  ipcMain.on(IpcChannel.FILE_ADD, (_, files: string[], setting: settingType) => {
     file_add(files, setting);
   });
   //选择文件或者文件夹
@@ -28,12 +28,12 @@ export function listenIpc(win: BrowserWindow): void {
     save_as(file);
   });
   //另存为
-  ipcMain.on(IpcChannel.SAVE_NEW_DIR, async (_, file: FILE[]) => {
+  ipcMain.on(IpcChannel.SAVE_NEW_DIR, (_, file: FILE[]) => {
     save_new_dir(file);
   });
 
   //更新menu 状态
-  ipcMain.on(MenuIpcChannel.Enabled, async (_, keys: string[], enabled) => {
+  ipcMain.on(MenuIpcChannel.Enabled, (_, keys: string[], enabled) => {
     menuEnabled(keys, enabled);
   });
 }
