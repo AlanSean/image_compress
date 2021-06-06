@@ -22,13 +22,9 @@ export const enum MenuIpcChannel {
   SAVE_NEW_DIR = 'SAVE_NEW_DIR',
   CLEAN = 'CLEAN'
 }
-const menus = [MenuIpcChannel.OPEN_FILE_DIR, MenuIpcChannel.SAVE_NEW_DIR, MenuIpcChannel.CLEAN];
 
-export const getMenuEnableds = (isAll?: boolean) => {
-  return isAll ? menus.concat(MenuIpcChannel.ADD) : menus;
-};
 export type FileExt = 'png' | 'jpg' | 'jpge' | 'webp';
-export const fileExtReg = /jpg|png|jpeg|webp/;
+
 export type messageType = 'success' | 'error' | 'loading' | 'remove' | 'warning';
 
 export interface FILE {

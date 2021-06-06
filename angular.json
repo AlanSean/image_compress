@@ -13,14 +13,14 @@
           "builder": "@angular-builders/custom-webpack:browser",
           "options": {
             "outputPath": "dist",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "tsConfig": "src/tsconfig.app.json",
-            "polyfills": "src/polyfills.ts",
+            "index": "src/renderer/index.html",
+            "main": "src/renderer/main.ts",
+            "tsConfig": "src/renderer/tsconfig.app.json",
+            "polyfills": "src/renderer/polyfills.ts",
             "allowedCommonJsDependencies": ["fs-extra", "crypto-js/md5"],
             "aot": true,
             "assets": ["src/assets"],
-            "styles": ["node_modules/ng-zorro-antd/style/index.min.css", "src/styles.less"],
+            "styles": ["node_modules/ng-zorro-antd/style/index.min.css", "src/renderer/styles.less"],
             "scripts": [],
             "customWebpackConfig": {
               "path": "./angular.webpack.js"
@@ -37,8 +37,8 @@
               "buildOptimizer": false,
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.dev.ts"
+                  "replace": "src/renderer/environments/environment.ts",
+                  "with": "src/renderer/environments/environment.dev.ts"
                 }
               ]
             },
@@ -54,16 +54,16 @@
               "buildOptimizer": false,
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.web.ts"
+                  "replace": "src/renderer/environments/environment.ts",
+                  "with": "src/renderer/environments/environment.web.ts"
                 }
               ]
             },
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "replace": "src/renderer/environments/environment.ts",
+                  "with": "src/renderer/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -105,20 +105,20 @@
         "test": {
           "builder": "@angular-builders/custom-webpack:karma",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills-test.ts",
-            "tsConfig": "src/tsconfig.spec.json",
-            "karmaConfig": "src/karma.conf.js",
+            "main": "src/renderer/test.ts",
+            "polyfills": "src/renderer/polyfills-test.ts",
+            "tsConfig": "src/renderer/tsconfig.spec.json",
+            "karmaConfig": "src/renderer/karma.conf.js",
             "scripts": [],
-            "styles": ["src/styles.less"],
+            "styles": ["src/renderer/styles.less"],
             "assets": ["src/assets"],
             "customWebpackConfig": {
               "path": "./angular.webpack.js"
             },
             "fileReplacements": [
               {
-                "replace": "src/environments/environment.ts",
-                "with": "src/environments/environment.test.ts"
+                "replace": "src/renderer/environments/environment.ts",
+                "with": "src/renderer/environments/environment.test.ts"
               }
             ]
           }
@@ -127,7 +127,7 @@
           "builder": "@angular-eslint/builder:lint",
           "options": {
             "eslintConfig": ".eslintrc.json",
-            "lintFilePatterns": ["src/**.ts", "main.ts"]
+            "lintFilePatterns": ["src/renderer/**.ts", "main.ts"]
           }
         }
       }

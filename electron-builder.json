@@ -3,7 +3,7 @@
   "directories": {
     "output": "release/"
   },
-  "files": ["main.js", "./favicon.ico", "electronConfig/**/*", "dist/**/*", "!*/**/*.js.map", "!*/**/*.ts"],
+  "files": ["lib/main.js", "./favicon.ico", "lib/config/**/*", "dist/**/*", "!*/**/*.js.map", "!*/**/*.ts"],
 
   "appId": "com.image_compress.app",
   "nsis": {

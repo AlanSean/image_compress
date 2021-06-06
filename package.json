@@ -22,7 +22,7 @@
   "resolutions": {
     "electron-builder/**/app-builder-bin": "3.5.13"
   },
-  "main": "main.js",
+  "main": "lib/main.js",
   "private": true,
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
@@ -53,6 +53,7 @@
   },
   "dependencies": {
     "crypto-js": "4.0.0",
+    "electron-log": "^4.3.5",
     "execa": "5.0.0",
     "fs-extra": "9.1.0",
     "sharp": "^0.28.1"
@@ -105,7 +106,6 @@
     "cross-env": "7.0.3",
     "electron": "12.0.5",
     "electron-builder": "22.10.5",
-    "electron-log": "4.3.5",
     "electron-reload": "1.5.0",
     "electron-updater": "4.3.9",
     "eslint": "7.25.0",
