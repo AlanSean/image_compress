@@ -49,9 +49,12 @@ export class ListenIpcActions {
   };
 
   //添加文件并压缩
-  file_add = async (files: string[], setting: FileSetting) => {
+  file_add = (files: string[], setting: FileSetting) => {
     const sTime = new Date().getTime();
-    const imgArr = await dirSearchImg(files, setting, [], this.fileSelected);
+    const findFiles = dirSearchImg(setting);
+    findFiles.subscribe(this.fileSelected);
+    const imgArr = findFiles.find(files);
+    findFiles.unsubscribe();
     log.info('time:', new Date().getTime() - sTime, imgArr.length);
     let count = 0;
     const len = imgArr.length;
@@ -61,7 +64,7 @@ export class ListenIpcActions {
       return;
     }
     this.setProgress(0, 1);
-    compress(imgArr, async FILE => {
+    compress(imgArr, FILE => {
       // await delay(3);
       count++;
       this.setProgress(count, len);
