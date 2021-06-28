@@ -1,0 +1,14 @@
+{
+  "files.associations": {
+    "*.json": "jsonc"
+  },
+  "minapp-vscode.disableAutoConfig": true,
+  "minapp-vscode.prettier": {
+    "useTabs": false,
+    "tabWidth": 2,
+    "printWidth": 120,
+    "singleQuote": false
+  },
+  "prettier.embeddedLanguageFormatting": "off",
+  "typescript.tsdk": "node_modules\\typescript\\lib"
+}

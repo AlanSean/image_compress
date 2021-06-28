@@ -1,0 +1,107 @@
+.contextmenu {
+  position: relative;
+  pointer-events: auto;
+  z-index: 1000;
+
+  .popover {
+    .placement {
+      display: block;
+      width: 8px;
+      height: 8px;
+      background: transparent;
+      border-style: solid;
+      border-width: 4px;
+      position: absolute;
+    }
+    .tooltip-content {
+      position: relative;
+      padding: 3px 0;
+      color: #616161;
+      background-color: #fff;
+      background-clip: padding-box;
+      border-radius: 2px;
+      box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12),
+        0 6px 16px 0 rgba(0, 0, 0, 0.08),
+        0 9px 28px 8px rgba(0, 0, 0, 0.05);
+      background-color: #fff;
+      z-index: 2;
+      ul {
+        .mb(0);
+        width: 150px;
+        font-size: 12px;
+
+        li {
+          padding: 0 16px;
+          .lh(23px);
+          cursor: pointer;
+
+          &:hover {
+            .c(#fff);
+            .bg(#0060c0);
+          }
+
+          &:last-child {
+            border-bottom: none;
+          }
+        }
+
+        hr {
+          height: 0;
+          border: none;
+          margin: 5px;
+          border-top: 1px solid #cfcfcf;
+        }
+      }
+    }
+  }
+
+  .popover.top {
+    .pb(10px);
+
+    .placement {
+      bottom: 6px;
+      left: 50%;
+      transform: translateX(-50%) rotate(45deg);
+      border-color: transparent #fff #fff transparent;
+      box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.07);
+    }
+  }
+
+  .popover.right {
+    .pl(10px);
+
+    .placement {
+      top: 50%;
+      left: 6px;
+      transform: translateY(-50%) rotate(45deg);
+      border-color: transparent transparent #fff #fff;
+      box-shadow: -3px 3px 7px rgba(0, 0, 0, 0.07);
+    }
+  }
+
+  .popover.left {
+    .pr(10px);
+
+    .placement {
+      top: 50%;
+      right: 6px;
+      border-color: #fff #fff transparent transparent;
+      transform: translateY(-50%) rotate(45deg);
+      box-shadow: 3px -3px 7px rgba(0, 0, 0, 0.07);
+    }
+  }
+
+  .popover.bottom {
+    .pt(10px);
+
+    .placement {
+      left: 50%;
+      top: 6px;
+      border-color: #fff transparent transparent #fff;
+      transform: translateX(-50%) rotate(45deg);
+      box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.06);
+    }
+  }
+
+
+}

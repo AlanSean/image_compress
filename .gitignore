@@ -2,6 +2,7 @@
 
 # compiled output
 /dist
+/lib
 /tmp
 /out-tsc
 /app-builds
@@ -55,4 +56,3 @@ Thumbs.db
 .npmrc
 .yarnrc
 yarn.lock
-package-lock.json

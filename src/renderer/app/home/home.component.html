@@ -1,0 +1,71 @@
+<div class="container">
+  <ul nz-menu class="menu" nzMode="horizontal" [nzSelectable]="false">
+    <li nz-menu-item (click)="menuClick('addImgs')" [nzDisabled]="sliderDisabled">
+      <app-icon name="icon-tianjiawenjianjia1" class="icon"></app-icon>
+      {{ 'add' | translate }}
+    </li>
+    <li
+      nz-menu-item
+      nz-submenu
+      (click)="menuClick('save')"
+      [nzDisabled]="!filesLength || sliderDisabled"
+    >
+      <div title>
+        <app-icon name="icon-xiazai" class="icon"></app-icon>
+        {{ 'save' | translate }}
+      </div>
+      <ul>
+        <li nz-menu-item (click)="menuClick('savenewdir')">
+          {{ 'savenewdir' | translate }}
+        </li>
+      </ul>
+    </li>
+    <li
+      nz-menu-item
+      nzDisabled
+      (click)="menuClick('cleanImgs')"
+      [nzDisabled]="!filesLength || sliderDisabled"
+    >
+      <app-icon name="icon-qingkong" class="icon"></app-icon>
+      {{ 'clean' | translate }}
+    </li>
+    <div
+      class="setting"
+      title="setting"
+      (click)="menuClick('openSetting')"
+      nz-menu-item
+      [nzDisabled]="sliderDisabled"
+    >
+      <app-icon name="icon-shezhi"></app-icon>
+    </div>
+    <div class="progress">
+      <nz-progress
+        [nzPercent]="progress"
+        [nzShowInfo]="false"
+        [nzStrokeLinecap]="'square'"
+        [nzStrokeColor]="{ '0%': '#108ee9', '100%': '#87d068' }"
+        nzStatus="active"
+      ></nz-progress>
+    </div>
+  </ul>
+
+  <div
+    class="view"
+    [class.dragUp]="dragUp"
+    (dragenter)="dragenter()"
+    (dragleave)="dragleave()"
+    (dragover)="dragOver($event)"
+    (drop)="fileAdd($event)"
+  >
+    <app-img-list></app-img-list>
+    <div [class.hidden]="true || filesLength" class="text">
+      <span class="text-big">拖拽文件到此区域</span>
+    </div>
+  </div>
+</div>
+
+<app-setting
+  [sliderDisabled]="sliderDisabled"
+  [isVisible]="isVisible"
+  (nzOnClose)="close()"
+></app-setting>

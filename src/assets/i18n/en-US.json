@@ -1,0 +1,36 @@
+{
+  "add": "Add",
+  "save": "Save",
+  "saveOverwrite": "Save and overwrite",
+  "savenewdir": "Export to new folder",
+  "saveAs": "Save as",
+  "openFileDir": "Displays in the Explorer",
+  "down": "Down",
+  "clean": "Clean",
+  "about": "About",
+  "defaultOutdir": "Outdir",
+  "quality": "Quality",
+  "setting": "Setting",
+  "error": "Error",
+  "await": "Await",
+  "finish": "Finish",
+  "remove": "remove",
+  "msg": {
+    "export_finish": "Export the finish",
+    "save_finish": "Save the finish",
+    "save_loading": "In the save...",
+    "export_loading": "In the export...",
+    "not_img_warning": "No pictures found in folder ～"
+  },
+  "menu": {
+    "file": "File",
+    "about": "About",
+    "add": "Add",
+    "openFileDir": "Displays in the Explorer",
+    "savenewdir": "Export to new folder",
+    "clean": "Clean",
+    "help": "Help",
+    "learnmore": "Learn more",
+    "update": "Check update"
+  }
+}

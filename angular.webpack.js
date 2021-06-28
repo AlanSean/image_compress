@@ -8,7 +8,7 @@ module.exports = (config, options) => {
 
     if (options.fileReplacements) {
         for(let fileReplacement of options.fileReplacements) {
-            if (fileReplacement.replace !== 'src/environments/environment.ts') {
+            if (fileReplacement.replace !== 'src/renderer/environments/environment.ts') {
                 continue;
             }
 
@@ -25,11 +25,11 @@ module.exports = (config, options) => {
             loader: 'sass-resources-loader',
             options: {
                 resources: [
-                    './src/less/base/variable.less',
-                    './src/less/util.less',
-                    './src/less/base/box.less',
-                    './src/less/base/mixin/setArrow.less',
-                    './src/less/base/mixin/setOnepx.less'
+                    './src/renderer/less/base/variable.less',
+                    './src/renderer/less/util.less',
+                    './src/renderer/less/base/box.less',
+                    './src/renderer/less/base/mixin/setArrow.less',
+                    './src/renderer/less/base/mixin/setOnepx.less'
                 ]
             }
         }}

@@ -1,0 +1,23 @@
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  stroke: currentColor;
+  overflow: hidden;
+  transition: 0.2s;
+}
+
+.icon.rotate {
+  animation: rotate infinite .6s linear;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,99 @@
+.container {
+  .bg(#f1f1f1);
+  width: 100vw;
+  height: 100vh;
+  .menu {
+    position: relative;
+    min-width: 400px;
+    .t(0);
+    .l(0);
+    .r(0);
+    z-index: 1;
+
+    .icon {
+      font-size: 16px;
+    }
+
+    .setting {
+      float: right;
+      font-size: 18px;
+      .mr(20px);
+      .w(46px);
+      .t-c;
+    }
+  }
+
+  .progress {
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    right: 0;
+    box-shadow: 0 2px 6px -1px;
+  }
+
+  .view {
+    position: absolute;
+    .t(56px);
+    .b(0);
+    .l(0);
+    .r(0);
+    z-index: 2;
+    min-width: 400px;
+    min-height: 400px;
+    overflow: scroll;
+    .text {
+      color: gray;
+      position: absolute;
+      .t(56px);
+      .b(0);
+      .l(0);
+      .r(0);
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &.hidden{
+        visibility: hidden;
+      }
+      .text-big {
+        font-size: 50px;
+      }
+
+      .outdir {
+        display: flex;
+        align-items: center;
+
+        .text-outdir {
+          user-select: text;
+        }
+
+        .openDir {
+          cursor: pointer;
+          line-height: 1;
+        }
+
+        .folder-open {
+          display: flex;
+        }
+      }
+
+
+    }
+  }
+
+}
+
+.ant-progress-line {
+  .ant-progress-text {
+    display: none;
+  }
+}
+
+.dragUp {
+  background-color: red;
+
+  * {
+    pointer-events: none;
+  }
+}
+

@@ -9,10 +9,21 @@ English | [简体中文](README-zh_CN.md)
 
 WEBP,PNG/JPEG compression graphics program that base on Electron，Angular，Node，Sharp. Available for Windows, MacOS and Linux
 
+## environment
+
+
+```
+//node@15.14.0
+//npm 7.7.6
+npm i -g @angular/cli
+npm install 
+npm run dev
+
+
 
 
 ## 任务
-- [x] Voralent Antelope 
+- [x] Voralent Antelope (Batch compression of 500 pieces)
 - [x] Compression bar
 - [x] jpg png webp
 - [x] Can save as

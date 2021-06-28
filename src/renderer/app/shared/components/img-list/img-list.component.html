@@ -1,0 +1,54 @@
+<div class="img-list">
+  <div *ngFor="let item of files; index as i; trackBy: trackByItem" class="imgInfo">
+    <div class="img_continer">
+      <div *ngIf="item.outsrc !== null" class="img" appCompare [appCompareData]="item">
+        <img [src]="item.outsrc" />
+      </div>
+
+      <div class="title" [class.disabled]="item.state != 'finish'">
+        <!-- PNG WEBP JPG -->
+        <app-icon [name]="'icon-' + item.ext" class="icon imgicon"></app-icon>
+
+        <div class="name">
+          <span>{{ item.name }}</span>
+        </div>
+
+        <div
+          class="icon menu"
+          appContextmenu
+          trigger="hover"
+          (menuListClick)="menuListClick($event, item)"
+        >
+          <app-icon name="icon-more"></app-icon>
+        </div>
+      </div>
+
+      <div class="loading" [class.loading_visi]="item.state !== 'await'"></div>
+    </div>
+    <div class="quality_size">
+      <div class="quality">
+        <span class="text">{{ 'quality' | translate }}</span>
+        <nz-slider
+          class="nz-slider"
+          [nzDisabled]="item.state === 'await' || item.state === 'error'"
+          [ngModel]="item.quality"
+          [nzTooltipVisible]="'never'"
+          (ngModelChange)="qualityChange(item, $event)"
+          (nzOnAfterChange)="qualityAfterChange(item, $event)"
+        ></nz-slider>
+        <span class="number">{{ item.quality }}</span>
+      </div>
+
+      <div class="size">
+        <div [class]="item.state" (click)="modalInfo(item)">
+          {{ item.state | translate }}
+        </div>
+        <div class="percentage">
+          <span>{{ item.nowDataSize }}</span>
+          <span>/ {{ item.rawDataSize }}</span>
+          <span>{{ item.nowDataSize != '--' ? '(' + item.percentage + ')' : '' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

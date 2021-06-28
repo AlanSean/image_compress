@@ -1,0 +1,77 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'less/common.less';
+
+@import "~ng-zorro-antd/src/style/entry.less";
+@import "~ng-zorro-antd/resizable/style/entry.less";
+@import "~ng-zorro-antd/progress/style/entry.less";
+@import "~ng-zorro-antd/slider/style/entry.less";
+@import "~ng-zorro-antd/input/style/entry.less";
+@import "~ng-zorro-antd/grid/style/entry.less";
+@import "~ng-zorro-antd/menu/style/entry.less";
+@import "~ng-zorro-antd/button/style/entry.less";
+@import "~ng-zorro-antd/drawer/style/entry.less";
+@import "~ng-zorro-antd/spin/style/entry.less";
+@import "~ng-zorro-antd/modal/style/entry.less";
+@import "~ng-zorro-antd/message/style/entry.less";
+@import "~ng-zorro-antd/popover/style/entry.less";
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #fafaf9;
+  font-size: 14px;
+}
+
+.ant-progress,
+.ant-progress-inner,
+.ant-progress-outer {
+  display: block;
+}
+
+[class*=ant-],
+[class*=ant-] *,
+[class*=ant-] :after,
+[class*=ant-] :before,
+[class^=ant-],
+[class^=ant-] *,
+[class^=ant-] :after,
+[class^=ant-] :before {
+  box-sizing: border-box;
+}
+//进度条
+.ant-progress-inner{
+  border-radius: 0px;
+}
+
+//menu hober
+.ant-menu-horizontal>.ant-menu-item,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-active,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-open,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-selected,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item:hover,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-active,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-open,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-selected,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu:hover{
+  border-bottom: none;
+}
+.ant-drawer-body{
+  padding: 16px 25px;
+}
+
+
+//modal
+
+.ant-modal-confirm-body .ant-modal-confirm-content {
+  user-select: text;
+}
+.disabled {
+  color: rgba(0, 0, 0, 0.25) !important;
+}
+svg.disabled {
+  cursor: not-allowed !important;
+}

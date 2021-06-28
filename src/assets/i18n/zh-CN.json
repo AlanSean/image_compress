@@ -1,0 +1,31 @@
+{
+  "add": "添加",
+  "save": "保存",
+  "saveOverwrite": "保存并覆盖",
+  "savenewdir": "导出到新文件夹",
+  "saveAs": "另存为...",
+  "openFileDir": "在资源管理器中显示",
+  "down": "下载",
+  "clean": "清空",
+  "about": "关于产品",
+  "defaultOutdir": "输出目录",
+  "quality": "质量",
+  "setting": "设置",
+  "error": "错误",
+  "await": "等待",
+  "finish": "完成",
+  "remove": "移除",
+  "msg": {
+    "export_finish": "导出完成",
+    "save_finish": "保存完成",
+    "save_loading": "保存中...",
+    "export_loading": "导出中...",
+    "not_img_warning": "文件夹下找到没有图片～"
+  },
+  "menu": {
+    "file": "文件",
+    "help": "帮助",
+    "learnmore": "了解更多",
+    "update": "检查更新"
+  }
+}

@@ -18,10 +18,10 @@ describe('angular-electron App', function () {
     expect(count).to.equal(1);
   });
 
-  it('should display message saying App works !', async function () {
-    const elem = await client.$('app-home h1');
+  it("首页应该 显示拖拽文件到此区域", async function () {
+    const elem = await client.$(".text .text-big");
     const text = await elem.getText();
-    expect(text).to.equal('App works !');
+    expect(text).to.equal("拖拽文件到此区域");
   });
 
 });
