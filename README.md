@@ -18,7 +18,7 @@ WEBP,PNG/JPEG compression graphics program that base on Electron，Angular，Nod
 npm i -g @angular/cli
 npm install 
 npm run dev
-
+```
 
 
 
