@@ -50,8 +50,8 @@ export class CompareDirective implements OnInit, OnChanges {
     this.updateComponentData();
   }
   updateComponentData() {
-    this.component._CompressBeforeImage = this.data.src!;
-    this.component._CompressAfterImage = this.data.outsrc!;
+    this.component._CompressBeforeImage = this.data.src;
+    this.component._CompressAfterImage = this.data.outsrc;
   }
 }
 
@@ -134,7 +134,7 @@ export class CompareComponent implements OnDestroy {
   get nowImg() {
     return this._nowImg;
   }
-  isOpen: boolean = false;
+  isOpen = false;
   isTouch: 'left' | 'right' | null = null;
   color = localStorage.color || 'black';
   stylesMatrix = 'matrix(1,0,0,1,0,0)';
