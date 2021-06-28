@@ -12,7 +12,7 @@ export interface ImageInfo {
   errorInfo?: string;
 }
 
-export const img_compress = async (path: string, quality: string): Promise<ImageInfo> => {
+export const img_compress = async (path: string, quality: string, outpath: string): Promise<ImageInfo> => {
   const input = await fs.readFile(path);
   const childProcess = sharp(input, {
     sequentialRead: true
@@ -33,6 +33,7 @@ export const img_compress = async (path: string, quality: string): Promise<Image
     })
     .toBuffer({ resolveWithObject: true })
     .then(({ data }) => {
+      fs.outputFileSync(outpath, data);
       return {
         status: 0,
         data: data,
