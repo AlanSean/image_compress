@@ -1,13 +1,11 @@
-name: 'test action release'
-on:
-  # [create]
+name: release
 
+on:
   push:
     branches: [ dev ]
   workflow_dispatch:
 jobs:
   release:
-    name: release on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -15,7 +13,7 @@ jobs:
 
     steps:
       - name: Check out Git repository
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
 
       - name: Use Node.js 
         uses: actions/setup-node@v1

@@ -10,7 +10,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node_version: [12.x, 15x]
+        node_version: [ 12.x ]
         os: [ubuntu-latest, windows-latest, macOS-latest]
 
     steps:
@@ -39,6 +39,8 @@ jobs:
       - name: Check lint
         run: npm run lint
 
-      - name: Unit test
-        run: npm run test
+      - name: Run headless unit test
+        uses: GabrielBB/xvfb-action@v1
+        with:
+          run: npm run test
             
