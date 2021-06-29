@@ -1,9 +1,6 @@
 name: release
 
-on:
-  push:
-    branches: [ dev ]
-  workflow_dispatch:
+on: [ create ]
 jobs:
   release:
     runs-on: ${{ matrix.os }}
