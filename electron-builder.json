@@ -32,11 +32,5 @@
     "category": "Graphics Tool",
     "publish": ["github"]
   },
-  "publish": [
-    {
-      "provider": "github",
-      "owner": "AlanSean",
-      "repo": "image_compress"
-    }
-  ]
+  "publish": ["github"]
 }
