@@ -26,17 +26,21 @@
   "private": true,
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
-    "ng": "ng",
-    "dev": "npm-run-all -p electron:serve ng:dev",
-    "build": "ng build --base-href ./",
-    "build:dev": "npm run build -- -c dev",
-    "build:prod": "npm run build -- -c production",
     "ng:dev": "ng serve --hmr -c dev",
+    "ng:build": "ng build --base-href ./",
+
+    "dev": "npm-run-all -p electron:serve ng:dev",
+    "build": "npm-run-all -p build:prod electron:tsc",
+
+    "build:dev": "npm run ng:build -- -c dev",
+    "build:prod": "npm run  ng:build  -- -c production",
+    
+    "electron:tsc": "tsc -p tsconfig.serve.json",
     "electron:serve": "wait-on tcp:4200 && etan start -w",
     "electron:local": "npm run build:prod && npx electron .",
     "electron:pack": "npm run build:prod && etan build --dir",
-    "electron:build": "npm run build:prod && etan build",
-    "electron:lint": "eslint \"electronConfig/**/*.ts\"",
+    "electron:build": "npm run build && etan build",
+    
     "debug": "etan build",
     "release": "etan build --publish always",
     "test": "ng test --watch=false",
