@@ -1,27 +1,24 @@
-name: 'test action release'
+name: 'Test action release'
 on:
   # [create]
-
   push:
     branches: [ dev ]
   workflow_dispatch:
 jobs:
-  test:
-    name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
+  release:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node_version: [15.x]
         os: [ubuntu-latest, windows-latest, macOS-latest]
 
     steps:
       - name: Check out Git repository
       - uses: actions/checkout@v2
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 12
 
       #https://github.com/samuelmeuli/action-electron-builder
       - name: release
