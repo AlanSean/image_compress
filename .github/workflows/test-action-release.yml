@@ -1,4 +1,4 @@
-name: test-action-release
+name: 'test action release'
 on:
   # [create]
 
