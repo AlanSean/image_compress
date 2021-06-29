@@ -3,7 +3,7 @@ on:
   # [create]
 
   push:
-      branches: [ dev ]
+    branches: [ dev ]
     workflow_dispatch:
 jobs:
   test:
