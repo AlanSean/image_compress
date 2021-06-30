@@ -1,0 +1,130 @@
+import { BrowserWindow, shell, app, Menu, MenuItem, MenuItemConstructorOptions } from 'electron';
+import { MenuIpcChannel, IpcChannel } from '../../common/constants';
+import { Locales, isServe } from '../utils';
+
+class MenuAction {
+  private isMac = process.platform === 'darwin';
+  private menuInstance: Menu | null = null;
+
+  setMenu() {
+    const getLocales = new Locales().getLocales;
+
+    const Menus: MenuItemConstructorOptions[] = [
+      {
+        label: app.name,
+        submenu: [
+          {
+            id: 'About',
+            label: getLocales('about'),
+            click: this.about
+          },
+          { type: 'separator' },
+          this.isMac ? { role: 'close' } : { role: 'quit' }
+        ]
+      },
+      {
+        id: 'file',
+        label: getLocales('menu.file'),
+        submenu: [
+          {
+            id: MenuIpcChannel.ADD,
+            label: getLocales('add'),
+            click: this.select_dir,
+            enabled: true
+          },
+          {
+            id: MenuIpcChannel.OPEN_FILE_DIR,
+            label: getLocales('openFileDir'),
+            click: this.open_dir,
+            enabled: false
+          },
+          {
+            id: MenuIpcChannel.SAVE_NEW_DIR,
+            label: getLocales('savenewdir'),
+            click: this.save_new_dir,
+            enabled: false
+          },
+          {
+            id: MenuIpcChannel.CLEAN,
+            label: getLocales('clean'),
+            click: this.clean_file,
+            enabled: false
+          }
+        ]
+      },
+      {
+        id: 'help',
+        label: getLocales('menu.help'),
+        submenu: [
+          {
+            id: 'learnmore',
+            label: getLocales('menu.learnmore'),
+            click: async () => {
+              await shell.openExternal('https://github.com/AlanSean/image_compress/blob/master/README.md');
+            }
+          },
+          {
+            id: 'update',
+            label: getLocales('menu.update'),
+            click: async () => {
+              await shell.openExternal('https://github.com/AlanSean/image_compress/blob/master/README.md');
+            }
+          }
+        ]
+      }
+    ];
+    if (isServe) {
+      Menus.push({
+        label: 'Debug',
+        submenu: [{ role: 'reload' }, { role: 'forceReload' }, { role: 'toggleDevTools' }]
+      });
+    }
+
+    const menu = Menu.buildFromTemplate(Menus);
+    Menu.setApplicationMenu(menu);
+    this.menuInstance = menu;
+    return menu;
+  }
+  getMenuInstance() {
+    if (this.menuInstance === null) {
+      this.menuInstance = this.setMenu();
+    }
+    return this.menuInstance;
+  }
+  menuEnabled(menuKeys: string[], enabled: boolean) {
+    const menuInstance = this.getMenuInstance();
+
+    menuKeys.forEach(v => {
+      const menuItem = menuInstance.getMenuItemById(v);
+
+      if (menuItem) {
+        menuItem.enabled = enabled;
+      }
+    });
+  }
+
+  private about = async () => {
+    await shell.openExternal('https://github.com/AlanSean/image_compress/blob/master/README.md');
+  };
+  //选择文件 压缩
+  private select_dir = (_: MenuItem, win?: BrowserWindow) => {
+    win?.webContents.send(IpcChannel.SELECT_DIR, 'SELECT_FILE');
+  };
+
+  // 打开输出目录
+  private open_dir = (_: MenuItem, win?: BrowserWindow) => {
+    win?.webContents.send(IpcChannel.OPEN_DIR);
+  };
+
+  //另存为
+  private save_new_dir = (_: MenuItem, win?: BrowserWindow) => {
+    win?.webContents.send(IpcChannel.SAVE_NEW_DIR);
+  };
+
+  //清空 文件
+  private clean_file = (_: MenuItem, win?: BrowserWindow) => {
+    win?.webContents.send(IpcChannel.CLEAN_FILE);
+  };
+}
+
+export const menuAction = new MenuAction();

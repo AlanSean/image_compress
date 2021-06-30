@@ -129,7 +129,7 @@ export class ElectronService {
 
     //窗口菜单 发起的选择文件
     this.ipcRenderer.on(IpcChannel.OPEN_DIR, () => {
-      const outdir = getSetting().outdir as string;
+      const outdir = getSetting().outdir;
       this.openFileDir(outdir);
     });
 

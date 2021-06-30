@@ -1,6 +1,6 @@
 import * as fs from 'fs-extra';
 import * as log from 'electron-log';
-import { isServe } from './utils';
+import { isServe } from '../utils';
 
 import * as sharp from 'sharp';
 

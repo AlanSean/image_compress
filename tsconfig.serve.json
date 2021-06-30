@@ -1,19 +1,18 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "baseUrl": "./src",
-    "outDir": "./lib/",
+    "baseUrl": "./src/main",
+    "outDir": "./dist/",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "es5",
-    "types": ["node"],
-    "lib": ["es2017", "es2016", "es2015", "dom"]
+    "target": "es6",
+    "skipLibCheck": true,
+    "lib": ["es2017"],
+    "strict": true
   },
   "files": ["src/main.ts"],
-  "include": ["src/config/**/*.ts", "./typings.d.ts"],
+  "include": ["src/main", "src/common"],
   "exclude": ["node_modules", "src/renderer", "src/assets"]
 }

@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
       }
       if (len != this.filesLength) {
         this.filesLength = len;
-        this.cdr.detectChanges();
+        // this.cdr.detectChanges();
       }
     });
   }
@@ -57,7 +57,7 @@ export class HomeComponent implements OnInit {
       }
     });
     //进度
-    this.electronService.ipcRenderer.on('PROGRESS', (_, current: number, sum: number) => {
+    this.electronService.ipcRenderer.on(IpcChannel.PROGRESS, (_, current: number, sum: number) => {
       this.updateProgress((current / sum) * 100);
     });
   }
@@ -103,7 +103,7 @@ export class HomeComponent implements OnInit {
       this.sliderDisabled = false;
       this.electronService.menuEnabled(getMenuEnableds(true), true);
     }
-    this.cdr.detectChanges();
+    // this.cdr.detectChanges();
   }
 
   //菜单事件

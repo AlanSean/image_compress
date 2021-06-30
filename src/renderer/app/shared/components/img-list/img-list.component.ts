@@ -5,7 +5,7 @@ import { selectFile } from '@app/core/core.module';
 import { ElectronService } from '@app/core/services';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { throttleTime } from 'rxjs/operators';
-import { data } from './data';
+// import { data } from './data';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -54,7 +54,7 @@ export class ImgListComponent implements OnInit {
     const newItem: FILE = {
       ...item,
       state: 'await',
-      quality: `${v}`
+      quality: `${v as number}`
     };
     this.electronService.update('_', newItem);
     this.electronService.file_update_quality(newItem);

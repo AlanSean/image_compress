@@ -7,7 +7,7 @@ import {
   ViewContainerRef,
   // 可用来动态创建组件的工厂的基类。resolveComponentFactory() 实例化给定类型的组件的工厂。使用生成的 ComponentFactory.create() 方法创建该类型的组件。
   ComponentFactory,
-  AfterViewInit,
+  // AfterViewInit,
   // 一个简单的注册表，它将 Components 映射到生成的 ComponentFactory 类，该类可用于创建组件的实例。用于获取给定组件类型的工厂，然后使用工厂的 create() 方法创建该类型的组件。
   ComponentFactoryResolver,
   ChangeDetectorRef,
@@ -27,7 +27,7 @@ import { connectedPosition } from './postion';
   selector: '[appContextmenu]'
 })
 export class ContextmenuDirective implements OnInit {
-  @Output('menuListClick') menuListClick: EventEmitter<any> = new EventEmitter();
+  @Output('menuListClick') menuListClick: EventEmitter<string> = new EventEmitter();
   @Input('Disabled') disabled!: boolean; //true 右键无效
   @Input('trigger') trigger!: 'contextmenu' | 'hover'; //true 右键无效
   private component!: ContextmenuComponent;
@@ -87,7 +87,7 @@ export class ContextmenuDirective implements OnInit {
   removeListener() {}
   listener() {
     if (this.trigger != 'hover') return;
-    let overlayElement = this.component.overlay.overlayRef.overlayElement;
+    const overlayElement = this.component.overlay.overlayRef.overlayElement;
     this.removeListener();
     this.hide();
     overlayElement.addEventListener('mouseenter', this.show);
@@ -101,9 +101,8 @@ export class ContextmenuDirective implements OnInit {
     this.component = this.viewContainerRef.createComponent(this.componentFactory).instance;
     this.component.saveOrigin({ elementRef: this.elementRef });
     this.component.trigger = this.trigger;
-    this.component._menuListClick = key => {
+    this.component.menuListClick = (key: string) => {
       this.menuListClick.emit(key);
-      this.component?.hide();
     };
   }
 }
@@ -144,8 +143,8 @@ export class ContextmenuDirective implements OnInit {
 export class ContextmenuComponent {
   @ViewChild('overlay', { static: false }) overlay!: CdkConnectedOverlay;
 
-  _menuListClick(key: string) {}
-  set menuListClick(fn: (key: string) => void) {
+  _menuListClick!: (key: string) => void;
+  set menuListClick(fn) {
     this._menuListClick = fn;
   }
   get menuListClick() {
@@ -162,7 +161,7 @@ export class ContextmenuComponent {
   }
 
   origin!: CdkOverlayOrigin;
-  isOpen: boolean = false;
+  isOpen = false;
 
   constructor(private cdr: ChangeDetectorRef) {}
   //更新位置

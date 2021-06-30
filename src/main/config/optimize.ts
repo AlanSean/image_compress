@@ -3,15 +3,22 @@ import * as fs from 'fs-extra';
 import * as url from 'url';
 import * as MD5 from 'crypto-js/md5';
 
-import { FILE, compress_callback, FileSetting } from '../common/constants';
+import { FILE, compress_callback, DefultSetting } from '../../common/constants';
 import { ImageInfo, img_compress } from './bin';
 import * as log from 'electron-log';
-import { byteConver, percent } from './utils';
+import { byteConver, percent } from '../utils';
 import { FindFiles } from '@etanjs/node-find-files';
 const findFiles = new FindFiles(/\.(jpg|jpeg|webp|png)$/i);
 
 const number = 300;
-const expMap = {
+
+interface ExpMap {
+  [key: string]: {
+    ext: 'png' | 'jpg' | 'jpeg' | 'webp';
+    quality: 'pngQuality' | 'jpgQuality' | 'webpQuality';
+  };
+}
+const expMap: ExpMap = {
   '.png': {
     ext: 'png',
     quality: 'pngQuality'
@@ -72,13 +79,13 @@ export function compress(arr: FILE[], cb: compress_callback): void {
 }
 
 //搜索文件夹下的图片
-export function dirSearchImg(setting: FileSetting) {
+export function dirSearchImg(setting: DefultSetting) {
   return findFiles.pipe<FILE>(filepath => {
     const filePath = filepath.replace(/\\/g, '/');
     const fileName = path.basename(filePath);
     const extname = path.extname(filePath).toLocaleLowerCase();
     const fileExpMap = expMap[extname];
-    const outpath = path.resolve(setting.outpath || setting.outdir, fileName);
+    const outpath = setting.outdir ? path.resolve(setting.outdir, fileName) : fileName;
     const imgFile = fs.statSync(filePath);
 
     return {
@@ -89,7 +96,7 @@ export function dirSearchImg(setting: FileSetting) {
       name: fileName,
       extname: extname,
       ext: fileExpMap.ext,
-      outsrc: null,
+      outsrc: '',
       outpath: outpath,
       outdir: setting.outdir,
       quality: setting[fileExpMap.quality],

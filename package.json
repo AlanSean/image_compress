@@ -22,7 +22,7 @@
   "resolutions": {
     "electron-builder/**/app-builder-bin": "3.5.13"
   },
-  "main": "lib/main.js",
+  "main": "dist/main.js",
   "private": true,
   "scripts": {
     "postinstall": "electron-builder install-app-deps",

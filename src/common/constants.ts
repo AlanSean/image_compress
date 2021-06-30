@@ -51,19 +51,67 @@ export interface compress_callback {
 }
 
 export interface DefultSetting {
+  outdir: string;
+  pngQuality: string;
+  jpgQuality: string;
+  webpQuality: string;
+}
+
+export interface SettingOptions {
   outdir?: string;
   pngQuality?: string;
   jpgQuality?: string;
   webpQuality?: string;
 }
 
-export interface FileSetting extends DefultSetting {
-  outpath?: string;
+export interface ExpMap {
+  [key: string]: {
+    ext: 'png' | 'jpg' | 'jpeg' | 'webp';
+    quality: 'pngQuality' | 'jpgQuality' | 'webpQuality';
+  };
 }
 
-export interface settingType {
-  [key: string]: string;
-  outpath: string;
-  outdir: string;
+export interface CompressImageInfo {
+  status: number;
+  data: Buffer | string;
+  nowDataSize: number;
+  percentage: number;
+  errorInfo?: string;
+}
+
+export interface LangData {
+  add: string;
+  save: string;
+  saveOverwrite: string;
+  savenewdir: string;
+  saveAs: string;
+  openFileDir: string;
+  down: string;
+  clean: string;
+  about: string;
+  defaultOutdir: string;
   quality: string;
+  setting: string;
+  error: string;
+  await: string;
+  finish: string;
+  remove: string;
+  msg: {
+    export_finish: string;
+    save_finish: string;
+    save_loading: string;
+    export_loading: string;
+    not_img_warning: string;
+  };
+  menu: {
+    file: string;
+    about: string;
+    add: string;
+    openFileDir: string;
+    savenewdir: string;
+    clean: string;
+    help: string;
+    learnmore: string;
+    update: string;
+  };
 }

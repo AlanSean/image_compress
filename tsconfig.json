@@ -36,6 +36,5 @@
     "strictTemplates": true
   },
   "files": ["src/renderer/main.ts", "src/renderer/polyfills.ts"],
-  "include": ["src/renderer/**/*.d.ts"],
-  "exclude": ["node_modules", "!srcc/renderer/assets/**/*.js"]
+  "exclude": ["node_modules", "!src/assets/**/*.js"]
 }
