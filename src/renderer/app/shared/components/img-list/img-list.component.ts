@@ -31,6 +31,7 @@ export class ImgListComponent implements OnInit {
   ngOnInit() {
     this.subs = this.files$.subscribe(v => {
       this.files = v;
+      console.log('files$', new Date(), v);
       this.cdr.markForCheck();
       this.cdr.detectChanges();
     });

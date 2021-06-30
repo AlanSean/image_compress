@@ -96,6 +96,7 @@ export class ElectronService {
         files: FILE
       })
     );
+    console.log('add', new Date().getTime(), FILE);
     // this.cdr.tick();
   };
   update = (_: any, FILE: FILE | FILE[]) => {
@@ -104,6 +105,7 @@ export class ElectronService {
         files: FILE
       })
     );
+    console.log('update', new Date().getTime(), FILE);
     // this.cdr.tick();
   };
   remove = (key: string) => {

@@ -97,7 +97,7 @@ export class OptimizeAction {
         const result = this.finsh(FILE, {
           status: 99,
           data: input,
-          errorInfo: err,
+          errorInfo: String(err),
           nowDataSize: 0,
           percentage: 0
         });
@@ -136,7 +136,7 @@ export class OptimizeAction {
   private finsh(FILE: FILE, result: ImageInfo) {
     const newFile: FILE = {
       ...FILE,
-      outsrc: `${url.pathToFileURL(FILE.outpath).href}?t=${new Date().getTime()}}`,
+      outsrc: `${url.pathToFileURL(FILE.outpath).href}?t=${new Date().getTime()}`,
       state: 'finish',
       nowDataSize: byteConver(result.nowDataSize),
       percentage: percent(result.percentage - 1)
