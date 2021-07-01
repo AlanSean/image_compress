@@ -22,16 +22,17 @@ npm run dev
 
 
 
-## 任务
+## jobs
 - [x] Voralent Antelope (Batch compression of 500 pieces)
 - [x] Compression bar
 - [x] jpg png webp
 - [x] Can save as
-- [ ] The output directory is configurable
+- [x] The output directory is configurable
 - [ ] In compression, continue to drag images or folders into the queue automatically
-- [ ] Modern UI, each diagram can be optimized individually
-
+- [x] Modern UI, each diagram can be optimized individually
+- [ ] Picture format interchange
 - [ ] File information prompt (during the development process, it was found that the real format of some pictures was different from the current format)
+- [ ] Image compression and upload (configurable)
 
 
 ## 依赖
