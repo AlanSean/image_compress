@@ -5,7 +5,6 @@ import { isServe } from './utils';
 function loadFile(name: string): LangData {
   return require(`${isServe ? '../../../src' : './renderer'}/assets/i18n/${name}.json`);
 }
-
 const Lang = {
   'zh-CN': loadFile('zh-CN'),
   'en-US': loadFile('en-US')
@@ -24,7 +23,7 @@ export class Locales {
   private loadFile(): LangData {
     const lang = app.getLocale();
 
-    const local_lang = lang in Lang ? lang : 'en-US';
+    const local_lang = (lang in Lang ? lang : 'en-US') as 'zh-CN' | 'en-US';
 
     return Lang[local_lang];
   }

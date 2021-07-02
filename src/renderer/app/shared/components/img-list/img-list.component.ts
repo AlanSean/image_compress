@@ -4,19 +4,19 @@ import { FILE } from '@common/constants';
 import { selectFile } from '@app/core/core.module';
 import { ElectronService } from '@app/core/services';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { throttleTime } from 'rxjs/operators';
+// import { throttleTime } from 'rxjs/operators';
 // import { data } from './data';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-img-list',
   templateUrl: './img-list.component.html',
-  styleUrls: ['./img-list.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./img-list.component.less']
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ImgListComponent implements OnInit {
   isOpen = false;
-  files$ = this.store.pipe(throttleTime(16), select(selectFile));
+  files$ = this.store.pipe(select(selectFile));
   files: readonly FILE[] = [];
   //删除
   remove = this.electronService.remove;
@@ -65,9 +65,14 @@ export class ImgListComponent implements OnInit {
   modalInfo(item: FILE): void {
     if (item.state == 'error') {
       this.modal.error({
+        nzAutofocus: null,
+        nzCentered: true,
         nzTitle: 'Image compression failed',
         nzContent: item?.errorInfo?.replace(/error/g, '<br/>error')
       });
+      console.log(2134);
+      this.cdr.markForCheck();
+      this.cdr.detectChanges();
     }
   }
 
