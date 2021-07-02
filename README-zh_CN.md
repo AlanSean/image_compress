@@ -12,6 +12,14 @@
 基于 Electron，Angular，Node，Sharp 开发的 WEBP、PNG，JPEG图形压缩程序。
 适用于Windows、MacOS和Linux。
 
+## environment
+
+```
+//node@12.18.0
+npm i -g @angular/cli
+npm install 
+npm run dev
+```
 
 ## 任务
 - [x] 批量压缩 500张不卡顿

@@ -13,8 +13,7 @@ WEBP,PNG/JPEG compression graphics program that base on Electron，Angular，Nod
 
 
 ```
-//node@15.14.0
-//npm 7.7.6
+//node@12.18.0
 npm i -g @angular/cli
 npm install 
 npm run dev
