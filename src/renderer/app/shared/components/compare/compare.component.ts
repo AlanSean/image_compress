@@ -29,12 +29,14 @@ export class CompareDirective implements OnInit, OnChanges {
   component!: CompareComponent;
   origin!: any;
   //resolver.resolveComponentFactory ：检索创建给定类型组件的工厂对象。
-  componentFactory: ComponentFactory<CompareComponent> = this.resolver.resolveComponentFactory(CompareComponent);
+  componentFactory: ComponentFactory<CompareComponent>;
 
-  constructor(protected resolver: ComponentFactoryResolver, private viewContainerRef: ViewContainerRef) {}
+  constructor(protected resolver: ComponentFactoryResolver, private viewContainerRef: ViewContainerRef) {
+    this.componentFactory = resolver.resolveComponentFactory(CompareComponent);
+  }
 
   @HostListener('click') onclick() {
-    this.component?.show();
+    this.component.show();
   }
 
   ngOnInit(): void {

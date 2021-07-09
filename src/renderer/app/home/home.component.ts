@@ -1,18 +1,20 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ElectronService } from '../core/services';
-import { IpcChannel, MenuIpcChannel } from '@common/constants';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ElectronService, ListenerService, ActionsService } from '../core/services';
+import { MenuIpcChannel } from '@common/constants';
 import { Store, select } from '@ngrx/store';
 import { getFilesLength } from '@app/core/core.module';
 import { fileExtReg } from '@utils/file';
 import { getMenuEnableds } from '@utils/menu';
+import { auditTime } from 'rxjs/operators';
+import { delay } from '@utils/utils';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.less']
+  styleUrls: ['./home.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent implements OnInit {
-  [key: string]: any;
   filesLength = 0;
   barShow = true; //进度条是否显示
   dragUp = false; //是否拖入状态
@@ -22,21 +24,29 @@ export class HomeComponent implements OnInit {
   sliderDisabled = false; //滑块是否不可用
   isVisible = false; //控制抽屉
 
-  constructor(private electronService: ElectronService, private cdr: ChangeDetectorRef, private store: Store) {
-    this.ipcRendererOn();
-    this.store.pipe(select(getFilesLength)).subscribe(len => {
+  constructor(
+    private actions: ActionsService,
+    private ipcListener: ListenerService,
+    private electronService: ElectronService,
+    private cdr: ChangeDetectorRef,
+    protected store: Store
+  ) {
+    this.electronService.selecteDirResult(this.selecteDirResult);
+    this.electronService.updateProgress(this.updateProgress);
+
+    store.pipe(auditTime(16), select(getFilesLength)).subscribe(len => {
       if (len == 0) {
-        this.electronService.menuEnabled([MenuIpcChannel.ADD], true);
-        this.electronService.menuEnabled(getMenuEnableds(false), false);
+        actions.menuEnabled([MenuIpcChannel.ADD], true);
+        actions.menuEnabled(getMenuEnableds(false), false);
       }
       if (len != this.filesLength) {
         this.filesLength = len;
-        // this.cdr.detectChanges();
       }
+      this.cdr.detectChanges();
     });
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     document.ondragover = function (e) {
       e.preventDefault();
     };
@@ -44,28 +54,22 @@ export class HomeComponent implements OnInit {
       e.preventDefault();
     };
   }
-  //开启监听主进程向子进程发送的命令
-  ipcRendererOn(): void {
-    //添加按钮
-    this.electronService.ipcRenderer.on(IpcChannel.SELECTED_DIR_RESULT, (_, filePaths: string[], key?: 'SELECT_FILE') => {
-      if (key == 'SELECT_FILE') {
-        //选择的文件夹或者文件
-        this.dragUp = false;
-        this.sliderDisabled = false;
-        this.electronService.fileAdd(filePaths);
-        // this.cdr.detectChanges();
-      }
-    });
-    //进度
-    this.electronService.ipcRenderer.on(IpcChannel.PROGRESS, (_, current: number, sum: number) => {
-      this.updateProgress((current / sum) * 100);
-    });
-  }
+
+  selecteDirResult = (filePaths: string[], key?: 'SELECT_FILE') => {
+    if (key == 'SELECT_FILE') {
+      //选择的文件夹或者文件
+      this.dragUp = false;
+      this.sliderDisabled = false;
+      this.actions.fileAdd(filePaths);
+      this.cdr.detectChanges();
+    }
+  };
+
   /**
    * 添加图片
    * @param e event
    */
-  fileAdd(e: DragEvent): void {
+  fileAdd(e: DragEvent) {
     if (this.sliderDisabled) return;
     e.preventDefault();
     e.stopPropagation();
@@ -74,65 +78,68 @@ export class HomeComponent implements OnInit {
     const files = Array.from((e.dataTransfer as DataTransfer).files)
       .filter(file => !file.type || fileExtReg.test(file.type.toLocaleLowerCase()))
       .map(file => file.path);
-    this.electronService.fileAdd(files);
+    this.actions.fileAdd(files);
   }
-  dragenter(): void {
+  dragenter() {
     if (this.sliderDisabled) return;
     this.dragUp = true;
   }
 
-  dragleave(): void {
+  dragleave() {
     this.dragUp = false;
     this.sliderDisabled = false;
   }
 
-  dragOver(e: DragEvent): void {
+  dragOver(e: DragEvent) {
     e.preventDefault();
   }
 
   //更新进度条
-  updateProgress(progress: number): void {
+  updateProgress = async (progress: number) => {
+    await delay(3000);
+
+    if (this.progress === progress) return;
     this.progress = progress;
     if (!this.sliderDisabled) {
       //冻结菜单栏
       this.sliderDisabled = true;
-      this.electronService.menuEnabled(getMenuEnableds(true), false);
+      this.actions.menuEnabled(getMenuEnableds(true), false);
     }
     if (progress == 100) {
       //解除冻结
       this.sliderDisabled = false;
-      this.electronService.menuEnabled(getMenuEnableds(true), true);
+      this.actions.menuEnabled(getMenuEnableds(true), true);
     }
-    // this.cdr.detectChanges();
-  }
+    this.cdr.detectChanges();
+  };
 
   //菜单事件
-  menuClick(value: string): void {
+  menuClick(value: string) {
     this[value] && this[value]();
   }
 
   //添加文件夹--进行压缩文件夹里面所有图片
-  addImgs(): void {
+  addImgs() {
     if (this.sliderDisabled) return;
-    this.electronService.select_dir('SELECT_FILE');
+    this.actions.select_dir('SELECT_FILE');
   }
   //保存新图片
-  savenewdir(): void {
-    this.electronService.savenewdir();
+  savenewdir() {
+    this.ipcListener.saveNewDir();
   }
   //清空图片
-  cleanImgs(): void {
+  cleanImgs() {
     this.electronService.clean();
   }
 
   //添加文件夹
-  openSetting(): void {
+  openSetting() {
     if (this.sliderDisabled) return;
     this.isVisible = true;
   }
 
   //关闭抽屉
-  close(): void {
+  close() {
     this.isVisible = false;
   }
 }

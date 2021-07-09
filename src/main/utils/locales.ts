@@ -1,9 +1,12 @@
 import { app } from 'electron';
+import * as path from 'path';
 import { LangData } from '../../common/constants';
 import { isServe } from './utils';
 
+const i18nPath = path.join(__dirname, `../../${isServe ? '../src' : ''}/renderer/assets/i18n/`);
+
 function loadFile(name: string): LangData {
-  return require(`${isServe ? '../../../src' : './renderer'}/assets/i18n/${name}.json`);
+  return require(`${i18nPath}${name}.json`);
 }
 const Lang = {
   'zh-CN': loadFile('zh-CN'),

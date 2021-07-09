@@ -30,6 +30,12 @@
       },
       "plugins": ["@typescript-eslint", "@angular-eslint/eslint-plugin"],
       "rules": {
+        "@typescript-eslint/no-this-alias": [
+          "error",
+          {
+            "allowedNames": ["self"]
+          }
+        ],
         "@typescript-eslint/indent": [
           "error",
           2,

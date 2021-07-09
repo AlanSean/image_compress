@@ -33,27 +33,29 @@ export class ContextmenuDirective implements OnInit {
   private component!: ContextmenuComponent;
   private time?: NodeJS.Timeout;
   //resolver.resolveComponentFactory ：检索创建给定类型组件的工厂对象。
-  componentFactory: ComponentFactory<ContextmenuComponent> = this.resolver.resolveComponentFactory(ContextmenuComponent);
+  componentFactory: ComponentFactory<ContextmenuComponent>;
 
-  constructor(private elementRef: ElementRef, protected resolver: ComponentFactoryResolver, private viewContainerRef: ViewContainerRef) {}
+  constructor(private elementRef: ElementRef, protected resolver: ComponentFactoryResolver, private viewContainerRef: ViewContainerRef) {
+    this.componentFactory = resolver.resolveComponentFactory(ContextmenuComponent);
+  }
 
   @HostListener('contextmenu', ['$event']) oncontextmenu(e: MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
     if (this.disabled || this.trigger != 'contextmenu') return;
-    this.component?.show();
+    this.component.show();
   }
   @HostListener('click', ['$event']) onclick(e: MouseEvent) {
     e.stopPropagation();
     if (this.disabled || this.trigger != 'contextmenu') return;
-    this.component?.hide();
+    this.component.hide();
   }
   @HostListener('mouseenter', ['$event']) onmouseenter(e: MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
     if (this.disabled || this.trigger != 'hover') return;
     this.clearTimer();
-    this.component?.show();
+    this.component.show();
   }
 
   @HostListener('mouseleave') onmouseleave() {
@@ -67,14 +69,14 @@ export class ContextmenuDirective implements OnInit {
     if (this.time) return this.clearTimer();
     this.time = setTimeout(() => {
       this.time = undefined;
-      this.component?.show();
+      this.component.show();
     }, 150);
   };
   hide = () => {
     if (this.time) return this.clearTimer();
     this.time = setTimeout(() => {
       this.time = undefined;
-      this.component?.hide();
+      this.component.hide();
     }, 100);
   };
 

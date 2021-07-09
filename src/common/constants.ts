@@ -50,6 +50,9 @@ export interface compress_callback {
   (FILE: FILE): void;
 }
 
+export interface SelecteDirCallBack {
+  (filePaths: string[], key?: 'SELECT_FILE'): void;
+}
 export interface DefultSetting {
   outdir: string;
   pngQuality: string;

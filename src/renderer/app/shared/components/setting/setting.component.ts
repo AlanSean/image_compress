@@ -11,8 +11,7 @@ import {
   Output,
   OnChanges
 } from '@angular/core';
-import { ElectronService } from '@app/core/services';
-import { IpcChannel } from '@common/constants';
+import { ElectronService, ActionsService } from '@app/core/services';
 import { getSetting, setSetting } from '@utils/storage';
 
 @Component({
@@ -30,10 +29,10 @@ export class SettingComponent implements OnInit, OnChanges {
   pngQuality = getSetting().pngQuality; //---------------滑块唯一值
   jpgQuality = getSetting().jpgQuality; //---------------滑块唯一值
   webpQuality = getSetting().webpQuality; //-------------滑块唯一值
-  outdir = getSetting().outdir as string; //-----------------------输出目录
+  outdir = getSetting().outdir; //-----------------------输出目录
 
-  constructor(private electronService: ElectronService, private cdr: ChangeDetectorRef) {
-    this.ipcRendererOn();
+  constructor(protected electronService: ElectronService, private actions: ActionsService, private cdr: ChangeDetectorRef) {
+    electronService.selecteDirResult(this.selecteDirResult);
   }
 
   ngOnInit(): void {}
@@ -46,26 +45,21 @@ export class SettingComponent implements OnInit, OnChanges {
     }
   }
 
-  //开启监听主进程向子进程发送的命令
-  ipcRendererOn(): void {
-    //添加按钮
-    this.electronService.ipcRenderer.on(IpcChannel.SELECTED_DIR_RESULT, (_, filePaths: string[], key?: 'SELECT_FILE') => {
-      if (!key) {
-        //把存储的照片导出到新目录
-        setSetting({
-          outdir: filePaths[0]
-        });
-        this.outdir = filePaths[0];
-        this.outdirEl.nativeElement.scrollLeft = 1000000;
-        this.cdr.detectChanges();
-      }
-    });
-  }
-
+  selecteDirResult = (filePaths: string[], key?: 'SELECT_FILE') => {
+    if (!key) {
+      //把存储的照片导出到新目录
+      setSetting({
+        outdir: filePaths[0]
+      });
+      this.outdir = filePaths[0];
+      this.outdirEl.nativeElement.scrollLeft = 1000000;
+      this.cdr.detectChanges();
+    }
+  };
   // 质量设置
   qualityChange(key: string, value: number | number[]): void {
     setSetting({
-      [key]: value + ''
+      [key]: value as number
     });
   }
 
@@ -76,7 +70,7 @@ export class SettingComponent implements OnInit, OnChanges {
 
   //修改输出目录
   setOutdir(): void {
-    this.electronService.select_dir();
+    this.actions.select_dir();
   }
 
   //关闭抽屉

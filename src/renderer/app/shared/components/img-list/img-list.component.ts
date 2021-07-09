@@ -1,39 +1,41 @@
-import { Component, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, ChangeDetectorRef, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { FILE } from '@common/constants';
 import { selectFile } from '@app/core/core.module';
-import { ElectronService } from '@app/core/services';
+import { ElectronService, ListenerService, ActionsService } from '@app/core/services';
 import { NzModalService } from 'ng-zorro-antd/modal';
-// import { throttleTime } from 'rxjs/operators';
-// import { data } from './data';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { auditTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-img-list',
   templateUrl: './img-list.component.html',
   styleUrls: ['./img-list.component.less']
-  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ImgListComponent implements OnInit {
   isOpen = false;
-  files$ = this.store.pipe(select(selectFile));
+  files$: Observable<readonly FILE[]>;
   files: readonly FILE[] = [];
-  //删除
-  remove = this.electronService.remove;
   subs!: Subscription;
   @ViewChild('contextmenuEl') contextmenuEl!: ElementRef;
   constructor(
+    protected store: Store,
     private electronService: ElectronService,
-    private store: Store<Array<FILE>>,
+    private ipcListener: ListenerService,
+    private actions: ActionsService,
     private cdr: ChangeDetectorRef,
     private modal: NzModalService
-  ) {}
+  ) {
+    this.files$ = store.pipe(auditTime(16), select(selectFile));
+  }
   ngOnInit() {
+    let i = 0;
     this.subs = this.files$.subscribe(v => {
       this.files = v;
       console.log('files$', new Date(), v);
       this.cdr.markForCheck();
       this.cdr.detectChanges();
+      console.log(i++);
     });
   }
   ngOnDestory() {
@@ -44,7 +46,7 @@ export class ImgListComponent implements OnInit {
   }
   //拖动滑块
   qualityChange(item: FILE, v: number) {
-    this.electronService.update('_', {
+    this.ipcListener.update({
       ...item,
       quality: `${v}`
     });
@@ -57,22 +59,19 @@ export class ImgListComponent implements OnInit {
       state: 'await',
       quality: `${v as number}`
     };
-    this.electronService.update('_', newItem);
-    this.electronService.file_update_quality(newItem);
+    this.ipcListener.update(newItem);
+    this.actions.file_update_quality(newItem);
   }
 
   //信息框
-  modalInfo(item: FILE): void {
-    if (item.state == 'error') {
+  modalInfo(item: FILE) {
+    if (item.state == 'error' && item.errorInfo) {
       this.modal.error({
         nzAutofocus: null,
         nzCentered: true,
         nzTitle: 'Image compression failed',
-        nzContent: item?.errorInfo?.replace(/error/g, '<br/>error')
+        nzContent: item.errorInfo.replace(/error/g, '<br/>error')
       });
-      console.log(2134);
-      this.cdr.markForCheck();
-      this.cdr.detectChanges();
     }
   }
 
@@ -82,10 +81,10 @@ export class ImgListComponent implements OnInit {
         item.outpath && this.electronService.openFileDir(item.outpath);
         break;
       case 'saveAs':
-        this.electronService.saveAs(item);
+        this.actions.saveAs(item);
         break;
       case 'remove':
-        this.remove(item.MD5KEY);
+        this.ipcListener.remove(item.MD5KEY);
         break;
     }
   }

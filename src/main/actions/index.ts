@@ -5,3 +5,4 @@ export * from './ipcMainListener';
 export * from './webContents';
 export * from './devtools';
 export * from './protocol';
+export * from './optimize';

@@ -4,21 +4,18 @@ import { BrowserWindow, dialog, shell } from 'electron';
 import { FILE, DefultSetting } from '../../common/constants';
 // import { dirSearchImg, compress } from '../config/optimize';
 import { WebContentsAction } from './webContents';
+import { OptimizeAction } from './optimize';
 import { getOptions } from '../utils';
 import { menuAction } from './menu';
-import { OptimizeAction } from './optimize';
 
 export class IpcMainListenerAction {
-  private readonly webContents = new WebContentsAction(this.win.webContents);
-  private readonly optimize = new OptimizeAction();
-
-  constructor(readonly win: BrowserWindow) {}
+  constructor(readonly win: BrowserWindow, readonly actions: WebContentsAction, readonly optimize: OptimizeAction) {}
 
   //添加文件并压缩
   file_add = (files: string[], setting: DefultSetting) => {
     const sTime = new Date().getTime();
     const findFiles = this.optimize.dirSearchImg(setting);
-    const fileSelected = this.webContents.fileSelected;
+    const fileSelected = this.actions.fileSelected;
 
     findFiles.subscribe(fileSelected);
 
@@ -33,16 +30,16 @@ export class IpcMainListenerAction {
     const len = imgArr.length;
 
     if (len == 0) {
-      this.webContents.message('warning', 'msg.not_img_warning');
+      this.actions.message('warning', 'msg.not_img_warning');
       return;
     }
 
-    this.webContents.setProgress(0, 1);
+    this.actions.setProgress(0, 1);
 
     this.optimize.handle(imgArr, files => {
       count++;
-      this.webContents.setProgress(count, len);
-      this.webContents.fileUpdate(files);
+      this.actions.setProgress(count, len);
+      this.actions.fileUpdate(files);
     });
   };
 
@@ -52,7 +49,7 @@ export class IpcMainListenerAction {
     //当打开目录是要选择文件时
     const { filePaths } = await dialog.showOpenDialog(this.win, options);
     if (filePaths[0]) {
-      this.webContents.selecedDirResult(filePaths, key);
+      this.actions.selecedDirResult(filePaths, key);
     }
   };
 
@@ -70,7 +67,7 @@ export class IpcMainListenerAction {
     });
 
     if (filePath) {
-      this.webContents.message('loading', 'msg.save_loading', {
+      this.actions.message('loading', 'msg.save_loading', {
         nzDuration: 0
       });
       //防止特殊字符导致失败
@@ -78,7 +75,7 @@ export class IpcMainListenerAction {
       await fs.writeFile(filePath, Buffer);
       // //保存成功 提示mssage
       // shell.showItemInFolder(filePath);
-      this.webContents.message('success', 'msg.save_finish');
+      this.actions.message('success', 'msg.save_finish');
     }
   };
 
@@ -92,8 +89,8 @@ export class IpcMainListenerAction {
       let count = 0;
       const len = files.length;
 
-      this.webContents.setProgress(0, 1);
-      this.webContents.message('loading', 'msg.export_loading', {
+      this.actions.setProgress(0, 1);
+      this.actions.message('loading', 'msg.export_loading', {
         nzDuration: 0
       });
 
@@ -102,9 +99,9 @@ export class IpcMainListenerAction {
         await fs.copy(item.outpath, outpath);
 
         count++;
-        this.webContents.setProgress(count, len);
+        this.actions.setProgress(count, len);
         if (count == len) {
-          this.webContents.message('success', 'msg.export_finish');
+          this.actions.message('success', 'msg.export_finish');
           shell.showItemInFolder(filePaths[0]);
         }
       });

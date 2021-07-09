@@ -51,7 +51,7 @@ export class App {
       ChromeDevtoolsLoader.load();
       win.loadURL('http://localhost:4200');
     } else {
-      win.loadURL(url.pathToFileURL(path.join(__dirname, 'dist/index.html')).href);
+      win.loadURL(url.pathToFileURL(path.join(__dirname, '../renderer/index.html')).href);
     }
   }
   private secondInstance(win: BrowserWindow) {

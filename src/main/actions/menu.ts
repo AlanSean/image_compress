@@ -1,8 +1,10 @@
 import { BrowserWindow, shell, app, Menu, MenuItem, MenuItemConstructorOptions } from 'electron';
 import { MenuIpcChannel, IpcChannel } from '../../common/constants';
 import { Locales, isServe } from '../utils';
+import { UpdaterAction } from './updater';
 
 class MenuAction {
+  private updaterAction = new UpdaterAction();
   private isMac = process.platform === 'darwin';
   private menuInstance: Menu | null = null;
 
@@ -66,9 +68,7 @@ class MenuAction {
           {
             id: 'update',
             label: getLocales('menu.update'),
-            click: async () => {
-              await shell.openExternal('https://github.com/AlanSean/image_compress/blob/master/README.md');
-            }
+            click: this.checkUpdate
           }
         ]
       }
@@ -124,6 +124,11 @@ class MenuAction {
   //清空 文件
   private clean_file = (_: MenuItem, win?: BrowserWindow) => {
     win?.webContents.send(IpcChannel.CLEAN_FILE);
+  };
+
+  //清空 文件
+  private checkUpdate = (_: MenuItem, win?: BrowserWindow) => {
+    win && this.updaterAction.handle(win);
   };
 }
 
