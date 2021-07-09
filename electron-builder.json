@@ -19,7 +19,7 @@
   },
   "win": {
     "icon": "dist/assets/icons",
-    "target": ["nsis"]
+    "target": ["nsis", "zip"]
   },
   "mac": {
     "category": "public.app.category.imgCompress",

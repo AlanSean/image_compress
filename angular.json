@@ -5,7 +5,7 @@
   "projects": {
     "angular-electron": {
       "root": "",
-      "sourceRoot": "src",
+      "sourceRoot": "src/renderer",
       "projectType": "application",
       "prefix": "app",
       "architect": {
@@ -19,7 +19,7 @@
             "polyfills": "src/renderer/polyfills.ts",
             "allowedCommonJsDependencies": ["fs-extra", "crypto-js/md5"],
             "aot": true,
-            "assets": ["src/assets"],
+            "assets": ["src/renderer/assets"],
             "styles": ["node_modules/ng-zorro-antd/style/index.min.css", "src/renderer/styles.less"],
             "scripts": [],
             "customWebpackConfig": {
@@ -111,7 +111,7 @@
             "karmaConfig": "src/renderer/karma.conf.js",
             "scripts": [],
             "styles": ["src/renderer/styles.less"],
-            "assets": ["src/assets"],
+            "assets": ["src/renderer/assets"],
             "customWebpackConfig": {
               "path": "./angular.webpack.js"
             },
