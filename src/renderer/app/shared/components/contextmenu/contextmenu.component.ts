@@ -105,6 +105,7 @@ export class ContextmenuDirective implements OnInit {
     this.component.trigger = this.trigger;
     this.component.menuListClick = (key: string) => {
       this.menuListClick.emit(key);
+      this.component.hide();
     };
   }
 }
