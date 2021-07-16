@@ -1,11 +1,7 @@
 <div class="img-list">
-  <div *ngFor="let item of files; index as i; trackBy: trackByItem" class="imgInfo">
+  <div *ngFor="let item of files$ | async; index as i; trackBy: trackByItem" class="imgInfo">
     <div class="img_continer">
-      <div *ngIf="item.outsrc !== null" class="img" appCompare [appCompareData]="item">
-        <img [src]="item.outsrc" />
-      </div>
-
-      <div class="title" [class.disabled]="item.state != 'finish'">
+      <div class="title" [class.disabled]="item.state !== 'finish'">
         <!-- PNG WEBP JPG -->
         <app-icon [name]="'icon-' + item.ext" class="icon imgicon"></app-icon>
 
@@ -16,6 +12,7 @@
         <div
           class="icon menu"
           appContextmenu
+          [Disabled]="item.state !== 'finish'"
           trigger="hover"
           (menuListClick)="menuListClick($event, item)"
         >
@@ -23,7 +20,14 @@
         </div>
       </div>
 
-      <div class="loading" [class.loading_visi]="item.state !== 'await'"></div>
+      <div *ngIf="item.state === 'await'" class="loading"></div>
+      <div *ngIf="item.state === 'error'" class="error">
+        <h1>Image compression failed</h1>
+        <span>{{ item.errorInfo }}</span>
+      </div>
+      <div *ngIf="item.state === 'finish'" class="img" appCompare [appCompareData]="item">
+        <img [src]="item.outsrc" />
+      </div>
     </div>
     <div class="quality_size">
       <div class="quality">
