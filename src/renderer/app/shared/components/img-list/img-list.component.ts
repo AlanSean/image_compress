@@ -1,8 +1,6 @@
 import { Component, ViewChild, ElementRef, ChangeDetectorRef, OnInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
 import { FILE } from '@common/constants';
-import { selectFile } from '@app/core/core.module';
-import { ElectronService, ListenerService, ActionsService } from '@app/core/services';
+import { ElectronService, ActionsService, FilesService } from '@app/core/services';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { Observable, Subscription } from 'rxjs';
 import { auditTime } from 'rxjs/operators';
@@ -19,23 +17,19 @@ export class ImgListComponent implements OnInit {
   subs!: Subscription;
   @ViewChild('contextmenuEl') contextmenuEl!: ElementRef;
   constructor(
-    protected store: Store,
     private electronService: ElectronService,
-    private ipcListener: ListenerService,
+    private filesService: FilesService,
     private actions: ActionsService,
     private cdr: ChangeDetectorRef,
     private modal: NzModalService
   ) {
-    this.files$ = store.pipe(auditTime(16), select(selectFile));
+    this.files$ = this.filesService.getFiles().pipe(auditTime(16));
   }
   ngOnInit() {
-    let i = 0;
-    this.subs = this.files$.subscribe(v => {
-      this.files = v;
-      console.log('files$', new Date(), v);
-      this.cdr.markForCheck();
-      this.cdr.detectChanges();
-      console.log(i++);
+    this.subs = this.files$.subscribe(newFiles => {
+      this.files = newFiles;
+      // this.cdr.markForCheck();
+      // this.cdr.detectChanges();
     });
   }
   ngOnDestory() {
@@ -46,7 +40,7 @@ export class ImgListComponent implements OnInit {
   }
   //拖动滑块
   qualityChange(item: FILE, v: number) {
-    this.ipcListener.update({
+    this.filesService.update({
       ...item,
       quality: `${v}`
     });
@@ -59,7 +53,7 @@ export class ImgListComponent implements OnInit {
       state: 'await',
       quality: `${v as number}`
     };
-    this.ipcListener.update(newItem);
+    this.filesService.update(newItem);
     this.actions.file_update_quality(newItem);
   }
 
@@ -84,7 +78,7 @@ export class ImgListComponent implements OnInit {
         this.actions.saveAs(item);
         break;
       case 'remove':
-        this.ipcListener.remove(item.MD5KEY);
+        this.filesService.remove(item);
         break;
     }
   }

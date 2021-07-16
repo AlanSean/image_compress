@@ -1,12 +1,9 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ElectronService, ListenerService, ActionsService } from '../core/services';
+import { ElectronService, ActionsService, FilesService } from '../core/services';
 import { MenuIpcChannel } from '@common/constants';
-import { Store, select } from '@ngrx/store';
-import { getFilesLength } from '@app/core/core.module';
 import { fileExtReg } from '@utils/file';
 import { getMenuEnableds } from '@utils/menu';
 import { auditTime } from 'rxjs/operators';
-import { delay } from '@utils/utils';
 
 @Component({
   selector: 'app-home',
@@ -26,24 +23,25 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private actions: ActionsService,
-    private ipcListener: ListenerService,
+    private filesService: FilesService,
     private electronService: ElectronService,
-    private cdr: ChangeDetectorRef,
-    protected store: Store
+    private cdr: ChangeDetectorRef
   ) {
     this.electronService.selecteDirResult(this.selecteDirResult);
     this.electronService.updateProgress(this.updateProgress);
-
-    store.pipe(auditTime(16), select(getFilesLength)).subscribe(len => {
-      if (len == 0) {
-        actions.menuEnabled([MenuIpcChannel.ADD], true);
-        actions.menuEnabled(getMenuEnableds(false), false);
-      }
-      if (len != this.filesLength) {
-        this.filesLength = len;
-      }
-      this.cdr.detectChanges();
-    });
+    this.filesService
+      .getLen()
+      .pipe(auditTime(16))
+      .subscribe(len => {
+        if (len == 0) {
+          actions.menuEnabled([MenuIpcChannel.ADD], true);
+          actions.menuEnabled(getMenuEnableds(false), false);
+        }
+        if (len != this.filesLength) {
+          this.filesLength = len;
+        }
+        this.cdr.detectChanges();
+      });
   }
 
   ngOnInit() {
@@ -95,9 +93,7 @@ export class HomeComponent implements OnInit {
   }
 
   //更新进度条
-  updateProgress = async (progress: number) => {
-    await delay(3000);
-
+  updateProgress = (progress: number) => {
     if (this.progress === progress) return;
     this.progress = progress;
     if (!this.sliderDisabled) {
@@ -115,6 +111,7 @@ export class HomeComponent implements OnInit {
 
   //菜单事件
   menuClick(value: string) {
+    // @ts-expect-error: call methods
     this[value] && this[value]();
   }
 
@@ -125,7 +122,7 @@ export class HomeComponent implements OnInit {
   }
   //保存新图片
   savenewdir() {
-    this.ipcListener.saveNewDir();
+    this.filesService.saveNewDir();
   }
   //清空图片
   cleanImgs() {

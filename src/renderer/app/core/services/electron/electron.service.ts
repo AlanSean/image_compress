@@ -5,14 +5,15 @@ import { ipcRenderer, IpcRendererEvent, shell } from 'electron';
 
 import { FILE, IpcChannel, MenuIpcChannel, Message, messageType, SelecteDirCallBack } from '@common/constants';
 import { getSetting, mkOutdir, getMenuEnableds } from '@utils/index';
-import { ListenerService } from '../listener/listener.service';
+import { FilesService } from '../files/files.service';
 import { ActionsService } from '../actions/actions.service';
+import { ListenerService } from '../listener/listener.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ElectronService {
-  constructor(private actions: ActionsService, private ipcListener: ListenerService) {
+  constructor(private actions: ActionsService, private filesService: FilesService, private ipcListener: ListenerService) {
     this.addFile();
     this.updateFile();
     this.selectDir();
@@ -37,7 +38,7 @@ export class ElectronService {
   //清空文件夹
 
   clean = () => {
-    this.ipcListener.cleanFile();
+    this.filesService.clear();
     this.actions.menuEnabled([MenuIpcChannel.ADD], true);
     this.actions.menuEnabled(getMenuEnableds(false), false);
   };
@@ -56,12 +57,12 @@ export class ElectronService {
 
   private addFile() {
     ipcRenderer.on(IpcChannel.FILE_SELECTED, (_: IpcRendererEvent, file: FILE | Array<FILE>) => {
-      this.ipcListener.add(file);
+      this.filesService.push(file);
     });
   }
   private updateFile() {
     ipcRenderer.on(IpcChannel.FILE_UPDATE, (_: IpcRendererEvent, file: FILE | Array<FILE>) => {
-      this.ipcListener.update(file);
+      this.filesService.update(file);
     });
   }
   //窗口菜单 发起的选择文件
@@ -77,7 +78,7 @@ export class ElectronService {
     });
   };
   private saveNewDir = () => {
-    ipcRenderer.on(IpcChannel.SAVE_NEW_DIR, this.ipcListener.saveNewDir);
+    ipcRenderer.on(IpcChannel.SAVE_NEW_DIR, this.filesService.saveNewDir);
   };
 
   private cleanFile() {
