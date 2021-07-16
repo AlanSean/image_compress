@@ -1,7 +1,0 @@
-{
-  "file_hashes": [
-    { "block_hashes": ["XWQGqdyBen6w0xWsWJrsjkvfw5AFygB6Ni0hY5farVw="], "block_size": 4096, "path": "devtoolsBackground.html" },
-    { "block_hashes": ["+QSFm/IKgDuJcEpftvQk5T5C/abhm9fVuTZDN4Wbu1I="], "block_size": 4096, "path": "devtoolsBackground.js" }
-  ],
-  "version": 2
-}
