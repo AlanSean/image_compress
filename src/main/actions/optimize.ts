@@ -115,7 +115,7 @@ export class OptimizeAction {
       const imgFile = fs.statSync(filePath);
 
       return {
-        MD5KEY: MD5(`${filePath}${new Date().getTime()}`).toString(),
+        MD5KEY: MD5(filePath).toString(),
         state: 'await',
         src: url.pathToFileURL(filePath).href,
         path: filePath,
