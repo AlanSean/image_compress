@@ -5,7 +5,6 @@
     "target": "esnext",
     "baseUrl": "./src",
     "outDir": "./dist/out-tsc",
-    "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
