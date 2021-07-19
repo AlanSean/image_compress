@@ -4,6 +4,7 @@ import { ElectronService, ActionsService, FilesService } from '@app/core/service
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { Observable, Subscription } from 'rxjs';
 import { auditTime } from 'rxjs/operators';
+import { shell } from 'electron';
 
 @Component({
   selector: 'app-img-list',
@@ -60,12 +61,7 @@ export class ImgListComponent implements OnInit {
   //信息框
   modalInfo(item: FILE) {
     if (item.state == 'error' && item.errorInfo) {
-      this.modal.error({
-        nzAutofocus: null,
-        nzCentered: true,
-        nzTitle: 'Image compression failed',
-        nzContent: item.errorInfo.replace(/error/g, '<br/>error')
-      });
+      shell.openExternal(`https://cn.bing.com/search?q=${item.errorInfo}`);
     }
   }
 

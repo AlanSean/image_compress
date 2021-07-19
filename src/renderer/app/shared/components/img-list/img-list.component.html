@@ -10,13 +10,20 @@
         </div>
 
         <div
+          *ngIf="item.state === 'finish'"
           class="icon menu"
           appContextmenu
-          [Disabled]="item.state !== 'finish'"
           trigger="hover"
           (menuListClick)="menuListClick($event, item)"
         >
           <app-icon name="icon-more"></app-icon>
+        </div>
+        <div
+          *ngIf="item.state === 'error'"
+          class="icon remove"
+          (click)="menuListClick('remove', item)"
+        >
+          <app-icon name="icon-clear"></app-icon>
         </div>
       </div>
 
