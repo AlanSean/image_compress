@@ -2,14 +2,11 @@ import * as os from 'os';
 import * as path from 'path';
 import * as url from 'url';
 import { app, BrowserWindow } from 'electron';
-
 import { Loader } from './loader';
-
 import { ChromeDevtoolsLoader } from './loader/devtools';
 
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = '1';
-const args = process.argv.slice(1),
-  serve = args.some(val => val === '--serve');
+const appName = 'image compress';
 
 export class App {
   static load() {
@@ -19,8 +16,11 @@ export class App {
   }
 
   private createProgram() {
+    app.setName(appName);
     this.windowAllClosed();
+
     const win = this.createWindow();
+
     Loader.load(win);
     this.secondInstance(win);
     this.loadURL(win);
@@ -45,6 +45,9 @@ export class App {
     });
   }
   private loadURL(win: BrowserWindow) {
+    const args = process.argv.slice(1),
+      serve = args.some(val => val === '--serve');
+
     if (serve) {
       win.webContents.openDevTools();
       //安装扩展

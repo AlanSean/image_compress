@@ -5,7 +5,6 @@ import * as MD5 from 'crypto-js/md5';
 import { FindFiles } from '@etanjs/node-find-files';
 
 import { FILE, compress_callback, DefultSetting, ExpMap } from '../../common/constants';
-import * as log from 'electron-log';
 import { byteConver, percent } from '../utils';
 const findFiles = new FindFiles(/\.(jpg|jpeg|webp|png)$/i);
 
@@ -14,6 +13,7 @@ const number = 10;
 import { isServe } from '../utils';
 
 import * as sharp from 'sharp';
+import { FormatEnum } from 'sharp';
 
 export interface ImageInfo {
   status: number;
@@ -51,7 +51,7 @@ export class OptimizeAction {
         this.PIPE(arr.slice(start * number, (start + 1) * number), cb);
       }
     } catch (error) {
-      log.error(error);
+      console.error(error);
     }
   }
   PIPE(arr: FILE[], cb: compress_callback) {
@@ -60,8 +60,9 @@ export class OptimizeAction {
   }
 
   private img_compress = async (FILE: FILE, cb: compress_callback) => {
-    const { path, quality, outpath } = FILE;
+    const { path, quality, outpath, ext } = FILE;
     const input = await fs.readFile(path);
+
     sharp(input, {
       sequentialRead: true
     })
@@ -79,10 +80,11 @@ export class OptimizeAction {
         progressive: true, //隔行扫描
         quality: parseInt(quality) || 1
       })
+      .toFormat(ext as keyof FormatEnum)
       .toBuffer({ resolveWithObject: true })
-      .then(({ data }) => {
+      .then(({ data, info }) => {
         fs.outputFileSync(outpath, data);
-
+        console.error('info', info);
         const result = this.finsh(FILE, {
           status: 0,
           data: data,
@@ -93,7 +95,7 @@ export class OptimizeAction {
         cb && cb(result);
       })
       .catch(err => {
-        isServe && log.error('imgerr', path, err);
+        isServe && console.error('imgerr', path, err);
         const result = this.finsh(FILE, {
           status: 99,
           data: input,
@@ -101,6 +103,7 @@ export class OptimizeAction {
           nowDataSize: 0,
           percentage: 0
         });
+
         cb && cb(result);
       });
   };

@@ -5,7 +5,6 @@ import * as MD5 from 'crypto-js/md5';
 
 import { FILE, compress_callback, DefultSetting } from '../../common/constants';
 import { ImageInfo, img_compress } from './bin';
-import * as log from 'electron-log';
 import { byteConver, percent } from '../utils';
 import { FindFiles } from '@etanjs/node-find-files';
 const findFiles = new FindFiles(/\.(jpg|jpeg|webp|png)$/i);
@@ -74,7 +73,7 @@ export function compress(arr: FILE[], cb: compress_callback): void {
       }
     })();
   } catch (error) {
-    log.error(error);
+    console.error(error);
   }
 }
 

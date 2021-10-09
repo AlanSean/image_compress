@@ -1,4 +1,5 @@
-import { BrowserWindow, shell, app, Menu, MenuItem, MenuItemConstructorOptions } from 'electron';
+import * as os from 'os';
+import { BrowserWindow, shell, app, Menu, MenuItem, MenuItemConstructorOptions, dialog } from 'electron';
 import { MenuIpcChannel, IpcChannel } from '../../common/constants';
 import { Locales, isServe } from '../utils';
 import { UpdaterAction } from './updater';
@@ -7,10 +8,17 @@ class MenuAction {
   private updaterAction = new UpdaterAction();
   private isMac = process.platform === 'darwin';
   private menuInstance: Menu | null = null;
+  private AboutLink = '';
+  getMenuInstance() {
+    if (this.menuInstance === null) {
+      this.menuInstance = this.setMenu();
+    }
+    return this.menuInstance;
+  }
 
   setMenu() {
+    !this.AboutLink && this.setAboutLink();
     const getLocales = new Locales().getLocales;
-
     const Menus: MenuItemConstructorOptions[] = [
       {
         label: app.name,
@@ -62,13 +70,20 @@ class MenuAction {
             id: 'learnmore',
             label: getLocales('menu.learnmore'),
             click: async () => {
-              await shell.openExternal('https://github.com/AlanSean/image_compress/blob/master/README.md');
+              await shell.openExternal(this.AboutLink);
             }
           },
+          { type: 'separator' },
           {
             id: 'update',
             label: getLocales('menu.update'),
             click: this.checkUpdate
+          },
+          { type: 'separator' },
+          {
+            id: 'About',
+            label: getLocales('about'),
+            click: this.about
           }
         ]
       }
@@ -85,12 +100,7 @@ class MenuAction {
     this.menuInstance = menu;
     return menu;
   }
-  getMenuInstance() {
-    if (this.menuInstance === null) {
-      this.menuInstance = this.setMenu();
-    }
-    return this.menuInstance;
-  }
+
   menuEnabled(menuKeys: string[], enabled: boolean) {
     const menuInstance = this.getMenuInstance();
 
@@ -102,9 +112,30 @@ class MenuAction {
       }
     });
   }
-
-  private about = async () => {
-    await shell.openExternal('https://github.com/AlanSean/image_compress/blob/master/README.md');
+  private setAboutLink() {
+    const lang = app.getLocale();
+    const Domain = lang == 'zh-CN' ? 'gitee' : 'github';
+    this.AboutLink = `https://${Domain}.com/AlanSean/image_compress/blob/master/README.md`;
+  }
+  private about = (_: MenuItem, win?: BrowserWindow) => {
+    console.log(process.versions);
+    win &&
+      dialog.showMessageBoxSync(win, {
+        type: 'info',
+        title: app.name,
+        message: app.name,
+        normalizeAccessKeys: true,
+        detail: `
+        版本: 1.61.0 (user setup)
+        提交: ee8c7def80afc00dd6e593ef12f37756d8f504ea
+        日期: 2021-10-07T18:13:09.652Z
+        Electron: ${process.versions.electron}
+        Chrome: ${process.versions.chrome}
+        Node.js: ${process.versions.node}
+        V8: ${process.versions.v8}
+        OS:${os.type()} ${os.arch()} ${os.release()}
+      `
+      });
   };
   //选择文件 压缩
   private select_dir = (_: MenuItem, win?: BrowserWindow) => {

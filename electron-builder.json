@@ -4,7 +4,7 @@
     "output": "release/"
   },
   "files": ["lib/main.js", "./favicon.ico", "lib/config/**/*", "dist/**/*", "!*/**/*.js.map", "!*/**/*.ts"],
-
+  "asarUnpack": ["./node_modules/sharp"],
   "appId": "com.image_compress.app",
   "nsis": {
     "oneClick": false,

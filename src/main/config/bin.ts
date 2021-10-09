@@ -1,5 +1,4 @@
 import * as fs from 'fs-extra';
-import * as log from 'electron-log';
 import { isServe } from '../utils';
 
 import * as sharp from 'sharp';
@@ -42,7 +41,7 @@ export const img_compress = async (path: string, quality: string, outpath: strin
       };
     })
     .catch(err => {
-      isServe && log.error('imgerr', path, err);
+      isServe && console.error('imgerr', path, err);
       return {
         status: 99,
         data: input,

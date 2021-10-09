@@ -1,8 +1,9 @@
 {
   "name": "image_compress",
   "version": "0.0.1",
-  "description": "png/jpge optimization app",
+  "description": "WEBP,PNG/JPEG compression graphics program that base on Electron，Angular，Node，Sharp. Available for Windows, MacOS and Linux",
   "homepage": "https://github.com/AlanSean/image_compress",
+  "bugs": "https://github.com/AlanSean/image_compress/issues",
   "author": {
     "name": "AlanSean",
     "email": "miaomimiya@gmail.com"
@@ -19,9 +20,6 @@
     "mac",
     "linux"
   ],
-  "resolutions": {
-    "electron-builder/**/app-builder-bin": "3.5.13"
-  },
   "main": "dist/main.js",
   "private": true,
   "scripts": {
@@ -49,12 +47,14 @@
     "prepare": "husky install",
     "help": "etan build --publish always"
   },
+  "optionalDependencies": {
+    "fsevents": "*"
+  },
   "dependencies": {
     "crypto-js": "4.0.0",
-    "electron-log": "^4.3.5",
     "execa": "5.0.0",
     "fs-extra": "9.1.0",
-    "sharp": "^0.28.1"
+    "sharp": "0.29.1"
   },
   "devDependencies": {
     "@angular-builders/custom-webpack": "11.1.1",

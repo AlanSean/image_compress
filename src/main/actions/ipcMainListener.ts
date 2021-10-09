@@ -1,5 +1,4 @@
 import * as fs from 'fs-extra';
-import * as log from 'electron-log';
 import { BrowserWindow, dialog, shell } from 'electron';
 import { FILE, DefultSetting } from '../../common/constants';
 // import { dirSearchImg, compress } from '../config/optimize';
@@ -23,7 +22,7 @@ export class IpcMainListenerAction {
 
     findFiles.unsubscribe();
 
-    log.info('time:', new Date().getTime() - sTime, imgArr.length);
+    console.log('time:', new Date().getTime() - sTime, imgArr.length);
 
     let count = 0;
 
@@ -84,7 +83,7 @@ export class IpcMainListenerAction {
     //当打开目录是要选择文件时
     const { filePaths } = await dialog.showOpenDialog(this.win, options);
 
-    log.info('filePaths', filePaths);
+    console.log('filePaths', filePaths);
     if (filePaths[0]) {
       let count = 0;
       const len = files.length;
