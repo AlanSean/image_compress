@@ -1,9 +1,9 @@
-import { webContents } from 'electron';
+import { WebContents } from 'electron';
 import { FILE, IpcChannel, Message, messageType } from '../../common/constants';
 import { SELECTED_DIR_RESULT } from '../../common/function';
 
 export class WebContentsAction {
-  constructor(readonly webContents: webContents) {}
+  constructor(readonly webContents: WebContents) {}
   appUpdate() {}
   message(type: messageType, message: string, options?: any) {
     this.webContents.send(Message.TOAST, type, message, options);
