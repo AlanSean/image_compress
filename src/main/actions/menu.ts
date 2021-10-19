@@ -158,8 +158,9 @@ class MenuAction {
   };
 
   //清空 文件
-  private checkUpdate = (_: MenuItem, win?: BrowserWindow) => {
-    win && this.updaterAction.handle(win);
+  private checkUpdate = () => {
+    // win && this.updaterAction.handle(win);
+    shell.openExternal('https://github.com/AlanSean/image_compress/releases');
   };
 }
 
