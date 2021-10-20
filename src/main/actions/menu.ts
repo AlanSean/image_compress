@@ -126,15 +126,13 @@ class MenuAction {
         message: app.name,
         normalizeAccessKeys: true,
         detail: `
-        版本: 1.61.0 (user setup)
-        提交: ee8c7def80afc00dd6e593ef12f37756d8f504ea
-        日期: 2021-10-07T18:13:09.652Z
-        Electron: ${process.versions.electron}
-        Chrome: ${process.versions.chrome}
-        Node.js: ${process.versions.node}
-        V8: ${process.versions.v8}
-        OS:${os.type()} ${os.arch()} ${os.release()}
-      `
+          version: ${require('../../../package.json').version as string}
+          Electron: ${process.versions.electron}
+          Chrome: ${process.versions.chrome}
+          Node.js: ${process.versions.node}
+          V8: ${process.versions.v8}
+          OS: ${os.type()} ${os.arch()} ${os.release()}
+        `
       });
   };
   //选择文件 压缩
