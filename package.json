@@ -79,7 +79,7 @@
     "@angular/router": "11.2.12",
     "@commitlint/cli": "^12.1.1",
     "@commitlint/config-conventional": "^12.1.1",
-    "@etanjs/cli": "^1.0.2",
+    "@etanjs/cli": "1.0.3",
     "@ngrx/effects": "11.1.1",
     "@ngrx/store": "11.1.1",
     "@ngrx/store-devtools": "11.1.1",
