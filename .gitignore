@@ -7,8 +7,6 @@
 /out-tsc
 /app-builds
 /release
-src/**/*.js
-!src/renderer/**/*.js
 *.js.map
 
 # dependencies
