@@ -1,15 +1,20 @@
-import { BrowserWindow } from 'electron';
 import { autoUpdater } from 'electron-updater';
 
+import { log } from '../utils/index';
+
 export class UpdaterAction {
-  public handle(win: BrowserWindow) {
-    // autoUpdater.on('update-available', (info: any) => {
-    //   log.info('update available', info.version);
-    //   //---- buttons
-    //   win;
-    // });
-    autoUpdater.checkForUpdates().then(reslut => {
-      console.log(reslut);
+  version = autoUpdater.currentVersion.version;
+  public handle() {
+    this.updateAvailable();
+  }
+
+  private updateAvailable() {
+    autoUpdater.on('update-available', info => {
+      log(info);
     });
+  }
+
+  checkForUpdates() {
+    autoUpdater.checkForUpdatesAndNotify();
   }
 }

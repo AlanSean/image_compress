@@ -9,6 +9,6 @@ export class Loader {
     ProtocolLoader.load();
     IpcMainLoader.load(win);
     MenuLoader.load();
-    UpdateLoader.load(win);
+    UpdateLoader.load();
   }
 }
