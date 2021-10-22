@@ -35,5 +35,5 @@
     "strictInputAccessModifiers": true,
     "strictTemplates": true
   },
-  "exclude": ["node_modules", "!src/assets/**/*.js", "src/Extensions"]
+  "exclude": ["node_modules", "!src/renderer/assets/**/*.js", "src/Extensions"]
 }

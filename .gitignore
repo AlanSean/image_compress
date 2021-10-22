@@ -7,11 +7,8 @@
 /out-tsc
 /app-builds
 /release
-main.js
 src/**/*.js
-!src/renderer/assets/**/*.js
-electronConfig/**/*.js
-!src/karma.conf.js
+!src/renderer/**/*.js
 *.js.map
 
 # dependencies
