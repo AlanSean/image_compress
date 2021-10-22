@@ -113,12 +113,10 @@ class MenuAction {
     });
   }
   private setAboutLink() {
-    const lang = app.getLocale();
-    const Domain = lang == 'zh-CN' ? 'gitee' : 'github';
-    this.AboutLink = `https://${Domain}.com/AlanSean/image_compress/blob/master/README.md`;
+    // const lang = app.getLocale();
+    this.AboutLink = 'https://github.com/AlanSean/image_compress/blob/master/README.md';
   }
   private about = (_: MenuItem, win?: BrowserWindow) => {
-    console.log(process.versions);
     win &&
       dialog.showMessageBoxSync(win, {
         type: 'info',
@@ -126,7 +124,7 @@ class MenuAction {
         message: app.name,
         normalizeAccessKeys: true,
         detail: `
-          version: ${require('../../../package.json').version as string}
+          version: ${this.updaterAction.version}.version as string}
           Electron: ${process.versions.electron}
           Chrome: ${process.versions.chrome}
           Node.js: ${process.versions.node}
@@ -156,8 +154,8 @@ class MenuAction {
   };
 
   //清空 文件
-  private checkUpdate = () => {
-    // win && this.updaterAction.handle(win);
+  private checkUpdate = (_: MenuItem, win?: BrowserWindow) => {
+    win && this.updaterAction.checkForUpdates();
     shell.openExternal('https://github.com/AlanSean/image_compress/releases');
   };
 }
