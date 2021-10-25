@@ -3,6 +3,14 @@
   "compilerOptions": {
     "noUnusedLocals": false
   },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "strictmetadataemit": true,
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  },
   "files": ["main.ts", "polyfills.ts"],
   "exclude": ["**/*.spec.ts"]
 }
