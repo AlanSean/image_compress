@@ -106,7 +106,16 @@ export class IpcMainListenerAction {
       });
     }
   };
+
   menuEnabled(menuKeys: string[], enabled: boolean) {
     menuAction.menuEnabled(menuKeys, enabled);
+  }
+
+  //
+  dragStart(event: Electron.IpcMainEvent, filePath: string, icon: string) {
+    event.sender.startDrag({
+      file: filePath,
+      icon: icon
+    });
   }
 }

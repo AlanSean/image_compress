@@ -90,14 +90,21 @@ export class ElectronService {
       this.ipcListener.toast(type, message, options);
     });
   };
+
   selecteDirResult = (callback: SelecteDirCallBack) => {
     ipcRenderer.on(IpcChannel.SELECTED_DIR_RESULT, (_, filePaths: string[], key?: 'SELECT_FILE') => {
       callback(filePaths, key);
     });
   };
+
   updateProgress = (callback: (progress: number) => void) => {
     ipcRenderer.on(IpcChannel.PROGRESS, (_, current: number, sum: number) => {
       callback((current / sum) * 100);
     });
   };
+
+  // 图片拖到桌面或者文件夹
+  dragStart(filePath: string, icon: string) {
+    ipcRenderer.send(IpcChannel.DRAG_START, filePath, icon);
+  }
 }
