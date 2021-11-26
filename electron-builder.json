@@ -17,16 +17,16 @@
     "smartUnpack": true //是否自动解压缩可执行文件。
   },
   "win": {
-    "icon": "dist/assets/icons",
+    "icon": "dist/renderer/assets/icons",
     "target": ["nsis", "zip"]
   },
   "mac": {
     "category": "public.app.category.imgCompress",
-    "icon": "dist/assets/icons",
+    "icon": "dist/renderer/assets/icons",
     "target": ["dmg", "zip"]
   },
   "linux": {
-    "icon": "dist/assets/icons",
+    "icon": "dist/renderer/assets/icons",
     "target": ["AppImage"],
     "category": "Graphics Tool",
     "publish": ["github"]
