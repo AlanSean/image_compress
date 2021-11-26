@@ -9,3 +9,10 @@ export function log(...msg: any[]) {
   }
   isServe && electronLog && electronLog.log(...msg);
 }
+export function errorLog(...msg: any[]) {
+  if (isServe && electronLog == null) {
+    electronLog = require('electron-log');
+    electronLog.transports.console.level = 'silly';
+  }
+  isServe && electronLog && electronLog.errorLog(...msg);
+}

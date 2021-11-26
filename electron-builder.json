@@ -3,7 +3,11 @@
   "directories": {
     "output": "release/"
   },
-  "files": ["lib/main.js", "./favicon.ico", "lib/config/**/*", "dist/**/*", "!*/**/*.js.map", "!*/**/*.ts"],
+  "fileAssociations": {
+    "ext": ["png", "jpeg", "jpg", "webp"],
+    "role": "Editor"
+  },
+  "files": ["./image_compress.env", "lib/main.js", "./favicon.ico", "lib/config/**/*", "dist/**/*", "!*/**/*.js.map", "!*/**/*.ts"],
   "appId": "com.image_compress.app",
   "nsis": {
     "oneClick": false,
@@ -13,9 +17,10 @@
     "createStartMenuShortcut": true, // 创建开始菜单图标
     "perMachine": true
   },
-  "asar": {
-    "smartUnpack": true //是否自动解压缩可执行文件。
-  },
+  "asar": false,
+  // "asar": {
+  //   "smartUnpack": true //是否自动解压缩可执行文件。
+  // },
   "win": {
     "icon": "dist/renderer/assets/icons",
     "target": ["nsis", "zip"]

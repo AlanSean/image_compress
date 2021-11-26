@@ -73,11 +73,9 @@ export class ImgListComponent implements OnInit {
   }
 
   // 图片拖到桌面或者文件夹
-  dragstart(e: DragEvent, filePath: string, icon: string) {
+  dragstart(e: DragEvent, filePath: string) {
     e.preventDefault();
     e.stopPropagation();
-
-    console.log(icon);
-    this.electronService.dragStart(filePath, icon);
+    this.electronService.dragStart(filePath);
   }
 }

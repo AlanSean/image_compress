@@ -130,6 +130,7 @@ class MenuAction {
           Node.js: ${process.versions.node}
           V8: ${process.versions.v8}
           OS: ${os.type()} ${os.arch()} ${os.release()}
+          NODE_ENV:${process.env.NODE_ENV ?? 'null'}
         `
       });
   };

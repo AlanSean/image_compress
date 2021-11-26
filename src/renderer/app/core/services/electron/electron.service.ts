@@ -104,7 +104,7 @@ export class ElectronService {
   };
 
   // 图片拖到桌面或者文件夹
-  dragStart(filePath: string, icon: string) {
-    ipcRenderer.send(IpcChannel.DRAG_START, filePath, icon);
+  dragStart(filePath: string) {
+    ipcRenderer.send(IpcChannel.DRAG_START, filePath);
   }
 }

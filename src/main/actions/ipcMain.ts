@@ -55,8 +55,8 @@ export class IpcMainAction {
 
   // 图片拖到桌面或者文件夹
   private dragStart() {
-    ipcMain.on(IpcChannel.DRAG_START, (event, filePath: string, icon: string) => {
-      this.actions.dragStart(event, filePath, icon);
+    ipcMain.on(IpcChannel.DRAG_START, (event, filePath: string) => {
+      this.actions.dragStart(event, filePath);
     });
   }
 }
