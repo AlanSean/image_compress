@@ -17,6 +17,7 @@ export function _update(arr: FILE[], index: number, newVal: FILE) {
   newArr[index] = { ...newVal };
   return newArr;
 }
+
 export function _remove(arr: FILE[], index: number) {
   const newArr = [...arr];
   newArr.splice(index, 1);
