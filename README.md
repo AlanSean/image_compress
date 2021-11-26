@@ -27,6 +27,7 @@ npm run dev
 - [x] jpg png webp
 - [x] Can save as
 - [x] The output directory is configurable
+- [x] Drag images to the * folder to copy directly to the destination.
 - [ ] In compression, continue to drag images or folders into the queue automatically
 - [x] Modern UI, each diagram can be optimized individually
 - [ ] Picture format interchange
@@ -45,3 +46,4 @@ npm run dev
 - [execa](https://github.com/sindresorhus/execa): EXECA improves the method of child_process
 - [fs-extra](https://github.com/jprichardson/node-fs-extra): Added file system methods to native 'fs', as well as Promises
 - [crypto-js](https://github.com/brix/crypto-js): A variety of encryption algorithms x are provided
+- [sharp](https://github.com/lovell/sharp): The typical use case for this high speed Node.js module is to convert large images in common formats to smaller, web-friendly JPEG, PNG, WebP and AVIF images of varying dimensions.
