@@ -1,16 +1,11 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "noUnusedLocals": false
-  },
-  "angularCompilerOptions": {
-    "fullTemplateTypeCheck": true,
-    "strictmetadataemit": true,
-    "enableI18nLegacyMessageIdFormat": false,
-    "strictInjectionParameters": true,
-    "strictInputAccessModifiers": true,
-    "strictTemplates": true
+    "outDir": "../../out-tsc/app",
+    "types": []
   },
   "files": ["main.ts", "polyfills.ts"],
-  "exclude": ["**/*.spec.ts"]
+  "include": [
+    "src/**/*.d.ts"
+  ]
 }

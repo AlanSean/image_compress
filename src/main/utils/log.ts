@@ -1,18 +1,14 @@
-import { isServe } from './utils';
+import * as electronLog from 'electron-log';
+import { isServe, isDebug } from './utils';
 
-let electronLog: any = null;
+export function replaceLog() {
+  const flag = isServe || isDebug;
 
-export function log(...msg: any[]) {
-  if (isServe && electronLog == null) {
-    electronLog = require('electron-log');
-    electronLog.transports.console.level = 'silly';
+  electronLog.transports.file.level = false;
+  electronLog.transports.console.level = flag ? 'debug' : flag;
+  if (flag) {
+    Object.assign(console, electronLog.functions);
   }
-  isServe && electronLog && electronLog.log(...msg);
 }
-export function errorLog(...msg: any[]) {
-  if (isServe && electronLog == null) {
-    electronLog = require('electron-log');
-    electronLog.transports.console.level = 'silly';
-  }
-  isServe && electronLog && electronLog.errorLog(...msg);
-}
+
+replaceLog();

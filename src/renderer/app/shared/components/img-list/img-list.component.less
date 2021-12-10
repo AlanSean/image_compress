@@ -4,9 +4,7 @@
 @img-mrgin: 20px;
 @border-width: 8px;
 @classname: .border-tl-tr;
-
-
-@{classname} {
+@{classname}{
   border-radius: @border-width;
 }
 
@@ -134,7 +132,7 @@ img {
         .w(@img-w);
         .h(@img-w);
         border-radius: @border-width @border-width 0 0;
-        background: url('/assets/loading.gif') no-repeat center / 100%;
+        background: url('./img/loading.gif') no-repeat center / 100%;
 
         &.loading_visi {
           visibility: hidden;

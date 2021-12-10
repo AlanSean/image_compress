@@ -1,6 +1,7 @@
 import * as os from 'os';
 
 export const isServe = process.env.NODE_ENV === 'serve';
+export const isDebug = process.env.NODE_ENV === 'debug';
 
 // 保留几位小数
 export const fixed = (number: number, digit: number): number => Number(number.toFixed(digit));
@@ -44,7 +45,7 @@ export function getOptions(key?: 'SELECT_FILE' | 'SAVE_AS_DIR') {
   if (key == 'SELECT_FILE') {
     options = {
       properties: ['openFile', 'multiSelections'],
-      filters: [{ name: 'Images', extensions: ['jpg', 'png', 'jpeg'] }]
+      filters: [{ name: 'Images', extensions: ['jpg', 'png', 'jpeg'] }],
     };
     //macos系统下允许选择文件夹
     if (os.platform() === 'darwin') {
@@ -52,11 +53,11 @@ export function getOptions(key?: 'SELECT_FILE' | 'SAVE_AS_DIR') {
     }
   } else if (key == 'SAVE_AS_DIR') {
     options = {
-      properties: ['createDirectory', 'openDirectory']
+      properties: ['createDirectory', 'openDirectory'],
     };
   } else {
     options = {
-      properties: ['createDirectory', 'openDirectory', 'multiSelections']
+      properties: ['createDirectory', 'openDirectory', 'multiSelections'],
     };
   }
   return options;
