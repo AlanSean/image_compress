@@ -1,8 +1,6 @@
 import * as os from 'os';
 
-const args = process.argv.slice(1);
-
-export const isServe = args.some(val => val === '--serve');
+export const isServe = process.env.NODE_ENV === 'serve';
 
 // 保留几位小数
 export const fixed = (number: number, digit: number): number => Number(number.toFixed(digit));

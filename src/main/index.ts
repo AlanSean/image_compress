@@ -4,10 +4,11 @@ import * as url from 'url';
 import { app, BrowserWindow } from 'electron';
 import { Loader } from './loader';
 import { ChromeDevtoolsLoader } from './loader/devtools';
+import { isServe } from './utils';
 
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = '1';
 const appName = 'image compress';
-
+console.log(process.env.NODE_ENV);
 export class App {
   static load() {
     const main = new App();
@@ -32,7 +33,7 @@ export class App {
       height: 600,
       minWidth: 560,
       minHeight: 560,
-      icon: path.join(__dirname, 'favicon.ico'),
+      icon: path.join(__dirname, '../renderer/assets/icons/favicon.ico'),
       // show: false,
       frame: true, // 去掉顶部操作栏
       webPreferences: {
@@ -44,10 +45,7 @@ export class App {
     });
   }
   private loadURL(win: BrowserWindow) {
-    const args = process.argv.slice(1),
-      serve = args.some(val => val === '--serve');
-
-    if (serve) {
+    if (isServe) {
       win.webContents.openDevTools();
       //安装扩展
       ChromeDevtoolsLoader.load();

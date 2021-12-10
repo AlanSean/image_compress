@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ElectronService } from '../../../core/services';
 
 import { SettingComponent } from './setting.component';
 import { CommonModule } from '@angular/common';
@@ -15,7 +14,6 @@ import { CoreModule } from '../../../core/core.module';
 describe('SettingComponent', () => {
   let component: SettingComponent;
   let fixture: ComponentFixture<SettingComponent>;
-  let message: NzMessageService;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [SettingComponent],

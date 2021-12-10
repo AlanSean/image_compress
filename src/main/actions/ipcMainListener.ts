@@ -1,10 +1,10 @@
 import * as fs from 'fs-extra';
-import { BrowserWindow, dialog, shell } from 'electron';
+import { BrowserWindow, dialog, shell, nativeImage } from 'electron';
 import { FILE, DefultSetting } from '../../common/constants';
 // import { dirSearchImg, compress } from '../config/optimize';
 import { WebContentsAction } from './webContents';
 import { OptimizeAction } from './optimize';
-import { getOptions } from '../utils';
+import { getOptions, log } from '../utils';
 import { menuAction } from './menu';
 
 export class IpcMainListenerAction {
@@ -22,7 +22,7 @@ export class IpcMainListenerAction {
 
     findFiles.unsubscribe();
 
-    console.log('time:', new Date().getTime() - sTime, imgArr.length);
+    log('time:', new Date().getTime() - sTime, imgArr.length);
 
     let count = 0;
 
@@ -106,7 +106,17 @@ export class IpcMainListenerAction {
       });
     }
   };
+
   menuEnabled(menuKeys: string[], enabled: boolean) {
     menuAction.menuEnabled(menuKeys, enabled);
+  }
+
+  //
+  dragStart(event: Electron.IpcMainEvent, filePath: string) {
+    const icons = nativeImage.createFromPath(filePath);
+    event.sender.startDrag({
+      file: filePath,
+      icon: icons
+    });
   }
 }

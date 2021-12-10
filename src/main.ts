@@ -1,5 +1,8 @@
-import { app } from 'electron';
+//先设置环境变量再运行
+import * as path from 'path';
+require('dotenv').config({ path: path.join(__dirname, '../image_compress.env'), debug: process.env.NODE_ENV });
 
+import { app } from 'electron';
 import { App } from './main/index';
 
 function bootstrap() {

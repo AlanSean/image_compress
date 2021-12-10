@@ -1,8 +1,8 @@
-import { BrowserWindow } from 'electron';
+// import { BrowserWindow } from 'electron';
 import { UpdaterAction } from '../actions';
 
 export class UpdateLoader {
-  public static load(win: BrowserWindow) {
-    new UpdaterAction().handle(win);
+  public static load() {
+    new UpdaterAction().handle();
   }
 }

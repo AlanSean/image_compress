@@ -113,12 +113,10 @@ class MenuAction {
     });
   }
   private setAboutLink() {
-    const lang = app.getLocale();
-    const Domain = lang == 'zh-CN' ? 'gitee' : 'github';
-    this.AboutLink = `https://${Domain}.com/AlanSean/image_compress/blob/master/README.md`;
+    // const lang = app.getLocale();
+    this.AboutLink = 'https://github.com/AlanSean/image_compress/blob/master/README.md';
   }
   private about = (_: MenuItem, win?: BrowserWindow) => {
-    console.log(process.versions);
     win &&
       dialog.showMessageBoxSync(win, {
         type: 'info',
@@ -126,15 +124,14 @@ class MenuAction {
         message: app.name,
         normalizeAccessKeys: true,
         detail: `
-        版本: 1.61.0 (user setup)
-        提交: ee8c7def80afc00dd6e593ef12f37756d8f504ea
-        日期: 2021-10-07T18:13:09.652Z
-        Electron: ${process.versions.electron}
-        Chrome: ${process.versions.chrome}
-        Node.js: ${process.versions.node}
-        V8: ${process.versions.v8}
-        OS:${os.type()} ${os.arch()} ${os.release()}
-      `
+          version: ${this.updaterAction.version}.version as string}
+          Electron: ${process.versions.electron}
+          Chrome: ${process.versions.chrome}
+          Node.js: ${process.versions.node}
+          V8: ${process.versions.v8}
+          OS: ${os.type()} ${os.arch()} ${os.release()}
+          NODE_ENV:${process.env.NODE_ENV ?? 'null'}
+        `
       });
   };
   //选择文件 压缩
@@ -158,8 +155,8 @@ class MenuAction {
   };
 
   //清空 文件
-  private checkUpdate = () => {
-    // win && this.updaterAction.handle(win);
+  private checkUpdate = (_: MenuItem, win?: BrowserWindow) => {
+    win && this.updaterAction.checkForUpdates();
     shell.openExternal('https://github.com/AlanSean/image_compress/releases');
   };
 }

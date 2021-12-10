@@ -57,13 +57,13 @@ describe('HomeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it(
-    'should render title in a span tag',
-    waitForAsync(() => {
-      const compiled = fixture.debugElement.nativeElement;
-      expect(compiled.querySelector('.text-big').textContent).toContain('拖拽文件到此区域');
-    })
-  );
+  // it(
+  //   'should render title in a span tag',
+  //   waitForAsync(() => {
+  //     const compiled = fixture.debugElement.nativeElement;
+  //     expect(compiled.querySelector('.text-big').textContent).toContain('拖拽文件到此区域');
+  //   })
+  // );
 
   // //文件数量大于0时，.text-big应该含有class  hidden
   // it("Text-big should contain class hidden if the files length is greater than 0", () => {

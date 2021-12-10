@@ -56,11 +56,13 @@ export class FilesService {
 
     this.next(fileArr);
   };
+
   remove = (files: FILE | FILE[]) => {
     const fileArr = this._pipe(files, 'remove');
 
     this.next(fileArr);
   };
+
   clear = () => {
     this.next([]);
   };
@@ -85,6 +87,7 @@ export class FilesService {
   getFiles = () => {
     return this.filesBSubject.asObservable();
   };
+
   getLen = () => {
     return this.lenBSubject.asObservable();
   };

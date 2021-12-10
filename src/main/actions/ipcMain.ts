@@ -13,6 +13,7 @@ export class IpcMainAction {
     this.saveAs();
     this.saveNewDir();
     this.menuEnabled();
+    this.dragStart();
   }
 
   private fileAdd() {
@@ -49,6 +50,13 @@ export class IpcMainAction {
   private menuEnabled() {
     ipcMain.on(MenuIpcChannel.Enabled, (_, keys: string[], enabled) => {
       this.actions.menuEnabled(keys, enabled);
+    });
+  }
+
+  // 图片拖到桌面或者文件夹
+  private dragStart() {
+    ipcMain.on(IpcChannel.DRAG_START, (event, filePath: string) => {
+      this.actions.dragStart(event, filePath);
     });
   }
 }

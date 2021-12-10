@@ -1,7 +1,6 @@
-import { Component, ViewChild, ElementRef, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { FILE } from '@common/constants';
 import { ElectronService, ActionsService, FilesService } from '@app/core/services';
-import { NzModalService } from 'ng-zorro-antd/modal';
 import { Observable, Subscription } from 'rxjs';
 import { auditTime } from 'rxjs/operators';
 import { shell } from 'electron';
@@ -14,24 +13,18 @@ import { shell } from 'electron';
 export class ImgListComponent implements OnInit {
   isOpen = false;
   files$: Observable<readonly FILE[]>;
-  files: readonly FILE[] = [];
+  // files: readonly FILE[] = [];
   subs!: Subscription;
   @ViewChild('contextmenuEl') contextmenuEl!: ElementRef;
-  constructor(
-    private electronService: ElectronService,
-    private filesService: FilesService,
-    private actions: ActionsService,
-    private cdr: ChangeDetectorRef,
-    private modal: NzModalService
-  ) {
+  constructor(private electronService: ElectronService, private filesService: FilesService, private actions: ActionsService) {
     this.files$ = this.filesService.getFiles().pipe(auditTime(16));
   }
   ngOnInit() {
-    this.subs = this.files$.subscribe(newFiles => {
-      this.files = newFiles;
-      // this.cdr.markForCheck();
-      // this.cdr.detectChanges();
-    });
+    // this.subs = this.files$.subscribe(newFiles => {
+    //   this.files = newFiles;
+    //   // this.cdr.markForCheck();
+    //   // this.cdr.detectChanges();
+    // });
   }
   ngOnDestory() {
     this.subs.unsubscribe();
@@ -77,5 +70,12 @@ export class ImgListComponent implements OnInit {
         this.filesService.remove(item);
         break;
     }
+  }
+
+  // 图片拖到桌面或者文件夹
+  dragstart(e: DragEvent, filePath: string) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.electronService.dragStart(filePath);
   }
 }

@@ -1,3 +1,4 @@
 provider: github
 owner: AlanSean
 repo: image_compress
+updaterCahceDirName: image-compress-updater

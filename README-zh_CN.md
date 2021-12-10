@@ -27,6 +27,7 @@ npm run dev
 - [x] jpg png webp
 - [x] 可另存为
 - [x] 输出目录可配置
+- [x] 可拖动图片到*文件夹，直接复制到目的地。
 - [ ] 压缩中，继续拖入图片或者文件夹自动加入到队列中
 - [x] 现代化ui，每张图可单独优化
 - [ ] 图片格式互转
@@ -44,3 +45,4 @@ npm run dev
 - [execa](https://github.com/sindresorhus/execa): execa改进了child_process的方法
 - [fs-extra](https://github.com/jprichardson/node-fs-extra): 给原生`fs`新增了文件系统方法，以及Promise
 - [crypto-js](https://github.com/brix/crypto-js): 提供了各种加密算法x
+- [sharp](https://github.com/lovell/sharp): 这个高速 Node.js 模块的典型用例是将常见格式的大图像转换为较小的、对网络友好的 JPEG、PNG、WebP 和不同尺寸的 AVIF 图像。

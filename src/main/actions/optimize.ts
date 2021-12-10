@@ -5,7 +5,7 @@ import * as MD5 from 'crypto-js/md5';
 import { FindFiles } from '@etanjs/node-find-files';
 
 import { FILE, compress_callback, DefultSetting, ExpMap } from '../../common/constants';
-import { byteConver, percent } from '../utils';
+import { byteConver, errorLog, log, percent } from '../utils';
 const findFiles = new FindFiles(/\.(jpg|jpeg|webp|png)$/i);
 
 const number = 10;
@@ -84,7 +84,7 @@ export class OptimizeAction {
       .toBuffer({ resolveWithObject: true })
       .then(({ data, info }) => {
         fs.outputFileSync(outpath, data);
-        console.error('info', info);
+        log('info', info);
         const result = this.finsh(FILE, {
           status: 0,
           data: data,
@@ -95,7 +95,7 @@ export class OptimizeAction {
         cb && cb(result);
       })
       .catch(err => {
-        isServe && console.error('imgerr', path, err);
+        isServe && errorLog('imgerr', path, err);
         const result = this.finsh(FILE, {
           status: 99,
           data: input,

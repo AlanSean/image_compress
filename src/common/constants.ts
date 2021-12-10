@@ -10,7 +10,8 @@ export const enum IpcChannel {
   OPEN_DIR = 'OPEN_DIR',
   CLEAN_FILE = 'CLEAN_FILE',
   SAVE_NEW_DIR = 'SAVE_NEW_DIR',
-  SAVE_AS = 'SAVE_AS'
+  SAVE_AS = 'SAVE_AS',
+  DRAG_START = 'DRAG_START'
 }
 export const enum Message {
   TOAST = 'TOAST'

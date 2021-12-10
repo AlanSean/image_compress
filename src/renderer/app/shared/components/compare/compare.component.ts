@@ -20,6 +20,8 @@ import {
 } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { FILE } from '@common/constants';
+import { CdkOverlayOrigin } from '@angular/cdk/overlay';
+import { throttle } from '@utils/index';
 
 @Directive({
   selector: '[appCompare]'
@@ -27,11 +29,9 @@ import { FILE } from '@common/constants';
 export class CompareDirective implements OnInit, OnChanges {
   @Input('appCompareData') data!: FILE;
   component!: CompareComponent;
-  origin!: any;
-  //resolver.resolveComponentFactory ：检索创建给定类型组件的工厂对象。
   componentFactory: ComponentFactory<CompareComponent>;
 
-  constructor(protected resolver: ComponentFactoryResolver, private viewContainerRef: ViewContainerRef) {
+  constructor(private elementRef: ElementRef, protected resolver: ComponentFactoryResolver, private viewContainerRef: ViewContainerRef) {
     this.componentFactory = resolver.resolveComponentFactory(CompareComponent);
   }
 
@@ -42,43 +42,25 @@ export class CompareDirective implements OnInit, OnChanges {
   ngOnInit(): void {
     this.created();
   }
+
   ngOnChanges() {
     if (this.component) {
       this.updateComponentData();
     }
   }
+
   protected created() {
     this.component = this.viewContainerRef.createComponent(this.componentFactory).instance;
+    this.component.saveOrigin({ elementRef: this.elementRef });
     this.updateComponentData();
   }
+
   updateComponentData() {
     this.component._CompressBeforeImage = this.data.src;
     this.component._CompressAfterImage = this.data.outsrc;
   }
 }
 
-function throttle(_fn: any, maxTime: number) {
-  let id: any = null;
-  let lasttime: number | null = null;
-  function cancel() {
-    window.cancelAnimationFrame(id);
-    id = null;
-  }
-  function frame(this: any, time: number, args: any) {
-    if (!lasttime) lasttime = time;
-    const lastTime = time - lasttime;
-    if (lastTime >= maxTime) {
-      _fn.apply(this, args);
-      lasttime = null;
-    }
-    cancel();
-  }
-  return function (this: any, ...args: any) {
-    id = window.requestAnimationFrame(time => {
-      frame.apply(this, [time, args]);
-    });
-  };
-}
 @Component({
   selector: 'app-compare',
   templateUrl: './compare.component.html',
@@ -112,8 +94,10 @@ function throttle(_fn: any, maxTime: number) {
   ]
 })
 export class CompareComponent implements OnDestroy {
+  // @ViewChild('overlay', { static: false }) overlay!: CdkConnectedOverlay;
   @ViewChild('left') left!: ElementRef;
   @ViewChild('right') right!: ElementRef;
+  origin!: CdkOverlayOrigin;
 
   _CompressBeforeImage!: string;
   set CompressBeforeImage(CompressBeforeImage: string) {
@@ -174,6 +158,11 @@ export class CompareComponent implements OnDestroy {
   colors = ['black', 'white', 'transparent', 'red', 'green', 'blue'];
   constructor(private cdr: ChangeDetectorRef) {}
 
+  saveOrigin(origin: CdkOverlayOrigin) {
+    this.origin = origin;
+    this.cdr.markForCheck();
+  }
+
   addListen() {
     this.removeListen();
     document.addEventListener('mouseup', this.mouseup);
@@ -206,10 +195,11 @@ export class CompareComponent implements OnDestroy {
   }
   //重置坐标
   reset(isrefresh = true) {
-    const { height, width } = this.left.nativeElement.getBoundingClientRect();
+    const { offsetWidth, offsetHeight } = this.left.nativeElement;
+
     const imgOrigin = {
-      x: width / 2,
-      y: height / 2
+      x: offsetWidth / 2,
+      y: offsetHeight / 2
     };
     this.current = {
       x: 0,
@@ -227,8 +217,8 @@ export class CompareComponent implements OnDestroy {
         y: 0
       },
       scaleOrigin: {
-        x: width / 2,
-        y: height / 2
+        x: imgOrigin.x,
+        y: imgOrigin.y
       },
       imgOrigin: imgOrigin,
       rotate: 0
@@ -249,9 +239,7 @@ export class CompareComponent implements OnDestroy {
       translate.x = lastMoveTranslate.x + (imgOrigin.x - scaleOrigin.x) * (matrix.scale - lastMoveScale);
       translate.y = lastMoveTranslate.y + (imgOrigin.y - scaleOrigin.y) * (matrix.scale - lastMoveScale);
     }
-
     this.stylesMatrix = `matrix(${matrix.scale}, 0, 0, ${matrix.scale}, ${translate.x}, ${translate.y})`;
-
     isrefresh && this.cdr.detectChanges();
   }
 
@@ -274,8 +262,8 @@ export class CompareComponent implements OnDestroy {
     matrix.lastMoveScale = scale;
   }, 100);
   mousemove = (e: any) => {
-    this.setMatrix(e);
     if (this.isTouch) {
+      this.setMatrix(e);
       const { pageX, pageY } = e,
         current = this.current,
         leftdragPosition = this.leftdragPosition,
@@ -315,7 +303,6 @@ export class CompareComponent implements OnDestroy {
     };
   }
   mousewheel = (e: any) => {
-    console.log(e.offsetX);
     if (e.wheelDeltaY < 0) {
       this.updateStyle(-0.1, 0);
     }

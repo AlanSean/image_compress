@@ -32,7 +32,14 @@
         <h1>Image compression failed</h1>
         <span>{{ item.errorInfo }}</span>
       </div>
-      <div *ngIf="item.state === 'finish'" class="img" appCompare [appCompareData]="item">
+      <div
+        *ngIf="item.state === 'finish'"
+        class="img"
+        appCompare
+        [appCompareData]="item"
+        draggable="true"
+        (dragstart)="dragstart($event, item.outpath, item.path)"
+      >
         <img [src]="item.outsrc" />
       </div>
     </div>

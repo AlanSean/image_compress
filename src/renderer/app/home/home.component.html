@@ -49,14 +49,7 @@
     </div>
   </ul>
 
-  <div
-    class="view"
-    [class.dragUp]="dragUp"
-    (dragenter)="dragenter()"
-    (dragleave)="dragleave()"
-    (dragover)="dragOver($event)"
-    (drop)="fileAdd($event)"
-  >
+  <div class="view" [class.dragUp]="dragUp" (dragover)="dragOver($event)" (drop)="fileAdd($event)">
     <app-img-list></app-img-list>
     <!-- <div [class.hidden]="filesLength" class="text">
       <span class="text-big">拖拽文件到此区域</span>

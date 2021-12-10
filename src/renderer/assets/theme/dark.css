@@ -1,0 +1,8 @@
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #333;
+  }
+  :root {
+    --home-container-bg--: #f1f1f1;
+  }
+}
