@@ -49,6 +49,9 @@ export default class App {
       win.webContents.openDevTools();
       //安装扩展
       ChromeDevtoolsLoader.load();
+    }
+
+    if (isServe) {
       win.loadURL('http://localhost:4200');
     } else {
       win.loadURL(url.pathToFileURL(path.join(__dirname, '../renderer/index.html')).href);
