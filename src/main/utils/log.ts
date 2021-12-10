@@ -1,18 +1,19 @@
-import { isServe } from './utils';
+import { isServe, isTest } from './utils';
 
+const flag = isServe || isTest;
 let electronLog: any = null;
 
 export function log(...msg: any[]) {
-  if (isServe && electronLog == null) {
+  if (flag && electronLog == null) {
     electronLog = require('electron-log');
-    electronLog.transports.console.level = 'silly';
+    electronLog.transports.console.level = 'info';
   }
-  isServe && electronLog && electronLog.log(...msg);
+  flag && electronLog && electronLog.info(...msg);
 }
 export function errorLog(...msg: any[]) {
-  if (isServe && electronLog == null) {
+  if (flag && electronLog == null) {
     electronLog = require('electron-log');
-    electronLog.transports.console.level = 'silly';
+    electronLog.transports.console.level = 'error';
   }
-  isServe && electronLog && electronLog.errorLog(...msg);
+  flag && electronLog && electronLog.error(...msg);
 }
