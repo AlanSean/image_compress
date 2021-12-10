@@ -4,7 +4,7 @@ import * as url from 'url';
 import { app, BrowserWindow } from 'electron';
 import { Loader } from './loader';
 import { ChromeDevtoolsLoader } from './loader/devtools';
-import { isServe, isTest } from './utils';
+import { isServe, isDebug } from './utils';
 
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = '1';
 const appName = 'image compress';
@@ -45,7 +45,7 @@ export default class App {
     });
   }
   private loadURL(win: BrowserWindow) {
-    if (isServe || isTest) {
+    if (isServe || isDebug) {
       win.webContents.openDevTools();
       //安装扩展
       ChromeDevtoolsLoader.load();

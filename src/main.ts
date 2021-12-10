@@ -1,15 +1,8 @@
-import * as path from 'path';
-import * as dotenv from 'dotenv';
+import './main/utils/setEnv';
+import './main/utils/log';
 import { app } from 'electron';
 
 function bootstrap() {
-  //先设置环境变量再运行
-  const CURRENT_ENV = process.env.CURRENT_ENV;
-
-  dotenv.config({
-    path: path.join(__dirname, `../env/image_compress.${CURRENT_ENV ? CURRENT_ENV + '.' : ''}env`),
-  });
-
   try {
     const App = require('./main/index').default;
     const lodwin = app.requestSingleInstanceLock();

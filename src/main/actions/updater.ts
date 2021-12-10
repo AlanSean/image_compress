@@ -1,7 +1,5 @@
 import { autoUpdater } from 'electron-updater';
 
-import { log } from '../utils/index';
-
 export class UpdaterAction {
   version = autoUpdater.currentVersion.version;
   public handle() {
@@ -10,7 +8,7 @@ export class UpdaterAction {
 
   private updateAvailable() {
     autoUpdater.on('update-available', info => {
-      log(info);
+      console.log(info);
     });
   }
 

@@ -9,9 +9,7 @@
   },
   "files": [
     "./env/*",
-    "lib/main.js",
     "./favicon.ico",
-    "lib/config/**/*",
     "dist/**/*",
     "!*/**/*.js.map",
     "!*/**/*.ts"

@@ -4,11 +4,15 @@ import { FILE, DefultSetting } from '../../common/constants';
 // import { dirSearchImg, compress } from '../config/optimize';
 import { WebContentsAction } from './webContents';
 import { OptimizeAction } from './optimize';
-import { getOptions, log } from '../utils';
+import { getOptions } from '../utils';
 import { menuAction } from './menu';
 
 export class IpcMainListenerAction {
-  constructor(readonly win: BrowserWindow, readonly actions: WebContentsAction, readonly optimize: OptimizeAction) {}
+  constructor(
+    readonly win: BrowserWindow,
+    readonly actions: WebContentsAction,
+    readonly optimize: OptimizeAction
+  ) {}
 
   //添加文件并压缩
   file_add = (files: string[], setting: DefultSetting) => {
@@ -22,7 +26,7 @@ export class IpcMainListenerAction {
 
     findFiles.unsubscribe();
 
-    log('time:', new Date().getTime() - sTime, imgArr.length);
+    console.log('time:', new Date().getTime() - sTime, imgArr.length);
 
     let count = 0;
 
@@ -60,14 +64,14 @@ export class IpcMainListenerAction {
       filters: [
         {
           name: 'Images',
-          extensions: [file.ext]
-        }
-      ]
+          extensions: [file.ext],
+        },
+      ],
     });
 
     if (filePath) {
       this.actions.message('loading', 'msg.save_loading', {
-        nzDuration: 0
+        nzDuration: 0,
       });
       //防止特殊字符导致失败
       const Buffer = await fs.readFile(file.outpath);
@@ -90,7 +94,7 @@ export class IpcMainListenerAction {
 
       this.actions.setProgress(0, 1);
       this.actions.message('loading', 'msg.export_loading', {
-        nzDuration: 0
+        nzDuration: 0,
       });
 
       files.forEach(async item => {
@@ -116,7 +120,7 @@ export class IpcMainListenerAction {
     const icons = nativeImage.createFromPath(filePath);
     event.sender.startDrag({
       file: filePath,
-      icon: icons
+      icon: icons,
     });
   }
 }

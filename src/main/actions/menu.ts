@@ -9,7 +9,7 @@ import {
   dialog,
 } from 'electron';
 import { MenuIpcChannel, IpcChannel } from '../../common/constants';
-import { Locales, isServe, isTest } from '../utils';
+import { Locales, isServe, isDebug } from '../utils';
 import { UpdaterAction } from './updater';
 
 class MenuAction {
@@ -96,7 +96,7 @@ class MenuAction {
         ],
       },
     ];
-    if (isServe || isTest) {
+    if (isServe || isDebug) {
       Menus.push({
         label: 'Debug',
         submenu: [{ role: 'reload' }, { role: 'forceReload' }, { role: 'toggleDevTools' }],

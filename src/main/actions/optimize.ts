@@ -5,7 +5,7 @@ import * as MD5 from 'crypto-js/md5';
 import { FindFiles } from '@etanjs/node-find-files';
 
 import { FILE, compress_callback, DefultSetting, ExpMap } from '../../common/constants';
-import { byteConver, errorLog, log, percent } from '../utils';
+import { byteConver, percent } from '../utils';
 const findFiles = new FindFiles(/\.(jpg|jpeg|webp|png)$/i);
 
 const number = 10;
@@ -26,20 +26,20 @@ export interface ImageInfo {
 const expMap: ExpMap = {
   '.png': {
     ext: 'png',
-    quality: 'pngQuality'
+    quality: 'pngQuality',
   },
   '.jpg': {
     ext: 'jpg',
-    quality: 'jpgQuality'
+    quality: 'jpgQuality',
   },
   '.jpeg': {
     ext: 'jpeg',
-    quality: 'jpgQuality'
+    quality: 'jpgQuality',
   },
   '.webp': {
     ext: 'webp',
-    quality: 'webpQuality'
-  }
+    quality: 'webpQuality',
+  },
 };
 
 export class OptimizeAction {
@@ -64,44 +64,44 @@ export class OptimizeAction {
     const input = await fs.readFile(path);
 
     sharp(input, {
-      sequentialRead: true
+      sequentialRead: true,
     })
       .png({
         force: false,
         palette: true,
-        quality: parseInt(quality) || 1
+        quality: parseInt(quality) || 1,
       })
       .webp({
         force: false,
-        quality: parseInt(quality) || 1
+        quality: parseInt(quality) || 1,
       })
       .jpeg({
         force: false,
         progressive: true, //隔行扫描
-        quality: parseInt(quality) || 1
+        quality: parseInt(quality) || 1,
       })
       .toFormat(ext as keyof FormatEnum)
       .toBuffer({ resolveWithObject: true })
       .then(({ data, info }) => {
         fs.outputFileSync(outpath, data);
-        log('info', info);
+        console.log('info', info);
         const result = this.finsh(FILE, {
           status: 0,
           data: data,
           nowDataSize: data.length,
-          percentage: data.length / input.length
+          percentage: data.length / input.length,
         });
 
         cb && cb(result);
       })
       .catch(err => {
-        isServe && errorLog('imgerr', path, err);
+        isServe && console.error('imgerr', path, err);
         const result = this.finsh(FILE, {
           status: 99,
           data: input,
           errorInfo: String(err),
           nowDataSize: 0,
-          percentage: 0
+          percentage: 0,
         });
 
         cb && cb(result);
@@ -131,7 +131,7 @@ export class OptimizeAction {
         quality: setting[fileExpMap.quality],
         rawDataSize: byteConver(imgFile.size),
         percentage: '',
-        nowDataSize: '--'
+        nowDataSize: '--',
       };
     });
   }
@@ -142,7 +142,7 @@ export class OptimizeAction {
       outsrc: `${url.pathToFileURL(FILE.outpath).href}?t=${new Date().getTime()}`,
       state: 'finish',
       nowDataSize: byteConver(result.nowDataSize),
-      percentage: percent(result.percentage - 1)
+      percentage: percent(result.percentage - 1),
     };
     if (result.errorInfo) {
       newFile.state = 'error';

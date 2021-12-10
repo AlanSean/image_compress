@@ -1,7 +1,7 @@
 import * as os from 'os';
 
 export const isServe = process.env.NODE_ENV === 'serve';
-export const isTest = process.env.NODE_ENV === 'test';
+export const isDebug = process.env.NODE_ENV === 'debug';
 
 // 保留几位小数
 export const fixed = (number: number, digit: number): number => Number(number.toFixed(digit));
