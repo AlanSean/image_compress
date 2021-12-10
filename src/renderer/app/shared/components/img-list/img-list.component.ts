@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { FILE } from '@common/constants';
 import { ElectronService, ActionsService, FilesService } from '@app/core/services';
 import { Observable, Subscription } from 'rxjs';
@@ -8,27 +8,25 @@ import { shell } from 'electron';
 @Component({
   selector: 'app-img-list',
   templateUrl: './img-list.component.html',
-  styleUrls: ['./img-list.component.less']
+  styleUrls: ['./img-list.component.less'],
 })
-export class ImgListComponent implements OnInit {
+export class ImgListComponent {
   isOpen = false;
   files$: Observable<readonly FILE[]>;
-  // files: readonly FILE[] = [];
   subs!: Subscription;
   @ViewChild('contextmenuEl') contextmenuEl!: ElementRef;
-  constructor(private electronService: ElectronService, private filesService: FilesService, private actions: ActionsService) {
+  constructor(
+    private electronService: ElectronService,
+    private filesService: FilesService,
+    private actions: ActionsService
+  ) {
     this.files$ = this.filesService.getFiles().pipe(auditTime(16));
   }
-  ngOnInit() {
-    // this.subs = this.files$.subscribe(newFiles => {
-    //   this.files = newFiles;
-    //   // this.cdr.markForCheck();
-    //   // this.cdr.detectChanges();
-    // });
-  }
+
   ngOnDestory() {
     this.subs.unsubscribe();
   }
+
   trackByItem(index: number) {
     return index;
   }
@@ -36,7 +34,7 @@ export class ImgListComponent implements OnInit {
   qualityChange(item: FILE, v: number) {
     this.filesService.update({
       ...item,
-      quality: `${v}`
+      quality: `${v}`,
     });
   }
 
@@ -45,7 +43,7 @@ export class ImgListComponent implements OnInit {
     const newItem: FILE = {
       ...item,
       state: 'await',
-      quality: `${v as number}`
+      quality: `${v as number}`,
     };
     this.filesService.update(newItem);
     this.actions.file_update_quality(newItem);

@@ -3,29 +3,36 @@
   "compilerOptions": {
     "module": "esnext",
     "target": "esnext",
-    "baseUrl": "./src",
-    "outDir": "./dist/out-tsc",
-    "noUnusedLocals": true,
-    "skipLibCheck": true,
+    "baseUrl": "src",
+    "outDir": "dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "downlevelIteration": true,
     "sourceMap": true,
     "declaration": false,
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
+    "downlevelIteration": true,
     "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "noUnusedLocals": true,
+    "skipLibCheck": true,
+    "emitDecoratorMetadata": true,
     "allowSyntheticDefaultImports": true,
     "typeRoots": ["node_modules/@types"],
+    "lib": ["esnext", "dom"],
     "paths": {
       "@common/*": ["common/*"],
       "@assets/*": ["assets/*"],
       "@utils/*": ["renderer/utils/*"],
       "@app/*": ["renderer/app/*"]
-    },
-    "lib": ["esnext", "dom"]
+    }
   },
-  "exclude": ["node_modules", "!src/renderer/assets/**/*.js", "src/Extensions"]
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true,
+    "fullTemplateTypeCheck": true,
+    "strictmetadataemit": true,
+  }
 }
