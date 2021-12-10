@@ -1,15 +1,20 @@
-//先设置环境变量再运行
 import * as path from 'path';
-require('dotenv').config({ path: path.join(__dirname, '../image_compress.env'), debug: process.env.NODE_ENV });
-
+import * as dotenv from 'dotenv';
 import { app } from 'electron';
-import { App } from './main/index';
 
 function bootstrap() {
-  try {
-    const lodwin = app.requestSingleInstanceLock();
-    if (!lodwin) app.quit();
+  //先设置环境变量再运行
+  const CURRENT_ENV = process.env.CURRENT_ENV;
 
+  dotenv.config({
+    path: path.join(__dirname, `../env/image_compress.${CURRENT_ENV ? CURRENT_ENV + '.' : ''}env`),
+  });
+
+  try {
+    const App = require('./main/index').default;
+    const lodwin = app.requestSingleInstanceLock();
+
+    if (!lodwin) app.quit();
     app.on('ready', function () {
       App.load();
     });

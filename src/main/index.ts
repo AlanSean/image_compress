@@ -4,12 +4,12 @@ import * as url from 'url';
 import { app, BrowserWindow } from 'electron';
 import { Loader } from './loader';
 import { ChromeDevtoolsLoader } from './loader/devtools';
-import { isServe } from './utils';
+import { isServe, isTest } from './utils';
 
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = '1';
 const appName = 'image compress';
-console.log(process.env.NODE_ENV);
-export class App {
+
+export default class App {
   static load() {
     const main = new App();
     main.createProgram();
@@ -40,12 +40,12 @@ export class App {
         webSecurity: false, //允许加载本地资源
         nodeIntegration: true,
         // allowRunningInsecureContent: serve ? true : false,
-        contextIsolation: false // false if you want to run 2e2 test with Spectron
-      }
+        contextIsolation: false, // false if you want to run 2e2 test with Spectron
+      },
     });
   }
   private loadURL(win: BrowserWindow) {
-    if (isServe) {
+    if (isServe || isTest) {
       win.webContents.openDevTools();
       //安装扩展
       ChromeDevtoolsLoader.load();

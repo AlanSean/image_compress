@@ -1,7 +1,15 @@
 import * as os from 'os';
-import { BrowserWindow, shell, app, Menu, MenuItem, MenuItemConstructorOptions, dialog } from 'electron';
+import {
+  BrowserWindow,
+  shell,
+  app,
+  Menu,
+  MenuItem,
+  MenuItemConstructorOptions,
+  dialog,
+} from 'electron';
 import { MenuIpcChannel, IpcChannel } from '../../common/constants';
-import { Locales, isServe } from '../utils';
+import { Locales, isServe, isTest } from '../utils';
 import { UpdaterAction } from './updater';
 
 class MenuAction {
@@ -26,11 +34,11 @@ class MenuAction {
           {
             id: 'About',
             label: getLocales('about'),
-            click: this.about
+            click: this.about,
           },
           { type: 'separator' },
-          this.isMac ? { role: 'close' } : { role: 'quit' }
-        ]
+          this.isMac ? { role: 'close' } : { role: 'quit' },
+        ],
       },
       {
         id: 'file',
@@ -40,27 +48,27 @@ class MenuAction {
             id: MenuIpcChannel.ADD,
             label: getLocales('add'),
             click: this.select_dir,
-            enabled: true
+            enabled: true,
           },
           {
             id: MenuIpcChannel.OPEN_FILE_DIR,
             label: getLocales('openFileDir'),
             click: this.open_dir,
-            enabled: false
+            enabled: false,
           },
           {
             id: MenuIpcChannel.SAVE_NEW_DIR,
             label: getLocales('savenewdir'),
             click: this.save_new_dir,
-            enabled: false
+            enabled: false,
           },
           {
             id: MenuIpcChannel.CLEAN,
             label: getLocales('clean'),
             click: this.clean_file,
-            enabled: false
-          }
-        ]
+            enabled: false,
+          },
+        ],
       },
       {
         id: 'help',
@@ -71,27 +79,27 @@ class MenuAction {
             label: getLocales('menu.learnmore'),
             click: async () => {
               await shell.openExternal(this.AboutLink);
-            }
+            },
           },
           { type: 'separator' },
           {
             id: 'update',
             label: getLocales('menu.update'),
-            click: this.checkUpdate
+            click: this.checkUpdate,
           },
           { type: 'separator' },
           {
             id: 'About',
             label: getLocales('about'),
-            click: this.about
-          }
-        ]
-      }
+            click: this.about,
+          },
+        ],
+      },
     ];
-    if (isServe) {
+    if (isServe || isTest) {
       Menus.push({
         label: 'Debug',
-        submenu: [{ role: 'reload' }, { role: 'forceReload' }, { role: 'toggleDevTools' }]
+        submenu: [{ role: 'reload' }, { role: 'forceReload' }, { role: 'toggleDevTools' }],
       });
     }
 
@@ -131,7 +139,7 @@ class MenuAction {
           V8: ${process.versions.v8}
           OS: ${os.type()} ${os.arch()} ${os.release()}
           NODE_ENV:${process.env.NODE_ENV ?? 'null'}
-        `
+        `,
       });
   };
   //选择文件 压缩
