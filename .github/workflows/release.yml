@@ -21,9 +21,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Install Dependencies
-        run: npm ci
-
       #https://github.com/samuelmeuli/action-electron-builder
       - name: release
         uses: samuelmeuli/action-electron-builder@v1
