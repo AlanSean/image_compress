@@ -25,11 +25,11 @@ jobs:
     needs: pre_job
     if: ${{ needs.pre_job.outputs.should_skip != 'true' }}
 
-    name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
+    name: Test on node ${{ matrix.node-version }} and ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node_version: [ 12.x ]
+        node-version: [ 12.x ]
         os: [ubuntu-latest, windows-latest, macOS-latest]
 
     steps:
