@@ -1,6 +1,6 @@
 {
   "name": "image_compress",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "WEBP,PNG/JPEG compression graphics program that base on Electron，Angular，Node，Sharp. Available for Windows, MacOS and Linux",
   "homepage": "https://github.com/AlanSean/image_compress",
   "bugs": "https://github.com/AlanSean/image_compress/issues",

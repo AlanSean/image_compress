@@ -2,6 +2,7 @@
     <img width="230" src="./favicon.512x512.png">
 </p>
 
+[![CI](https://github.com/AlanSean/image_compress/actions/workflows/lint-test-e2e-build.yml/badge.svg)](https://github.com/AlanSean/image_compress/actions/workflows/lint-test-e2e-build.yml)
 
 [English](README.md) | 简体中文
 
