@@ -3,43 +3,19 @@ name: release
 on: [ create ]
 jobs:
   release:
-    runs-on: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node_version: [ 12.x ]
         os: [ubuntu-latest, windows-latest, macOS-latest]
 
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v2
 
-      - name: Get npm cache directory
-        id: npm-cache-dir
-        run: |
-          echo "::set-output name=dir::$(npm config get cache)"
-      - uses: actions/cache@v2
-        id: npm-cache # use this to check for `cache-hit` ==> if: steps.npm-cache.outputs.cache-hit != 'true'
-        with:
-          path: ${{ steps.npm-cache-dir.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Install Dependencies
-        run: npm ci
-
-      - name: Check lint
-        run: npm run lint
-
-      - name: Run headless unit test
-        uses: GabrielBB/xvfb-action@v1
-        with:
-          run: npm run test
+          node-version: 15.14.0
 
       #https://github.com/samuelmeuli/action-electron-builder
       - name: release
