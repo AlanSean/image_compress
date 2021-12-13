@@ -1,6 +1,9 @@
 name: release
 
-on: [ create ]
+on:
+  push:
+    tags:
+      - '*'
 jobs:
   release:
     runs-on: ${{ matrix.os }}
@@ -15,7 +18,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 15.14.0
+          node-version: '>=12.x'
 
       #https://github.com/samuelmeuli/action-electron-builder
       - name: release
