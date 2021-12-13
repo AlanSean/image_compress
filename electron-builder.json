@@ -3,6 +3,10 @@
   "directories": {
     "output": "release/"
   },
+  "fileAssociations": {
+    "ext": ["png", "jpeg", "jpg", "webp"],
+    "role": "Editor"
+  },
   "files": [
     "./env/*",
     "./favicon.ico",
