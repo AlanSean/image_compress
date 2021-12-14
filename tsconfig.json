@@ -24,7 +24,9 @@
       "@common/*": ["common/*"],
       "@assets/*": ["assets/*"],
       "@utils/*": ["renderer/utils/*"],
-      "@app/*": ["renderer/app/*"]
+      "@app/*": ["renderer/app/*"],
+      "@env": ["renderer/environments"],
+      "@env/*": ["renderer/environments/*"]
     }
   },
   "angularCompilerOptions": {

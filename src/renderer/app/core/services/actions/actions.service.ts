@@ -4,18 +4,26 @@ import { getSetting } from '@utils/storage';
 import { ipcRenderer } from 'electron';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ActionsService {
   constructor() {}
+  rendered() {
+    ipcRenderer.send('Rendered', {
+      setting: getSetting(),
+    });
+  }
+
   fileAdd(files: string[]) {
     const setting = getSetting();
     ipcRenderer.send(IpcChannel.FILE_ADD, files, setting);
   }
+
   //选择文件
   select_dir(key?: string) {
     ipcRenderer.send(IpcChannel.SELECT_DIR, key);
   }
+
   //另存为
   saveAs(item: FILE) {
     ipcRenderer.send(IpcChannel.SAVE_AS, item);
@@ -25,6 +33,7 @@ export class ActionsService {
   file_update_quality(file: FILE) {
     ipcRenderer.send(IpcChannel.FILE_UPDATE_QUALITY, file);
   }
+
   menuEnabled(keys: MenuIpcChannel[], enabled: boolean) {
     ipcRenderer.send(MenuIpcChannel.Enabled, keys, enabled);
   }

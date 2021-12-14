@@ -6,7 +6,6 @@ import { FindFiles } from '@etanjs/node-find-files';
 
 import { FILE, compress_callback, DefultSetting, ExpMap } from '../../common/constants';
 import { byteConver, percent } from '../utils';
-const findFiles = new FindFiles(/\.(jpg|jpeg|webp|png)$/i);
 
 const number = 10;
 
@@ -109,8 +108,12 @@ export class OptimizeAction {
   };
 
   dirSearchImg(setting: DefultSetting) {
-    return findFiles.pipe<FILE>(filepath => {
-      const filePath = filepath.replace(/\\/g, '/');
+    const reg = new RegExp(`^(?!${setting.outdir})[\\s\\S]*\\.(jpg|jpeg|webp|png)$`);
+
+    const findFiles = new FindFiles(reg);
+    return findFiles.pipe<FILE>(filePath => {
+      filePath = filePath.replace(/\\/g, '/');
+
       const fileName = path.basename(filePath);
       const extname = path.extname(filePath).toLocaleLowerCase();
       const fileExpMap = expMap[extname];

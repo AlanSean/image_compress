@@ -1,16 +1,15 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ElectronService, ActionsService, FilesService } from '../core/services';
 import { MenuIpcChannel } from '@common/constants';
-import { fileExtReg } from '@utils/file';
 import { getMenuEnableds } from '@utils/menu';
 import { auditTime } from 'rxjs/operators';
-import { getSetting } from '@utils/storage';
+// import { getSetting } from '@utils/storage';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit {
   filesLength = 0;
@@ -69,7 +68,7 @@ export class HomeComponent implements OnInit {
    * @param e event
    */
   fileAdd(e: DragEvent) {
-    const reg = new RegExp(encodeURIComponent(getSetting().outdir), 'g');
+    // const reg = new RegExp(`^(?!${getSetting().outdir})([\\s\\S]*)\\.(jpg|jpeg|webp|png)$`);
     if (this.sliderDisabled) return;
     if (e.dataTransfer == null || e.dataTransfer.files.length == 0) return;
     e.preventDefault();
@@ -79,12 +78,12 @@ export class HomeComponent implements OnInit {
     this.sliderDisabled = false;
 
     const files = Array.from(e.dataTransfer.files)
-      .filter(
-        file =>
-          (!file.type || fileExtReg.test(file.type.toLocaleLowerCase())) &&
-          //*2021-11-26 新增功能 禁止压缩默认导出文件夹中的图片
-          !reg.test(encodeURIComponent(file.path))
-      )
+      // .filter(
+      //   file =>
+      //     (!file.type || fileExtReg.test(file.type.toLocaleLowerCase())) &&
+      //     //*2021-11-26 新增功能 禁止压缩默认导出文件夹中的图片
+      //     !reg.test(encodeURIComponent(file.path))
+      // )
       .map(file => file.path);
 
     if (files.length > 0) {
