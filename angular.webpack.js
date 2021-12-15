@@ -4,7 +4,7 @@
 
 module.exports = (config, options) => {
     config.target = 'electron-renderer';
-    
+
 
     if (options.fileReplacements) {
         for(let fileReplacement of options.fileReplacements) {
@@ -26,10 +26,14 @@ module.exports = (config, options) => {
             options: {
                 resources: [
                     './src/renderer/less/base/variable.less',
-                    './src/renderer/less/util.less',
+                    './src/renderer/less/base/base.less',
                     './src/renderer/less/base/box.less',
+                    './src/renderer/less/base/color.less',
+                    './src/renderer/less/base/keyframes.less',
+                    './src/renderer/less/base/util.less',
                     './src/renderer/less/base/mixin/setArrow.less',
                     './src/renderer/less/base/mixin/setOnepx.less'
+
                 ]
             }
         }}
