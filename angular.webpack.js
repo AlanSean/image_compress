@@ -26,7 +26,6 @@ module.exports = (config, options) => {
             options: {
                 resources: [
                     './src/renderer/less/base/variable.less',
-                    './src/renderer/less/base/base.less',
                     './src/renderer/less/base/box.less',
                     './src/renderer/less/base/color.less',
                     './src/renderer/less/base/keyframes.less',
