@@ -81,9 +81,9 @@
           "options": {
             "browserTarget": "angular-electron:build"
           },
-          "customWebpackConfig": {
-            "path": "./angular.webpack.js"
-          },
+          // "customWebpackConfig": {
+          //   "path": "./angular.webpack.js"
+          // },
           "configurations": {
             "dev": {
               "browserTarget": "angular-electron:build:dev"
