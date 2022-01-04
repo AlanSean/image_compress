@@ -17,25 +17,29 @@ import {
   HostListener,
   Input,
   ViewChild,
-  OnInit
+  OnInit,
 } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { CdkOverlayOrigin, ConnectedPosition, CdkConnectedOverlay } from '@angular/cdk/overlay';
 import { connectedPosition } from './postion';
 
 @Directive({
-  selector: '[appContextmenu]'
+  selector: '[appContextmenu]',
 })
 export class ContextmenuDirective implements OnInit {
   @Output('menuListClick') menuListClick: EventEmitter<string> = new EventEmitter();
   @Input('Disabled') disabled!: boolean; //true 右键无效
   @Input('trigger') trigger!: 'contextmenu' | 'hover'; //true 右键无效
   private component!: ContextmenuComponent;
-  private time?: NodeJS.Timeout;
+  private time?: number;
   //resolver.resolveComponentFactory ：检索创建给定类型组件的工厂对象。
   componentFactory: ComponentFactory<ContextmenuComponent>;
 
-  constructor(private elementRef: ElementRef, protected resolver: ComponentFactoryResolver, private viewContainerRef: ViewContainerRef) {
+  constructor(
+    private elementRef: ElementRef,
+    protected resolver: ComponentFactoryResolver,
+    private viewContainerRef: ViewContainerRef
+  ) {
     this.componentFactory = resolver.resolveComponentFactory(ContextmenuComponent);
   }
 
@@ -67,14 +71,14 @@ export class ContextmenuDirective implements OnInit {
   }
   show = () => {
     if (this.time) return this.clearTimer();
-    this.time = setTimeout(() => {
+    this.time = window.setTimeout(() => {
       this.time = undefined;
       this.component.show();
     }, 150);
   };
   hide = () => {
     if (this.time) return this.clearTimer();
-    this.time = setTimeout(() => {
+    this.time = window.setTimeout(() => {
       this.time = undefined;
       this.component.hide();
     }, 100);
@@ -126,9 +130,9 @@ export class ContextmenuDirective implements OnInit {
           '0.2s cubic-bezier(0.08, 0.82, 0.17, 1)',
           style({
             opacity: 1,
-            transform: 'scale(1)'
+            transform: 'scale(1)',
           })
-        )
+        ),
       ]),
       transition('active => void', [
         style({ opacity: 1, transform: 'scale(1)' }),
@@ -136,12 +140,12 @@ export class ContextmenuDirective implements OnInit {
           '0.1s cubic-bezier(0.78, 0.14, 0.15, 0.86)',
           style({
             opacity: 0,
-            transform: 'scale(0.8)'
+            transform: 'scale(0.8)',
           })
-        )
-      ])
-    ])
-  ]
+        ),
+      ]),
+    ]),
+  ],
 })
 export class ContextmenuComponent {
   @ViewChild('overlay', { static: false }) overlay!: CdkConnectedOverlay;

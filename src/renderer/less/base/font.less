@@ -1,9 +1,0 @@
-//fonts
-
-.font-size(@n, @i: 22) when (@i =< @n) {
-  .ft@{i} {
-    font-size: @i*@px;
-  }
-  .font-size(@n, (@i + 2));
-}
-.font-size(52);

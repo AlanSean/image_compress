@@ -38,10 +38,11 @@ export class IpcMainListenerAction {
     }
 
     this.actions.setProgress(0, 1);
-
+    this.win.setProgressBar(0);
     this.optimize.handle(imgArr, files => {
       count++;
       this.actions.setProgress(count, len);
+      this.win.setProgressBar(count / len);
       this.actions.fileUpdate(files);
     });
   };

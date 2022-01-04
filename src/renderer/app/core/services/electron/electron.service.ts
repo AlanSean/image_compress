@@ -3,17 +3,29 @@ import * as path from 'path';
 import { Injectable } from '@angular/core';
 import { ipcRenderer, IpcRendererEvent, shell } from 'electron';
 
-import { FILE, IpcChannel, MenuIpcChannel, Message, messageType, SelecteDirCallBack } from '@common/constants';
+import {
+  FILE,
+  IpcChannel,
+  MenuIpcChannel,
+  Message,
+  messageType,
+  SelecteDirCallBack,
+} from '@common/constants';
 import { getSetting, mkOutdir, getMenuEnableds } from '@utils/index';
 import { FilesService } from '../files/files.service';
 import { ActionsService } from '../actions/actions.service';
 import { ListenerService } from '../listener/listener.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ElectronService {
-  constructor(private actions: ActionsService, private filesService: FilesService, private ipcListener: ListenerService) {
+  constructor(
+    private actions: ActionsService,
+    private filesService: FilesService,
+    private ipcListener: ListenerService
+  ) {
+    this.actions.rendered();
     this.addFile();
     this.updateFile();
     this.selectDir();
@@ -86,15 +98,21 @@ export class ElectronService {
   }
   //消息
   private toast = () => {
-    ipcRenderer.on(Message.TOAST, (_: IpcRendererEvent, type: messageType, message: string, options?: number) => {
-      this.ipcListener.toast(type, message, options);
-    });
+    ipcRenderer.on(
+      Message.TOAST,
+      (_: IpcRendererEvent, type: messageType, message: string, options?: number) => {
+        this.ipcListener.toast(type, message, options);
+      }
+    );
   };
 
   selecteDirResult = (callback: SelecteDirCallBack) => {
-    ipcRenderer.on(IpcChannel.SELECTED_DIR_RESULT, (_, filePaths: string[], key?: 'SELECT_FILE') => {
-      callback(filePaths, key);
-    });
+    ipcRenderer.on(
+      IpcChannel.SELECTED_DIR_RESULT,
+      (_, filePaths: string[], key?: 'SELECT_FILE') => {
+        callback(filePaths, key);
+      }
+    );
   };
 
   updateProgress = (callback: (progress: number) => void) => {

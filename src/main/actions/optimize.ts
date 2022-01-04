@@ -6,7 +6,6 @@ import { FindFiles } from '@etanjs/node-find-files';
 
 import { FILE, compress_callback, DefultSetting, ExpMap } from '../../common/constants';
 import { byteConver, percent } from '../utils';
-const findFiles = new FindFiles(/\.(jpg|jpeg|webp|png)$/i);
 
 const number = 10;
 
@@ -54,6 +53,7 @@ export class OptimizeAction {
       console.error(error);
     }
   }
+
   PIPE(arr: FILE[], cb: compress_callback) {
     const program = async (FILE: FILE) => await this.img_compress(FILE, cb);
     return arr.forEach(program);
@@ -109,12 +109,16 @@ export class OptimizeAction {
   };
 
   dirSearchImg(setting: DefultSetting) {
-    return findFiles.pipe<FILE>(filepath => {
-      const filePath = filepath.replace(/\\/g, '/');
+    const reg = new RegExp(`^(?!${setting.outdir}).*\\.(jpg|jpeg|webp|png)$`);
+    const findFiles = new FindFiles(reg);
+
+    return findFiles.pipe<FILE>(filePath => {
+      // filePath = filePath.replace(/\\/g, '/');
+
       const fileName = path.basename(filePath);
       const extname = path.extname(filePath).toLocaleLowerCase();
       const fileExpMap = expMap[extname];
-      const outpath = path.resolve(setting.outdir, fileName);
+      const outpath = path.join(setting.outdir, fileName);
       const imgFile = fs.statSync(filePath);
 
       return {

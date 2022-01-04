@@ -1,20 +1,9 @@
-@background:#495060;
-@backgroundH:#666;
-@color:#fff;
-@border-h:1px;
-@border-s:solid;
-@border-c:#ccc;
-@btn-color:#ED645F;
-@btn-color2:#ED6400;
-@btn-info:#3EAFDA;
-@fzColor:#43484a;
-@font-size: 12px;
 // 截断
 .hcx_cut(@a:ellipsis,@b:nowrap){
   .ov; text-overflow: @a; white-space: @b;
 }
-.ft(@val:28){
-  font-size:@val*@px;
+.ft(@val:28px){
+  font-size:@val;
 }
 // 宽度
 .w(@b:100%){
@@ -289,8 +278,8 @@
     // }
 }
 
-.ft(@val:28){
-  font-size:@val*@px;
+.ft(@val:28px){
+  font-size:@val;
 }
 //超出用省略号
 .line-ellipsis(@val){
@@ -301,7 +290,7 @@
   overflow: hidden;;
 }
 .box-shadow(){
-  box-shadow: 0 0 20*@px rgba(0,0,0,.05);
+  box-shadow: 0 0 20px rgba(0,0,0,.05);
 }
 //边框
 .border-top(@color:@border-color){
@@ -381,75 +370,4 @@
   -ms-transform: translateY(-50%);
   -o-transform: translateY(-50%);
   transform: translateY(-50%);
-}
-.pro-list{
-  background: #fff;
-  .pro-item{
-    position:relative;
-    padding:30*@px 20*@px;
-    .set-flex;
-    .border-bottom-h;
-    .pro-item-img{
-      margin-right:20*@px;
-      width:180*@px;
-      height:180*@px;
-      border-radius:5*@px;
-    }
-    .pro-item-r{
-      .set-flex-item;
-      .pro-item-inner{
-        width:100%;
-      }
-      h2{
-        .ft(32);
-        color:@color-333333;
-        .line-ellipsis(1)
-      }
-      .item-tag{
-        vertical-align: middle;
-        display: inline-block;
-        padding:8*@px;
-        color:@color-main;
-        line-height: 1;
-        border-radius:5*@px;
-        border:1px solid @color-main;
-        .ft(22);
-      }
-      .item-price{
-        margin-top:10*@px;
-        line-height: 1;
-        font-size:0;
-        i{
-          .ft(28);
-          color:@color-main;
-          vertical-align: middle;
-        }
-        span{
-          .ft(36);
-          color:@color-main;
-          vertical-align: middle;
-        }
-      }
-      .item-default-price{
-        color:@color-999999;
-        text-decoration: line-through;
-      }
-      .item-count{
-        .ft(24);
-        display: inline-block;
-        color:@color-999999;
-      }
-      .item-btn{
-        display: block;
-        width:120*@px;
-        height:54*@px;
-        line-height: 54*@px;
-        color:#fff;
-        border-radius:5*@px;
-        text-align: center;
-        background:@color-main;
-        .ft(28);
-      }
-    }
-  }
 }

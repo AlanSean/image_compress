@@ -1,14 +1,31 @@
 {
-  "files.associations": {
-    "*.json": "jsonc"
+  "editor.rulers": [100],
+  "html.format.wrapLineLength": 100,
+  "html.format.wrapAttributes": "preserve-aligned",
+  "typescript.tsdk": "./node_modules/typescript/lib",
+  // "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    // For ESLint
+    "source.fixAll.eslint": true,
+    // For Stylelint
+    "source.fixAll.stylelint": true
   },
-  "minapp-vscode.disableAutoConfig": true,
-  "minapp-vscode.prettier": {
-    "useTabs": false,
-    "tabWidth": 2,
-    "printWidth": 120,
-    "singleQuote": false
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "prettier.embeddedLanguageFormatting": "off",
-  "typescript.tsdk": "node_modules\\typescript\\lib"
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": false
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": false
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": false
+  },
+  "[markdown]": {
+    "editor.formatOnSave": false
+  }
 }
