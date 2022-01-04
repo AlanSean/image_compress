@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ElectronService, ActionsService, FilesService } from '../core/services';
 import { MenuIpcChannel } from '@common/constants';
-import { getMenuEnableds } from '@utils/menu';
+import { getMenuEnableds, getSetting } from '@utils/index';
 import { auditTime } from 'rxjs/operators';
-// import { getSetting } from '@utils/storage';
 
 @Component({
   selector: 'app-home',
@@ -68,8 +67,9 @@ export class HomeComponent implements OnInit {
    * @param e event
    */
   fileAdd(e: DragEvent) {
-    // const reg = new RegExp(`^(?!${getSetting().outdir})([\\s\\S]*)\\.(jpg|jpeg|webp|png)$`);
     if (this.sliderDisabled) return;
+    const reg = new RegExp(`^(?!${getSetting().outdir}).*\\.(jpg|jpeg|webp|png)$`);
+
     if (e.dataTransfer == null || e.dataTransfer.files.length == 0) return;
     e.preventDefault();
     e.stopPropagation();
@@ -78,13 +78,8 @@ export class HomeComponent implements OnInit {
     this.sliderDisabled = false;
 
     const files = Array.from(e.dataTransfer.files)
-      // .filter(
-      //   file =>
-      //     (!file.type || fileExtReg.test(file.type.toLocaleLowerCase())) &&
-      //     //*2021-11-26 新增功能 禁止压缩默认导出文件夹中的图片
-      //     !reg.test(encodeURIComponent(file.path))
-      // )
-      .map(file => file.path);
+      .map(file => file.path.replace(/\\/g, '/'))
+      .filter(path => reg.test(path));
 
     if (files.length > 0) {
       this.actions.fileAdd(files);

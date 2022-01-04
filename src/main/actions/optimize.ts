@@ -53,6 +53,7 @@ export class OptimizeAction {
       console.error(error);
     }
   }
+
   PIPE(arr: FILE[], cb: compress_callback) {
     const program = async (FILE: FILE) => await this.img_compress(FILE, cb);
     return arr.forEach(program);
@@ -108,16 +109,16 @@ export class OptimizeAction {
   };
 
   dirSearchImg(setting: DefultSetting) {
-    const reg = new RegExp(`^(?!${setting.outdir})[\\s\\S]*\\.(jpg|jpeg|webp|png)$`);
-
+    const reg = new RegExp(`^(?!${setting.outdir}).*\\.(jpg|jpeg|webp|png)$`);
     const findFiles = new FindFiles(reg);
+
     return findFiles.pipe<FILE>(filePath => {
-      filePath = filePath.replace(/\\/g, '/');
+      // filePath = filePath.replace(/\\/g, '/');
 
       const fileName = path.basename(filePath);
       const extname = path.extname(filePath).toLocaleLowerCase();
       const fileExpMap = expMap[extname];
-      const outpath = path.resolve(setting.outdir, fileName);
+      const outpath = path.join(setting.outdir, fileName);
       const imgFile = fs.statSync(filePath);
 
       return {
