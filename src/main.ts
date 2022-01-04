@@ -8,10 +8,12 @@ function bootstrap() {
     const lodwin = app.requestSingleInstanceLock();
 
     if (!lodwin) app.quit();
-    app.on('ready', function () {
+    App.openFile();
+    app.on('ready', () => {
       App.load();
     });
   } catch (e) {
+    console.log(e);
     app.quit();
   }
 }

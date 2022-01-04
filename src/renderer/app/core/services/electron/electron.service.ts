@@ -33,6 +33,7 @@ export class ElectronService {
     this.saveNewDir();
     this.cleanFile();
     this.toast();
+    this.openFile();
   }
 
   //打开默认输出目录
@@ -121,8 +122,9 @@ export class ElectronService {
     });
   };
 
-  // 图片拖到桌面或者文件夹
-  dragStart(filePath: string) {
-    ipcRenderer.send(IpcChannel.DRAG_START, filePath);
+  openFile() {
+    ipcRenderer.on(IpcChannel.OPEN_FILE, (_, files: string[]) => {
+      this.actions.fileAdd(files);
+    });
   }
 }

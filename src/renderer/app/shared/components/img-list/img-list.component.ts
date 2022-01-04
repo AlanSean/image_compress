@@ -74,6 +74,6 @@ export class ImgListComponent {
   dragstart(e: DragEvent, filePath: string) {
     e.preventDefault();
     e.stopPropagation();
-    this.electronService.dragStart(filePath);
+    this.actions.dragStart(filePath);
   }
 }

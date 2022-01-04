@@ -16,7 +16,12 @@ export class ActionsService {
 
   fileAdd(files: string[]) {
     const setting = getSetting();
-    ipcRenderer.send(IpcChannel.FILE_ADD, files, setting);
+    const reg = new RegExp(`^(?!${getSetting().outdir}).*\\.(jpg|jpeg|webp|png)$`);
+
+    files = files.filter(path => reg.test(path));
+    if (files.length > 0) {
+      ipcRenderer.send(IpcChannel.FILE_ADD, files, setting);
+    }
   }
 
   //选择文件
@@ -36,5 +41,10 @@ export class ActionsService {
 
   menuEnabled(keys: MenuIpcChannel[], enabled: boolean) {
     ipcRenderer.send(MenuIpcChannel.Enabled, keys, enabled);
+  }
+
+  // 图片拖到桌面或者文件夹
+  dragStart(filePath: string) {
+    ipcRenderer.send(IpcChannel.DRAG_START, filePath);
   }
 }

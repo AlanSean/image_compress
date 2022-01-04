@@ -1,30 +1,68 @@
 import * as os from 'os';
 import * as path from 'path';
 import * as url from 'url';
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain, ipcRenderer } from 'electron';
 import { Loader } from './loader';
 import { ChromeDevtoolsLoader } from './loader/devtools';
 import { isServe, isDebug } from './utils';
+import { DefultSetting } from '../common/constants';
+import { IpcMainLoader } from './loader/ipcMain';
 
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = '1';
 const appName = 'image compress';
 
 export default class App {
+  openUrl: string[] | null = null;
+  win: BrowserWindow | null = null;
+  constructor() {
+    app.setName(appName);
+
+    this.secondInstance();
+    this.windowAllClosed();
+
+    Loader.load();
+  }
+
   static load() {
     const main = new App();
     main.createProgram();
     return main;
   }
 
-  private createProgram() {
-    app.setName(appName);
-    this.windowAllClosed();
+  static openFile() {
+    // let openFiles: null  | string[] = null;
+    // if(platform === 'darwin'){
+    //   app.on('open-file', (event, url) => {
+    //     console.log('url', url);
+    //     openFiles = [url];
+    //   });
+    // }
+    // if(platform === 'win32'){
+    //   //
+    //   openFiles = process.argv.slice(2);
+    // }
+    // app.once('browser-window-created',  (_, win: BrowserWindow) => {
+    //   //
+    //   ipcMain.once('Rendered', (_, setting: DefultSetting) => {
+    //   });
+    // });
+  }
 
+  static Rendered: Promise<DefultSetting> = new Promise(resolve => {
+    ipcMain.once('Rendered', (_, setting: DefultSetting) => {
+      resolve(setting);
+    });
+  });
+
+  private ready() {
     const win = this.createWindow();
 
-    Loader.load(win);
-    this.secondInstance(win);
+    this.win = win;
     this.loadURL(win);
+  }
+
+  private createProgram() {
+    this.ready();
   }
 
   private createWindow() {
@@ -44,6 +82,7 @@ export default class App {
       },
     });
   }
+
   private loadURL(win: BrowserWindow) {
     if (isServe || isDebug) {
       win.webContents.openDevTools();
@@ -57,14 +96,18 @@ export default class App {
       win.loadURL(url.pathToFileURL(path.join(__dirname, '../renderer/index.html')).href);
     }
   }
-  private secondInstance(win: BrowserWindow) {
+
+  private secondInstance() {
     app.on('second-instance', () => {
+      const win = this.win;
+
       if (win) {
         if (win.isMinimized()) win.restore();
         win.focus();
       }
     });
   }
+
   private windowAllClosed() {
     app.on('window-all-closed', () => {
       app.quit();

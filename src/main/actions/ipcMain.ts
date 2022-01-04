@@ -20,10 +20,12 @@ export class IpcMainAction {
     ipcMain.on(IpcChannel.FILE_ADD, (_, files: string[], setting: DefultSetting) => {
       this.actions.file_add(files, setting);
     });
-    ipcMain.once('Rendered', (_, setting: DefultSetting) => {
-      // this.actions.file_add(files, setting);
-      console.log(setting);
-    });
+
+    // if (process.platform === 'win32') {
+    //   ipcMain.once('Rendered', (_, setting: DefultSetting) => {
+    //     this.actions.file_add(process.argv.slice(1), setting);
+    //   });
+    // }
   }
 
   private selectDir() {

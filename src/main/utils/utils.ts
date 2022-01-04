@@ -1,5 +1,6 @@
 import * as os from 'os';
 
+export const platform = os.platform();
 export const isServe = process.env.NODE_ENV === 'serve';
 export const isDebug = process.env.NODE_ENV === 'debug';
 

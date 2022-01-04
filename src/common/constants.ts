@@ -11,17 +11,18 @@ export const enum IpcChannel {
   CLEAN_FILE = 'CLEAN_FILE',
   SAVE_NEW_DIR = 'SAVE_NEW_DIR',
   SAVE_AS = 'SAVE_AS',
-  DRAG_START = 'DRAG_START'
+  DRAG_START = 'DRAG_START',
+  OPEN_FILE = 'OPEN_FILE',
 }
 export const enum Message {
-  TOAST = 'TOAST'
+  TOAST = 'TOAST',
 }
 export const enum MenuIpcChannel {
   Enabled = 'Enabled',
   ADD = 'ADD',
   OPEN_FILE_DIR = 'OPEN_FILE_DIR',
   SAVE_NEW_DIR = 'SAVE_NEW_DIR',
-  CLEAN = 'CLEAN'
+  CLEAN = 'CLEAN',
 }
 
 export type FileExt = 'png' | 'jpg' | 'jpge' | 'webp';
