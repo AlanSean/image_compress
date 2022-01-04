@@ -9,9 +9,9 @@ import { menuAction } from './menu';
 
 export class IpcMainListenerAction {
   constructor(
-    readonly win: BrowserWindow,
-    readonly actions: WebContentsAction,
-    readonly optimize: OptimizeAction
+    private readonly win: BrowserWindow,
+    private readonly actions: WebContentsAction,
+    private readonly optimize: OptimizeAction
   ) {}
 
   //添加文件并压缩

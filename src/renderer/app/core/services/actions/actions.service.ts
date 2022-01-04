@@ -10,7 +10,7 @@ export class ActionsService {
   constructor() {}
   rendered() {
     ipcRenderer.send('Rendered', {
-      setting: getSetting(),
+      ...getSetting(),
     });
   }
 

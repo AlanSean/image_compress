@@ -1,86 +1,79 @@
 import * as os from 'os';
 import * as path from 'path';
 import * as url from 'url';
-import { app, BrowserWindow, ipcMain, ipcRenderer } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import { Loader } from './loader';
 import { ChromeDevtoolsLoader } from './loader/devtools';
-import { isServe, isDebug } from './utils';
+import { isServe, isDebug, platform } from './utils';
 import { DefultSetting } from '../common/constants';
-import { IpcMainLoader } from './loader/ipcMain';
 
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = '1';
 const appName = 'image compress';
 
-export default class App {
+class App {
   openUrl: string[] | null = null;
   win: BrowserWindow | null = null;
+  loader!: Loader;
   constructor() {
     app.setName(appName);
+  }
 
+  public openFile() {
+    if (isServe) return;
+
+    let openFiles: null | string[] = null;
+
+    if (platform === 'darwin') {
+      app.on('open-file', (event, url) => {
+        console.log('url', url);
+        openFiles = [url];
+      });
+    }
+
+    if (platform === 'win32') {
+      openFiles = process.argv.slice(2);
+    }
+
+    ipcMain.once('Rendered', (_, setting: DefultSetting) => {
+      if (openFiles) {
+        console.log(openFiles);
+        this.loader.ipcMainAction.file_add(openFiles, setting);
+      }
+    });
+  }
+
+  public ready() {
     this.secondInstance();
     this.windowAllClosed();
-
-    Loader.load();
+    this.createProgram();
   }
-
-  static load() {
-    const main = new App();
-    main.createProgram();
-    return main;
-  }
-
-  static openFile() {
-    // let openFiles: null  | string[] = null;
-    // if(platform === 'darwin'){
-    //   app.on('open-file', (event, url) => {
-    //     console.log('url', url);
-    //     openFiles = [url];
-    //   });
-    // }
-    // if(platform === 'win32'){
-    //   //
-    //   openFiles = process.argv.slice(2);
-    // }
-    // app.once('browser-window-created',  (_, win: BrowserWindow) => {
-    //   //
-    //   ipcMain.once('Rendered', (_, setting: DefultSetting) => {
-    //   });
-    // });
-  }
-
-  static Rendered: Promise<DefultSetting> = new Promise(resolve => {
-    ipcMain.once('Rendered', (_, setting: DefultSetting) => {
-      resolve(setting);
-    });
-  });
-
-  private ready() {
+  private createProgram() {
     const win = this.createWindow();
 
-    this.win = win;
+    this.loader = Loader.load(win);
     this.loadURL(win);
   }
 
-  private createProgram() {
-    this.ready();
-  }
-
   private createWindow() {
-    return new BrowserWindow({
-      width: 800 + (os.platform() === 'darwin' ? 15 : 34),
-      height: 600,
-      minWidth: 560,
-      minHeight: 560,
-      icon: path.join(__dirname, '../renderer/assets/icons/favicon.ico'),
-      // show: false,
-      frame: true, // 去掉顶部操作栏
-      webPreferences: {
-        webSecurity: false, //允许加载本地资源
-        nodeIntegration: true,
-        // allowRunningInsecureContent: serve ? true : false,
-        contextIsolation: false, // false if you want to run 2e2 test with Spectron
-      },
-    });
+    if (this.win === null) {
+      this.win = new BrowserWindow({
+        width: 800 + (os.platform() === 'darwin' ? 15 : 34),
+        height: 600,
+        minWidth: 560,
+        minHeight: 560,
+        icon: path.join(__dirname, '../renderer/assets/icons/favicon.ico'),
+        // show: false,
+        frame: true, // 去掉顶部操作栏
+        webPreferences: {
+          webSecurity: false, //允许加载本地资源
+          nodeIntegration: true,
+          // allowRunningInsecureContent: serve ? true : false,
+          contextIsolation: false, // false if you want to run 2e2 test with Spectron
+        },
+      });
+    }
+
+    return this.win;
   }
 
   private loadURL(win: BrowserWindow) {
@@ -114,3 +107,5 @@ export default class App {
     });
   }
 }
+
+export default new App();

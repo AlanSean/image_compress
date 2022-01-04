@@ -4,6 +4,7 @@ import { FILE, IpcChannel, MenuIpcChannel, DefultSetting } from '../../common/co
 import { IpcMainListenerAction } from './ipcMainListener';
 import { compress } from '../config';
 
+export { IpcMainListenerAction } from './ipcMainListener';
 export class IpcMainAction {
   constructor(readonly actions: IpcMainListenerAction) {}
   public handle(win: BrowserWindow) {
