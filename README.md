@@ -29,6 +29,7 @@ npm run dev
 - [x] Can save as
 - [x] The output directory is configurable
 - [x] Drag images to the * folder to copy directly to the destination.
+- [x] File associations
 - [ ] In compression, continue to drag images or folders into the queue automatically
 - [x] Modern UI, each diagram can be optimized individually
 - [ ] Picture format interchange
