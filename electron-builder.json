@@ -3,11 +3,28 @@
   "directories": {
     "output": "release/"
   },
-  "fileAssociations": {
-    "ext": "png, jpeg, jpg, webp",
-    "role": "Editor",
-    "mimeType": "image/png, image/jpeg, image/webp"
-  },
+  "fileAssociations": [
+    {
+      "ext": "png",
+      "role": "Editor",
+      "mimeType": "image/png"
+    },
+    {
+      "ext": "jpeg",
+      "role": "Editor",
+      "mimeType": "image/jpeg"
+    },
+    {
+      "ext": "jpg",
+      "role": "Editor",
+      "mimeType": "image/jpeg"
+    },
+    {
+      "ext": "webp",
+      "role": "Editor",
+      "mimeType": "image/webp"
+    }
+  ],
   "files": [
     "./env/*",
     "./favicon.ico",
