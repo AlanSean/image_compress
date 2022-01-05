@@ -4,7 +4,7 @@
     "output": "release/"
   },
   "fileAssociations": {
-    "ext": ["png", "jpeg", "jpg", "webp"],
+    "ext": "png, jpeg, jpg, webp",
     "role": "Editor",
     "mimeType": "image/png, image/jpeg, image/webp"
   },
