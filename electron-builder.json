@@ -4,8 +4,9 @@
     "output": "release/"
   },
   "fileAssociations": {
-    "ext": ["png", "jpeg", "jpg", "webp"],
-    "role": "Editor"
+    "ext": "png, jpeg, jpg, webp",
+    "role": "Editor",
+    "mimeType": "image/png, image/jpeg, image/webp"
   },
   "files": [
     "./env/*",

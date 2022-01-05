@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ElectronService, ActionsService, FilesService } from '../core/services';
 import { MenuIpcChannel } from '@common/constants';
-import { getMenuEnableds, getSetting } from '@utils/index';
+import { getMenuEnableds } from '@utils/index';
 import { auditTime } from 'rxjs/operators';
 
 @Component({
@@ -68,8 +68,6 @@ export class HomeComponent implements OnInit {
    */
   fileAdd(e: DragEvent) {
     if (this.sliderDisabled) return;
-    const reg = new RegExp(`^(?!${getSetting().outdir}).*\\.(jpg|jpeg|webp|png)$`);
-
     if (e.dataTransfer == null || e.dataTransfer.files.length == 0) return;
     e.preventDefault();
     e.stopPropagation();
@@ -77,9 +75,7 @@ export class HomeComponent implements OnInit {
     this.dragUp = false;
     this.sliderDisabled = false;
 
-    const files = Array.from(e.dataTransfer.files)
-      .map(file => file.path.replace(/\\/g, '/'))
-      .filter(path => reg.test(path));
+    const files = Array.from(e.dataTransfer.files).map(file => file.path.replace(/\\/g, '/'));
 
     if (files.length > 0) {
       this.actions.fileAdd(files);
