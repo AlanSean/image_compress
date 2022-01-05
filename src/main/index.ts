@@ -24,19 +24,17 @@ class App {
     let openFiles: null | string[] = null;
 
     if (platform === 'darwin') {
-      app.on('open-file', (event, url) => {
-        console.log('url', url);
+      app.on('open-file', (_, url) => {
         openFiles = [url];
       });
     }
 
     if (platform === 'win32') {
-      openFiles = process.argv.slice(2);
+      openFiles = process.argv.slice(1);
     }
 
     ipcMain.once('Rendered', (_, setting: DefultSetting) => {
       if (openFiles) {
-        console.log(openFiles);
         this.loader.ipcMainAction.file_add(openFiles, setting);
       }
     });
